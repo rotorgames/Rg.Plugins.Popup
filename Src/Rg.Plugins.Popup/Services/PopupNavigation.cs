@@ -41,13 +41,12 @@ namespace Rg.Plugins.Popup.Services
             _popupStack.Clear();
         }
 
-        public static void RemovePopup(PopupPage page)
+        // Private
+        private static void RemovePopup(PopupPage page)
         {
             DependencyService.Get<IPopupNavigation>().RemovePopup(page);
             _popupStack.Remove(page);
         }
-
-        // Private
         private static Page GetParentPage()
         {
             //if (PopupStack.Count > 0)

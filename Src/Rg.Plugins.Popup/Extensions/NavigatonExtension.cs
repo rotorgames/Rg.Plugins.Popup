@@ -21,10 +21,5 @@ namespace Rg.Plugins.Popup.Extensions
         {
             PopupNavigation.PopAllAsync();
         }
-
-        public static void RemovePopupAsunc(this INavigation sender, PopupPage page)
-        {
-            PopupNavigation.RemovePopup(page);
-        }
     }
 }
