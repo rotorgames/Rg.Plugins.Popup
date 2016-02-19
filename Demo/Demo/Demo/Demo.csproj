@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animations\UserAnimation.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -44,6 +45,9 @@
     </Compile>
     <Compile Include="Pages\SecondPopupPage.xaml.cs">
       <DependentUpon>SecondPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserAnimationPage.xaml.cs">
+      <DependentUpon>UserAnimationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\SecondPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\UserAnimationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
