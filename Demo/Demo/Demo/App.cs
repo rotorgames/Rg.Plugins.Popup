@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Demo.Pages;
 using Xamarin.Forms;
 
 namespace Demo
@@ -12,7 +12,7 @@ namespace Demo
         public App()
         {
             // The root page of your application
-            MainPage = new ContentPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

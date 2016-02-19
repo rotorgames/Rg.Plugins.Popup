@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Demo.Pages.FirstPopupPage"
+             BackgroundColor="#80000000">
+  <Label Text="First Popup Page" TextColor="White" FontSize="16" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+</pages:PopupPage>
