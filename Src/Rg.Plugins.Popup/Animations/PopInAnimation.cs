@@ -25,7 +25,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             base.Appearing(content, page);
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            content.FadeTo(1);
+            content.FadeTo(1, Time);
             content.Animate("popIn", d =>
             {
                 content.Scale = d;
@@ -43,7 +43,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             base.Disappearing(content, page);
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            content.FadeTo(0);
+            content.FadeTo(0, Time);
             content.Animate("popIn", d =>
             {
                 content.Scale = d;

@@ -10,7 +10,7 @@ namespace Rg.Plugins.Popup.Animations
 {
     internal class BaseAnimation : IPopupAnimation
     {
-        public uint Time { get; protected set; } = 300;
+        public uint Time { get; protected set; } = 200;
         public Easing EasingIn { get; protected set; } = Easing.Linear;
         public Easing EasingOut { get; protected set; } = Easing.Linear;
         
