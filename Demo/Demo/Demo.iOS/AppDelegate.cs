@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Rg.Plugins.Popup.IOS;
 
 using Foundation;
 using UIKit;
@@ -22,6 +24,7 @@ namespace Demo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Main.Init(); // Only for debug
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

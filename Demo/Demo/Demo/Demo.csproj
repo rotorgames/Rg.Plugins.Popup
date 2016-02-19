@@ -42,6 +42,9 @@
     <Compile Include="Pages\FirstPopupPage.xaml.cs">
       <DependentUpon>FirstPopupPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SecondPopupPage.xaml.cs">
+      <DependentUpon>SecondPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\FirstPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\SecondPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
