@@ -23,14 +23,18 @@ namespace Rg.Plugins.Popup.Services
             var task = new TaskCompletionSource<bool>();
             var parent = GetParentPage();
             page.Parent = parent;
-            page.BeginAnimation();
-            page.Appearing += async (sender, args) =>
+            if (animate)
             {
-                await page.AppearingAnimation();
-                task.TrySetResult(true);
-            };
+                page.BeginAnimation();
+                page.Appearing += async (sender, args) =>
+                {
+                    await page.AppearingAnimation();
+                    task.TrySetResult(true);
+                };
+            }
             DependencyService.Get<IPopupNavigation>().AddPopup(page);
             _popupStack.Add(page);
+            if(!animate) task.TrySetResult(true);
             return task.Task;
         }
 
@@ -38,7 +42,10 @@ namespace Rg.Plugins.Popup.Services
         {
             if (PopupStack.Count == 0) return;
             var page = PopupStack.Last();
-            await page.DisappearingAnimation();
+            if (animate)
+            {
+                await page.DisappearingAnimation();
+            }
             RemovePopup(page);
         }
 
