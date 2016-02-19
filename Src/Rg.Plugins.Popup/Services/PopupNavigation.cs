@@ -18,17 +18,27 @@ namespace Rg.Plugins.Popup.Services
             get { return _popupStack; }
         }
 
-        public static async Task PushAsync(PopupPage page, bool animate = true)
+        public static Task PushAsync(PopupPage page, bool animate = true)
         {
+            var task = new TaskCompletionSource<bool>();
             var parent = GetParentPage();
             page.Parent = parent;
+            page.BeginAnimation();
+            page.Appearing += async (sender, args) =>
+            {
+                await page.AppearingAnimation();
+                task.TrySetResult(true);
+            };
             DependencyService.Get<IPopupNavigation>().AddPopup(page);
             _popupStack.Add(page);
+            return task.Task;
         }
 
         public static async Task PopAsync(bool animate = true)
         {
+            if (PopupStack.Count == 0) return;
             var page = PopupStack.Last();
+            await page.DisappearingAnimation();
             RemovePopup(page);
         }
 
