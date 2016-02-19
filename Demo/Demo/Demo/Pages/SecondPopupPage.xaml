@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.SecondPopupPage"
-             BackgroundColor="#80000000">
+             BackgroundColor="#80FF5C5C"
+             AnimationName="Fade">
   <StackLayout Spacing="20" VerticalOptions="Center" HorizontalOptions="Center">
     <Label Text="Second Popup Page" TextColor="White" FontSize="16" ></Label>
     <Button Text="Close" TextColor="White" Clicked="OnClose"></Button>

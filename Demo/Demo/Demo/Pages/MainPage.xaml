@@ -4,6 +4,6 @@
              x:Class="Demo.Pages.MainPage"
              Title="Popup Demo">
   <StackLayout Spacing="20">
-    <Button Text="Open Pupup" Clicked="OnOpenPupup"></Button>
+    <Button Text="Open Popup" Clicked="OnOpenPupup"></Button>
   </StackLayout>
 </ContentPage>

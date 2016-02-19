@@ -16,10 +16,10 @@ namespace Demo.Pages
             InitializeComponent();
         }
 
-        private void OnOpenPupup(object sender, EventArgs e)
+        private async void OnOpenPupup(object sender, EventArgs e)
         {
             var page = new FirstPopupPage();
-            Navigation.PushPopupAsync(page);
+            await Navigation.PushPopupAsync(page);
         }
     }
 }
