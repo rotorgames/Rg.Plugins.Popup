@@ -1,6 +1,8 @@
 # Popup Page Plugin for Xamarin Forms
 The plugin allows you to open any page as a popup.
 
+Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
+
 ![Android](gif/android.gif) ![iOS](gif/ios.gif)
 
 ## Support platforms
@@ -52,6 +54,28 @@ The plugin allows you to open any page as a popup.
 * MoveLeftRight
 * MoveRight
 * MoveRightLeft
+
+## Initialize
+
+#### Android 
+
+Not required
+
+#### iOS
+
+```csharp
+public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+{
+    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    {
+        Rg.Plugins.Popup.IOS.Popup.Init(); // Init Popup
+        
+        global::Xamarin.Forms.Forms.Init();
+        LoadApplication(new App());
+        return base.FinishedLaunching(app, options);
+    }
+}
+```
 
 ## How Use
 
