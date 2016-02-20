@@ -56,6 +56,23 @@ namespace Rg.Plugins.Popup.Services
                     return new ScaleAnimation(MoveAnimationsName.Right, MoveAnimationsName.Right, ScaleAnimationsName.Down);
                 case AnimationsName.ScaleRightLeftDown:
                     return new ScaleAnimation(MoveAnimationsName.Right, MoveAnimationsName.Left, ScaleAnimationsName.Down);
+                // Move
+                case AnimationsName.MoveTop:
+                    return new MoveAnimation(MoveAnimationsName.Top, MoveAnimationsName.Top);
+                case AnimationsName.MoveTopBottom:
+                    return new MoveAnimation(MoveAnimationsName.Top, MoveAnimationsName.Bottom);
+                case AnimationsName.MoveBottom:
+                    return new MoveAnimation(MoveAnimationsName.Bottom, MoveAnimationsName.Bottom);
+                case AnimationsName.MoveBottomTop:
+                    return new MoveAnimation(MoveAnimationsName.Bottom, MoveAnimationsName.Top);
+                case AnimationsName.MoveLeft:
+                    return new MoveAnimation(MoveAnimationsName.Left, MoveAnimationsName.Left);
+                case AnimationsName.MoveLeftRight:
+                    return new MoveAnimation(MoveAnimationsName.Left, MoveAnimationsName.Right);
+                case AnimationsName.MoveRight:
+                    return new MoveAnimation(MoveAnimationsName.Right, MoveAnimationsName.Right);
+                case AnimationsName.MoveRightLeft:
+                    return new MoveAnimation(MoveAnimationsName.Right, MoveAnimationsName.Left);
             }
 
             return null;

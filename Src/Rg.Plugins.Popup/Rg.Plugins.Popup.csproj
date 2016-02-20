@@ -40,6 +40,7 @@
     <Compile Include="Animations\FadeBackgroundAnimation.cs" />
     <Compile Include="Animations\FadeContentAnimation.cs" />
     <Compile Include="Animations\IPopupAnimation.cs" />
+    <Compile Include="Animations\MoveAnimation.cs" />
     <Compile Include="Animations\ScaleAnimation.cs" />
     <Compile Include="Contracts\IPopupNavigation.cs" />
     <Compile Include="Contracts\IScreenHelper.cs" />

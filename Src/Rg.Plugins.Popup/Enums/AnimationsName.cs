@@ -29,6 +29,16 @@ namespace Rg.Plugins.Popup.Enums
         ScaleLeftRightDown,
         ScaleRightDown,
         ScaleRightLeftDown,
+        // Move
+        MoveTop,
+        MoveTopBottom,
+        MoveBottom,
+        MoveBottomTop,
+        MoveLeft,
+        MoveLeftRight,
+        MoveRight,
+        MoveRightLeft,
+
         Fade
     }
 }
