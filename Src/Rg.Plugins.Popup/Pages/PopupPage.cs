@@ -13,7 +13,7 @@ namespace Rg.Plugins.Popup.Pages
 
         public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsBackgroundAnimating, true);
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsAnimating, true);
-        public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create<PopupPage, AnimationsName>(p => p.AnimationName, AnimationsName.PopIn);
+        public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create<PopupPage, AnimationsName>(p => p.AnimationName, AnimationsName.ScaleCenterUp);
 
         public bool IsBackgroundAnimating
         {

@@ -1,55 +1,130 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations
 {
-    internal class PopInAnimation : FadeBackgroundAnimation
+    internal class PopInAnimation : FadeContentAnimation
     {
-        public double StartScale { get; set; } = 0.8;
+        private MoveAnimationsName _animationStartName;
+        private MoveAnimationsName _animationEndName;
+
+        private double _startScale;
+
+        public double StartScaleIn { get; set; } = 0.8;
+        public double StartScaleOut { get; set; } = 1.2;
+
+        public PopInAnimation(MoveAnimationsName startName, MoveAnimationsName endName, ScaleAnimationsName scaleName)
+        {
+            _animationStartName = startName;
+            _animationEndName = endName;
+            if (scaleName == ScaleAnimationsName.Up)
+            {
+                _startScale = StartScaleIn;
+            }
+            else
+            {
+                _startScale = StartScaleOut;
+            }
+        }
 
         public override void Begin(View content, PopupPage page)
         {
             base.Begin(content, page);
+            if (_animationStartName != MoveAnimationsName.Center)
+            {
+                Time = 500;
+            }
             EasingIn = Easing.CubicOut;
             EasingOut = Easing.CubicIn;
-            content.Opacity = 0;
-            content.Scale = StartScale;
+            content.Scale = _startScale;
         }
 
-        public override Task Appearing(View content, PopupPage page)
+        public async override Task Appearing(View content, PopupPage page)
         {
             base.Appearing(content, page);
-            TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            content.FadeTo(1, Time);
-            content.Animate("popIn", d =>
+            var topOffset = GetTopOffset(content, page);
+            var leftOffset = GetLeftOffset(content, page);
+            if (_animationStartName == MoveAnimationsName.Center)
             {
-                content.Scale = d;
-            }, StartScale, 1, 
-            easing: EasingIn,
-            length: Time, 
-            finished: (d, b) =>
+                await Scale(content, EasingIn, _startScale, 1);
+            }
+            else
             {
-                task.SetResult(true);
-            });
-            return task.Task;
+                Scale(content, EasingIn, _startScale, 1);
+            }
+
+            if (_animationStartName == MoveAnimationsName.Top)
+            {
+                content.TranslationY = -topOffset;
+                await content.TranslateTo(0, 0, Time, EasingIn);
+            }
+            else if(_animationStartName == MoveAnimationsName.Bottom)
+            {
+                content.TranslationY = topOffset;
+                await content.TranslateTo(0, 0, Time, EasingIn);
+            }
+            else if (_animationStartName == MoveAnimationsName.Left)
+            {
+                content.TranslationX = -leftOffset;
+                await content.TranslateTo(0, 0, Time, EasingIn);
+            }
+            else if (_animationStartName == MoveAnimationsName.Right)
+            {
+                content.TranslationX = leftOffset;
+                await content.TranslateTo(0, 0, Time, EasingIn);
+            }
         }
 
-        public override Task Disappearing(View content, PopupPage page)
+        public async override Task Disappearing(View content, PopupPage page)
         {
             base.Disappearing(content, page);
+            var topOffset = GetTopOffset(content, page);
+            var leftOffset = GetLeftOffset(content, page);
+            if (_animationEndName == MoveAnimationsName.Center)
+            {
+                await Scale(content, EasingOut, 1, _startScale);
+            }
+            else
+            {
+                Scale(content, EasingIn, 1, _startScale);
+            }
+
+            if (_animationEndName == MoveAnimationsName.Top)
+            {
+                await content.TranslateTo(0, -topOffset, Time, EasingIn);
+            }
+            else if (_animationEndName == MoveAnimationsName.Bottom)
+            {
+                await content.TranslateTo(0, topOffset, Time, EasingIn);
+            }
+            else if (_animationEndName == MoveAnimationsName.Left)
+            {
+                await content.TranslateTo(-leftOffset, 0, Time, EasingIn);
+            }
+            else if (_animationEndName == MoveAnimationsName.Right)
+            {
+                await content.TranslateTo(leftOffset, 0, Time, EasingIn);
+            }
+        }
+
+        private Task Scale(View content, Easing easing, double start, double end)
+        {
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            content.FadeTo(0, Time);
+            
             content.Animate("popIn", d =>
             {
                 content.Scale = d;
-            }, 1, StartScale, 
-            easing: EasingOut,
-            length: Time, 
+            }, start, end,
+            easing: easing,
+            length: Time,
             finished: (d, b) =>
             {
                 task.SetResult(true);

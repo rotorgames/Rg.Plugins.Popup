@@ -28,5 +28,15 @@ namespace Rg.Plugins.Popup.Animations
         {
             return null;
         }
+
+        protected int GetTopOffset(View content, Page page)
+        {
+            return (int)(content.Height + page.Height) / 2;
+        }
+
+        protected int GetLeftOffset(View content, Page page)
+        {
+            return (int)(content.Width + page.Width) / 2;
+        }
     }
 }

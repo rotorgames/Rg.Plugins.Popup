@@ -9,7 +9,26 @@ namespace Rg.Plugins.Popup.Enums
     public enum AnimationsName
     {
         Others,
-        PopIn,
+        // Scale Up
+        ScaleCenterUp,
+        ScaleTopUp,
+        ScaleTopBottomUp,
+        ScaleBottomUp,
+        ScaleBottomTopUp,
+        ScaleLeftUp,
+        ScaleLeftRightUp,
+        ScaleRightUp,
+        ScaleRightLeftUp,
+        // Scale Down
+        ScaleCenterDown,
+        ScaleTopDown,
+        ScaleTopBottomDown,
+        ScaleBottomDown,
+        ScaleBottomTopDown,
+        ScaleLeftDown,
+        ScaleLeftRightDown,
+        ScaleRightDown,
+        ScaleRightLeftDown,
         Fade
     }
 }

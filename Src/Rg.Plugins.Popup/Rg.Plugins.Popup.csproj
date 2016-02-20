@@ -38,11 +38,14 @@
     <Compile Include="Animations\BaseAnimation.cs" />
     <Compile Include="Animations\FadeAnimation.cs" />
     <Compile Include="Animations\FadeBackgroundAnimation.cs" />
+    <Compile Include="Animations\FadeContentAnimation.cs" />
     <Compile Include="Animations\IPopupAnimation.cs" />
     <Compile Include="Animations\PopInAnimation.cs" />
     <Compile Include="Contracts\IPopupNavigation.cs" />
     <Compile Include="Contracts\IScreenHelper.cs" />
     <Compile Include="Enums\AnimationsName.cs" />
+    <Compile Include="Enums\MoveAnimationsName.cs" />
+    <Compile Include="Enums\ScaleAnimationsName.cs" />
     <Compile Include="Extensions\NavigatonExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\PopupPage.cs" />
