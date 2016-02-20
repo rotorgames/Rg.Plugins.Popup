@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations
 {
-    internal class PopInAnimation : FadeContentAnimation
+    internal class ScaleAnimation : FadeContentAnimation
     {
         private MoveAnimationsName _animationStartName;
         private MoveAnimationsName _animationEndName;
@@ -21,7 +21,7 @@ namespace Rg.Plugins.Popup.Animations
         public double StartScaleIn { get; set; } = 0.8;
         public double StartScaleOut { get; set; } = 1.2;
 
-        public PopInAnimation(MoveAnimationsName startName, MoveAnimationsName endName, ScaleAnimationsName scaleName)
+        public ScaleAnimation(MoveAnimationsName startName, MoveAnimationsName endName, ScaleAnimationsName scaleName)
         {
             _animationStartName = startName;
             _animationEndName = endName;
