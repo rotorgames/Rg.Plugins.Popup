@@ -24,7 +24,7 @@ namespace Demo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Main.Init(); // Only for debug
+            Popup.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
