@@ -23,8 +23,8 @@ namespace Rg.Plugins.Popup.Animations
             base.Begin(content, page);
             content.Opacity = 0;
             Time = 300;
-            EasingIn = Easing.CubicOut;
-            EasingOut = Easing.CubicIn;
+            EasingIn = Easing.SinOut;
+            EasingOut = Easing.SinIn;
         }
 
         public async override Task Appearing(View content, PopupPage page)

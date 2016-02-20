@@ -42,16 +42,16 @@ namespace Rg.Plugins.Popup.Animations
             {
                 Time = 500;
             }
-            EasingIn = Easing.CubicOut;
-            EasingOut = Easing.CubicIn;
+            EasingIn = Easing.SinOut;
+            EasingOut = Easing.SinIn;
             content.Scale = _startScale;
         }
 
         public async override Task Appearing(View content, PopupPage page)
         {
             base.Appearing(content, page);
-            var topOffset = GetTopOffset(content, page);
-            var leftOffset = GetLeftOffset(content, page);
+            var topOffset = GetTopOffset(content, page) * StartScaleIn;
+            var leftOffset = GetLeftOffset(content, page) * StartScaleIn;
             if (_animationStartName == MoveAnimationsName.Center)
             {
                 await Scale(content, EasingIn, _startScale, 1);
@@ -86,15 +86,15 @@ namespace Rg.Plugins.Popup.Animations
         public async override Task Disappearing(View content, PopupPage page)
         {
             base.Disappearing(content, page);
-            var topOffset = GetTopOffset(content, page);
-            var leftOffset = GetLeftOffset(content, page);
+            var topOffset = GetTopOffset(content, page) * StartScaleOut;
+            var leftOffset = GetLeftOffset(content, page) * StartScaleOut;
             if (_animationEndName == MoveAnimationsName.Center)
             {
                 await Scale(content, EasingOut, 1, _startScale);
             }
             else
             {
-                Scale(content, EasingIn, 1, _startScale);
+                Scale(content, EasingOut, 1, _startScale);
             }
 
             if (_animationEndName == MoveAnimationsName.Top)
