@@ -25,5 +25,21 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             Element.ForceLayout();
             base.OnLayout(changed, l, t, r, b);
         }
+
+        protected override void OnAttachedToWindow()
+        {
+            ContextExtensions.HideKeyboard(Context, ((Activity)Forms.Context).Window.DecorView);
+            base.OnAttachedToWindow();
+        }
+
+        protected override void OnDetachedFromWindow()
+        {
+            Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
+            {
+                ContextExtensions.HideKeyboard(Context, ((Activity)Forms.Context).Window.DecorView);
+                return false;
+            });
+            base.OnDetachedFromWindow();
+        }
     }
 }
