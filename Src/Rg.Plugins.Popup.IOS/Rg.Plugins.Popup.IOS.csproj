@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Helpers\PlatformHelper.cs" />
     <Compile Include="Impl\PopupNavigationIOS.cs" />
+    <Compile Include="Impl\ScreenHelperIos.cs" />
     <Compile Include="Popup.cs" />
     <Compile Include="Renderers\PopupPageRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
+using Android.Graphics;
 using Android.Widget;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Droid.Impl;
@@ -27,6 +19,34 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 return new Rectangle(0.0, 0.0, ContextExtensions.FromPixels(Forms.Context, decoreView.Width),
                     ContextExtensions.FromPixels(Forms.Context, decoreView.Height));
             }
+        }
+
+        public Thickness ScreenOffsets
+        {
+            get
+            {
+                var decoreView = (FrameLayout) ((Activity) Forms.Context).Window.DecorView;
+                Rect visibleRect = new Rect();
+                decoreView.GetWindowVisibleDisplayFrame(visibleRect);
+
+                var decoreHeight = decoreView.Height;
+                var decoreWidht = decoreView.Width;
+
+                var result = new Thickness
+                {
+                    Top = FromPixels(visibleRect.Top),
+                    Bottom = FromPixels(decoreHeight - visibleRect.Bottom),
+                    Right = FromPixels(decoreWidht - visibleRect.Right),
+                    Left = FromPixels(visibleRect.Left)
+                };
+
+                return result;
+            }
+        }
+
+        private double FromPixels(int value)
+        {
+            return ContextExtensions.FromPixels(Forms.Context, value);
         }
     }
 }

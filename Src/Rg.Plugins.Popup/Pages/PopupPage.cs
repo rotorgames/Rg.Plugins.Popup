@@ -13,7 +13,9 @@ namespace Rg.Plugins.Popup.Pages
 
         public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsBackgroundAnimating, true);
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsAnimating, true);
+        public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsSystemPadding, true);
         public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create<PopupPage, AnimationsName>(p => p.AnimationName, AnimationsName.ScaleCenterUp);
+        public static new readonly BindableProperty PaddingProperty = BindableProperty.Create<PopupPage, Thickness>(p => p.Padding, new Thickness());
 
         public bool IsBackgroundAnimating
         {
@@ -33,6 +35,16 @@ namespace Rg.Plugins.Popup.Pages
 
             }
             set { SetValue(IsAnimatingProperty, value); }
+        }
+
+        public bool IsSystemPadding
+        {
+            get
+            {
+                return (bool)GetValue(IsSystemPaddingProperty);
+
+            }
+            set { SetValue(IsSystemPaddingProperty, value); }
         }
 
         public AnimationsName AnimationName
@@ -58,6 +70,20 @@ namespace Rg.Plugins.Popup.Pages
             }
         }
 
+        public new Thickness Padding
+        {
+            get { return (Thickness) GetValue(PaddingProperty); }
+            set
+            {
+                SetValue(PaddingProperty, value);
+            }
+        }
+
+        public Thickness SystemPadding
+        {
+            get { return DependencyService.Get<IScreenHelper>().ScreenOffsets; }
+        }
+
         public PopupPage()
         {
             BackgroundColor = Color.FromHex("#80000000");
@@ -66,7 +92,14 @@ namespace Rg.Plugins.Popup.Pages
 
         protected override void OnPropertyChanged(string propertyName = null)
         {
-            base.OnPropertyChanged(propertyName);
+            if (propertyName == nameof(Padding) || propertyName == nameof(IsSystemPadding))
+            {
+                base.Padding = GetPadding();
+            }
+            else
+            {
+                base.OnPropertyChanged(propertyName);
+            }
 
             if (propertyName == nameof(AnimationName))
             {
@@ -80,14 +113,37 @@ namespace Rg.Plugins.Popup.Pages
             return true;
         }
 
+        #region Size Methods
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
+            base.Padding = GetPadding();
             if (Device.OS == TargetPlatform.Android)
             {
                 Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
             }
         }
+
+        private Thickness GetPadding()
+        {
+            if (!IsSystemPadding)
+            {
+                return Padding;
+            }
+            var userPadding = Padding;
+            var systemPadding = DependencyService.Get<IScreenHelper>().ScreenOffsets;
+            var padding = new Thickness
+            {
+                Top = userPadding.Top + systemPadding.Top,
+                Bottom = userPadding.Bottom + systemPadding.Bottom,
+                Left = userPadding.Left + systemPadding.Left,
+                Right = userPadding.Right + systemPadding.Right,
+            };
+            return padding;
+        }
+
+        #endregion
 
         #region Animation Methods
 

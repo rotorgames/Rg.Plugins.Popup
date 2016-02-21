@@ -10,5 +10,6 @@ namespace Rg.Plugins.Popup.Contracts
     public interface IScreenHelper
     {
         Rectangle ScreenSize { get; }
+        Thickness ScreenOffsets { get; }
     }
 }
