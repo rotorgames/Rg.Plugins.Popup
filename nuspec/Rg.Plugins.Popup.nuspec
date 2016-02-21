@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.6</version>
+        <version>0.0.7</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -12,7 +12,15 @@
         <description>Plugin for Xamarin forms. Allows you to open any page as a popup.
 
 Support only Android and iOS</description>
-        <releaseNotes>- Fix Android PopupPage do not update layout in AppCompat</releaseNotes>
+        <releaseNotes>
+          [0.0.7]
+          - Fix Android Hide keyboard when popup open or close
+          - Fix iOS Moved popup when keyboard showed
+          [0.0.6]
+          - Add SystemPadding
+          [0.0.5]
+          - Fix Android PopupPage do not update layout in AppCompat
+        </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
             <dependency id="Xamarin.Forms" version="2.0.0" />
