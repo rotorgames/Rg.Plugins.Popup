@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Rg.Plugins.Popup</id>
+        <version>0.0.5</version>
+        <title>Popup Page Plugin for Xamarin Forms</title>
+        <authors>Kirill Lyubimov</authors>
+        <owners>rotorgames</owners>
+        <projectUrl>https://github.com/rotorgames/Rg.Plugins.Popup</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/rotorgames/Rg.Plugins.Popup/master/icons/icon.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Plugin for Xamarin forms. Allows you to open any page as a popup.
+
+Support only Android and iOS</description>
+        <releaseNotes>- Fix Android PopupPage do not update layout in AppCompat</releaseNotes>
+        <tags>xamarin forms popup page modal</tags>
+        <dependencies>
+            <dependency id="Xamarin.Forms" version="2.0.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoAndroid\Rg.Plugins.Popup.dll" />
+        <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid\Rg.Plugins.Popup.Droid.dll" />
+        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoTouch\Rg.Plugins.Popup.dll" />
+        <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\MonoTouch\Rg.Plugins.Popup.IOS.dll" />
+        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.dll" />
+        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\Xamarin.IOS\Rg.Plugins.Popup.dll" />
+        <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS\Rg.Plugins.Popup.IOS.dll" />
+    </files>
+</package>
