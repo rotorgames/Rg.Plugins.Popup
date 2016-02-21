@@ -6,6 +6,7 @@
   <Frame BackgroundColor="Silver" VerticalOptions="Center" HorizontalOptions="Center">
       <StackLayout>
         <Label Text="First Popup Page" TextColor="White" FontSize="16" HorizontalOptions="Center"></Label>
+        <Entry Placeholder="Test Entry" PlaceholderColor="Red"></Entry>
         <Button Text="Open Second Popup" Clicked="OnOpenSecond"></Button>
         <Button Text="Close" Clicked="OnClose"></Button>
       </StackLayout>
