@@ -77,6 +77,17 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 }
 ```
 
+## PopupPage Properties
+
+* BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
+* IsBackgroundAnimating
+* IsAnimating
+* AnimationName: In default animations
+* IsSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
+	
+	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
+* SystemPadding: (ReadOnly) Thickness
+
 ## How Use
 
 ```xml
@@ -84,12 +95,7 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             x:Class="Demo.Pages.MyPopupPage"
-             
-             BackgroundColor="#80FF5C5C"
-             IsBackgroundAnimating="True"
-             IsAnimating="True"
-             AnimationName="ScaleLeftRightDown">
+             x:Class="Demo.Pages.MyPopupPage">
   <!-- Content -->
 </pages:PopupPage>
 ```
