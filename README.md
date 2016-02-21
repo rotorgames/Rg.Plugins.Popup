@@ -147,10 +147,16 @@ public partial class MyPopupPage : PopupPage
     class UserAnimation : IPopupAnimation
     {
         // Call Before OnAppering
-        public void Begin(View content, PopupPage page)
+        public void Preparing(View content, PopupPage page)
         {
             // Preparing content and page
             content.Opacity = 0;
+        }
+
+		// Call After OnDisappering
+        public void Disposing(View content, PopupPage page)
+        {
+			// Dispose Unmanaged Code
         }
         
         // Call After OnAppering

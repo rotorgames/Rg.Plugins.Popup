@@ -12,9 +12,14 @@ namespace Demo.Animations
 {
     class UserAnimation : IPopupAnimation
     {
-        public void Begin(View content, PopupPage page)
+        public void Preparing(View content, PopupPage page)
         {
             content.Opacity = 0;
+        }
+
+        public void Disposing(View content, PopupPage page)
+        {
+            
         }
 
         public async Task Appearing(View content, PopupPage page)

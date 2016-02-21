@@ -91,11 +91,19 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Animation Methods
 
-        internal void BeginAnimation()
+        internal void PreparingAnimation()
         {
             if (IsAnimating && Animation != null)
             {
-                Animation.Begin(Content, this);
+                Animation.Preparing(Content, this);
+            }
+        }
+
+        internal void DisposingAnimation()
+        {
+            if (IsAnimating && Animation != null)
+            {
+                Animation.Disposing(Content, this);
             }
         }
 

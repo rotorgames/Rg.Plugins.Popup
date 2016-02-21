@@ -14,7 +14,12 @@ namespace Rg.Plugins.Popup.Animations
         public Easing EasingIn { get; protected set; } = Easing.Linear;
         public Easing EasingOut { get; protected set; } = Easing.Linear;
         
-        public virtual void Begin(View content, PopupPage page)
+        public virtual void Preparing(View content, PopupPage page)
+        {
+            
+        }
+
+        public virtual void Disposing(View content, PopupPage page)
         {
             
         }

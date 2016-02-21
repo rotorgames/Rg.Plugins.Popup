@@ -10,9 +10,9 @@ namespace Rg.Plugins.Popup.Animations
 {
     class FadeContentAnimation : FadeBackgroundAnimation
     {
-        public override void Begin(View content, PopupPage page)
+        public override void Preparing(View content, PopupPage page)
         {
-            base.Begin(content, page);
+            base.Preparing(content, page);
             content.Opacity = 0;
         }
 

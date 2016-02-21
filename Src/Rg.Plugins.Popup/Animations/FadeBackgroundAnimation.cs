@@ -21,7 +21,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             BackgroundTime = Time;
         }
-        public override void Begin(View content, PopupPage page)
+        public override void Preparing(View content, PopupPage page)
         {
             if (page.IsBackgroundAnimating)
             {

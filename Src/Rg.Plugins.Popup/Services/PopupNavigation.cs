@@ -25,7 +25,7 @@ namespace Rg.Plugins.Popup.Services
             page.Parent = parent;
             if (animate)
             {
-                page.BeginAnimation();
+                page.PreparingAnimation();
                 page.Appearing += async (sender, args) =>
                 {
                     await page.AppearingAnimation();
@@ -47,6 +47,7 @@ namespace Rg.Plugins.Popup.Services
                 await page.DisappearingAnimation();
             }
             RemovePopup(page);
+            page.DisposingAnimation();
         }
 
         public static void PopAllAsync()

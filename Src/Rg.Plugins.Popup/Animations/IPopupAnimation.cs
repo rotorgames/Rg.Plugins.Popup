@@ -10,7 +10,8 @@ namespace Rg.Plugins.Popup.Animations
 {
     public interface IPopupAnimation
     {
-        void Begin(View content, PopupPage page);
+        void Preparing(View content, PopupPage page);
+        void Disposing(View content, PopupPage page);
         Task Appearing(View content, PopupPage page);
         Task Disappearing(View content, PopupPage page);
     }
