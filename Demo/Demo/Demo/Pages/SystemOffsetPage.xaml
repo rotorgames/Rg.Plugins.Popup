@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Demo.Pages.SystemOffsetPage" 
+             IsSystemPadding="{Binding IsSystemPadding}"
+             Padding="{Binding Padding}">
+  <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" BackgroundColor="Red">
+    <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+      <Button Text="Close Popup" TextColor="Red" Clicked="OnClose" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Button>
+    </StackLayout>
+  </StackLayout>
+</pages:PopupPage>

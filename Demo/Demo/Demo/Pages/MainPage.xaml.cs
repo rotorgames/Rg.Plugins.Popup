@@ -27,5 +27,11 @@ namespace Demo.Pages
             var page = new UserAnimationPage();
             await Navigation.PushPopupAsync(page);
         }
+
+        private async void OnOpenSystemOffsetPage(object sender, EventArgs e)
+        {
+            var page = new SystemOffsetPage();
+            await Navigation.PushPopupAsync(page);
+        }
     }
 }
