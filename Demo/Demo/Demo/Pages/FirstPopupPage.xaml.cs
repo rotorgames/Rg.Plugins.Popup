@@ -17,11 +17,5 @@ namespace Demo.Pages
         {
             PopupNavigation.PopAsync();
         }
-
-        private void OnOpenSecond(object sender, EventArgs e)
-        {
-            var page = new SecondPopupPage();
-            PopupNavigation.PushAsync(page);
-        }
     }
 }

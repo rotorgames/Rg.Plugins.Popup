@@ -33,5 +33,11 @@ namespace Demo.Pages
             var page = new SystemOffsetPage();
             await Navigation.PushPopupAsync(page);
         }
+
+        private async void OnOpenListViewPage(object sender, EventArgs e)
+        {
+            var page = new ListViewPage();
+            await Navigation.PushPopupAsync(page);
+        }
     }
 }
