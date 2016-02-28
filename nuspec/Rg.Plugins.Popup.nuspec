@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.10-pre4</version>
+        <version>0.0.10-pre5</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -40,5 +40,6 @@ Support only Android and iOS</description>
 
         <file src="..\src\Rg.Plugins.Popup.IOS\Properties\AssemblyPopupLinker.cs.pp" target="content\MonoTouch\Properties\AssemblyPopupLinker.cs.pp" />
         <file src="..\src\Rg.Plugins.Popup.IOS\Properties\AssemblyPopupLinker.cs.pp" target="content\Xamarin.IOS\Properties\AssemblyPopupLinker.cs.pp" />
+        <file src="..\src\Rg.Plugins.Popup.Droid\Properties\AssemblyPopupLinker.cs.pp" target="content\MonoAndroid\Properties\AssemblyPopupLinker.cs.pp" />
     </files>
 </package>

@@ -19,6 +19,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
 {
+    [Preserve(AllMembers = true)]
     class PopupPageRenderer : PageRenderer
     {
         private DateTime downTime;

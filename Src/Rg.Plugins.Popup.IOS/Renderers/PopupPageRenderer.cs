@@ -9,6 +9,7 @@ using Size = Xamarin.Forms.Size;
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.IOS.Renderers
 {
+    [Preserve(AllMembers = true)]
     class PopupPageRenderer : PageRenderer
     {
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
