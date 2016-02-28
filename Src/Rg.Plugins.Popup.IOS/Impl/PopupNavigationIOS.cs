@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreFoundation;
+using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Helpers;
 using Rg.Plugins.Popup.IOS.Impl;
@@ -16,6 +17,7 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: Dependency(typeof(PopupNavigationIOS))]
 namespace Rg.Plugins.Popup.IOS.Impl
 {
+    [Preserve(AllMembers = true)]
     class PopupNavigationIOS : IPopupNavigation
     {
         public void AddPopup(PopupPage page)

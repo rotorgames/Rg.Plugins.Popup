@@ -8,6 +8,7 @@ namespace Rg.Plugins.Popup.IOS
 {
     public static class Popup
     {
+        [Obsolete]
         public static void Init()
         {
             // Fix sdk linker
