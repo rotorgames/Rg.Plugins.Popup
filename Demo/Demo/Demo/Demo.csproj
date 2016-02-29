@@ -52,7 +52,6 @@
     <Compile Include="Pages\UserAnimationPage.xaml.cs">
       <DependentUpon>UserAnimationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreserveAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
