@@ -88,12 +88,14 @@
     <Compile Include="Helpers\PlatformHelper.cs" />
     <Compile Include="Impl\PopupNavigationDroid.cs" />
     <Compile Include="Impl\ScreenHelperDroid.cs" />
+    <Compile Include="Popup.cs" />
     <Compile Include="Renderers\PopupPageRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Properties\AssemblyPopupLinker.cs.pp" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>

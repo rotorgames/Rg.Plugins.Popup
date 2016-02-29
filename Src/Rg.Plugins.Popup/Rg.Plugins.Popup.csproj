@@ -48,6 +48,7 @@
     <Compile Include="Enums\MoveAnimationsName.cs" />
     <Compile Include="Enums\ScaleAnimationsName.cs" />
     <Compile Include="Extensions\NavigatonExtension.cs" />
+    <Compile Include="PreserveAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\PopupPage.cs" />
     <Compile Include="Services\AnimationServices.cs" />

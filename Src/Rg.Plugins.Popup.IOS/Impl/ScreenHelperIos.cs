@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Impl;
 using UIKit;
@@ -9,6 +10,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(ScreenHelperIos))]
 namespace Rg.Plugins.Popup.IOS.Impl
 {
+    [Preserve(AllMembers = true)]
     class ScreenHelperIos : IScreenHelper
     {
         public Rectangle ScreenSize
