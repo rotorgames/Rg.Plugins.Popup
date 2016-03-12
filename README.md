@@ -16,6 +16,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 * OnAppearing
 * OnDisappearing
 * OnBackButtonPressed
+* BackgroundClicked: Called when clicked on background 
 
 ## Animations
 
