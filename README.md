@@ -82,6 +82,7 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 * BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
 * IsBackgroundAnimating
 * IsAnimating
+* IsCloseOnBackgroundClick: Close pop-up when click on the background
 * AnimationName: In default animations
 * IsSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
 	
