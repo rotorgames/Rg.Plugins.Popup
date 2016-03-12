@@ -115,11 +115,16 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Src\Rg.Plugins.Popup.Droid\Rg.Plugins.Popup.Droid.csproj">
+    <ProjectReference Include="..\..\Rg.Plugins.Popup.Droid\Rg.Plugins.Popup.Droid.csproj">
       <Project>{23bbe23f-5599-41e7-aabb-ae419ee74813}</Project>
       <Name>Rg.Plugins.Popup.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>Rg.Plugins.Popup</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Demo\Demo.csproj">
+      <Project>{e7c8d327-b800-4f8f-9cad-6b90fb220d7c}</Project>
       <Name>Demo</Name>
     </ProjectReference>
   </ItemGroup>

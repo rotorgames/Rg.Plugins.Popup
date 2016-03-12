@@ -98,17 +98,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Src\Rg.Plugins.Popup.IOS\Rg.Plugins.Popup.IOS.csproj">
-      <Project>{3c910809-7eac-42fe-9421-c010879f9921}</Project>
-      <Name>Rg.Plugins.Popup.IOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
-    <ProjectReference Include="..\Demo\Demo.csproj">
-      <Name>Demo</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\Default-Portrait.png" />
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
@@ -147,6 +136,22 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Rg.Plugins.Popup.IOS\Rg.Plugins.Popup.IOS.csproj">
+      <Project>{3c910809-7eac-42fe-9421-c010879f9921}</Project>
+      <Name>Rg.Plugins.Popup.IOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>Rg.Plugins.Popup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Demo\Demo.csproj">
+      <Project>{e7c8d327-b800-4f8f-9cad-6b90fb220d7c}</Project>
+      <Name>Demo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
