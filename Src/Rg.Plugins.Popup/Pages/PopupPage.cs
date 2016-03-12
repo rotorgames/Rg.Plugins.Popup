@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Enums;
@@ -11,11 +12,14 @@ namespace Rg.Plugins.Popup.Pages
     {
         private IPopupAnimation _animation;
 
+        public event Action BackgroundClicked; 
+
         public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsBackgroundAnimating, true);
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsAnimating, true);
         public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsSystemPadding, true);
         public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create<PopupPage, AnimationsName>(p => p.AnimationName, AnimationsName.ScaleCenterUp);
         public static new readonly BindableProperty PaddingProperty = BindableProperty.Create<PopupPage, Thickness>(p => p.Padding, new Thickness());
+        public static readonly BindableProperty IsCloseOnBackgroundClickProperty = BindableProperty.Create(nameof(IsCloseOnBackgroundClick), typeof(bool), typeof(PopupPage), true);
 
         public bool IsBackgroundAnimating
         {
@@ -82,6 +86,12 @@ namespace Rg.Plugins.Popup.Pages
         public Thickness SystemPadding
         {
             get { return DependencyService.Get<IScreenHelper>().ScreenOffsets; }
+        }
+
+        public bool IsCloseOnBackgroundClick
+        {
+            get { return (bool) GetValue(IsCloseOnBackgroundClickProperty); }
+            set { SetValue(IsCloseOnBackgroundClickProperty, value);}
         }
 
         public PopupPage()
@@ -176,6 +186,20 @@ namespace Rg.Plugins.Popup.Pages
             if (IsAnimating && Animation != null)
             {
                 await Animation.Disappearing(Content, this);
+            }
+        }
+
+        #endregion
+
+        #region Send Methods
+
+        internal async void SendBackgroundClick()
+        {
+            BackgroundClicked?.Invoke();
+
+            if (IsCloseOnBackgroundClick)
+            {
+                await PopupNavigation.PopAsync();
             }
         }
 

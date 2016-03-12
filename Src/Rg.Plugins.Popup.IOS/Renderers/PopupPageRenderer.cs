@@ -1,4 +1,7 @@
-﻿using Foundation;
+﻿using System.Linq;
+using CoreGraphics;
+using Foundation;
+using ObjCRuntime;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
 using UIKit;
@@ -11,12 +14,32 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 {
     class PopupPageRenderer : PageRenderer
     {
+        private PopupPage _element
+        {
+            get { return (PopupPage) Element; }
+        }
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
 
-            this.ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-            this.ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+            if (e.NewElement != null)
+            {
+                ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
+                ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                View.AddGestureRecognizer(new UITapGestureRecognizer(OnTap));
+            }
+        }
+
+        private void OnTap(UITapGestureRecognizer e)
+        {
+            var view = e.View;
+            var location = e.LocationInView(view);
+            var subview = view.HitTest(location, null);
+            if (subview == view)
+            {
+                _element.SendBackgroundClick();
+            }
         }
 
         public override void ViewDidLayoutSubviews()

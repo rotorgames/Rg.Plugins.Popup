@@ -21,8 +21,39 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 {
     class PopupPageRenderer : PageRenderer
     {
+        private PopupPage _element
+        {
+            get { return (PopupPage) Element; }
+        }
+
         private DateTime downTime;
         private Xamarin.Forms.Point downPosition;
+
+        protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
+        {
+            base.OnElementChanged(e);
+
+            if (e.NewElement != null)
+            {
+                Click += OnBackgroundClick;
+            }
+            if (e.OldElement != null)
+            {
+                Click -= OnBackgroundClick;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Click -= OnBackgroundClick;
+
+            base.Dispose(disposing);
+        }
+
+        private void OnBackgroundClick(object sender, EventArgs e)
+        {
+            _element.SendBackgroundClick();
+        }
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
