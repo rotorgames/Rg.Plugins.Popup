@@ -119,8 +119,13 @@ namespace Rg.Plugins.Popup.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            PopupNavigation.PopAsync();
+            Close();
             return true;
+        }
+
+        private async void Close()
+        {
+            await PopupNavigation.PopAsync();
         }
 
         #region Size Methods
