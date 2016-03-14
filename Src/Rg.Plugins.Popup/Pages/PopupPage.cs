@@ -14,11 +14,11 @@ namespace Rg.Plugins.Popup.Pages
 
         public event Action BackgroundClicked; 
 
-        public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsBackgroundAnimating, true);
-        public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsAnimating, true);
-        public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create<PopupPage, bool>(p => p.IsSystemPadding, true);
-        public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create<PopupPage, AnimationsName>(p => p.AnimationName, AnimationsName.ScaleCenterUp);
-        public static new readonly BindableProperty PaddingProperty = BindableProperty.Create<PopupPage, Thickness>(p => p.Padding, new Thickness());
+        public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create(nameof(IsBackgroundAnimating), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create(nameof(IsSystemPadding), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create(nameof(AnimationName), typeof(AnimationsName), typeof(PopupPage), AnimationsName.ScaleCenterUp);
+        public static new readonly BindableProperty PaddingProperty = BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(PopupPage), new Thickness());
         public static readonly BindableProperty IsCloseOnBackgroundClickProperty = BindableProperty.Create(nameof(IsCloseOnBackgroundClick), typeof(bool), typeof(PopupPage), true);
 
         public bool IsBackgroundAnimating
