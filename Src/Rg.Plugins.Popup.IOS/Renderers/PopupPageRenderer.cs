@@ -12,7 +12,7 @@ using Size = Xamarin.Forms.Size;
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.IOS.Renderers
 {
-    class PopupPageRenderer : PageRenderer
+    public class PopupPageRenderer : PageRenderer
     {
         private PopupPage _element
         {
