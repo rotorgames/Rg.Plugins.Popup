@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.9</version>
+        <version>0.0.10</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -14,6 +14,10 @@
 Support only Android and iOS</description>
         <releaseNotes>
           -->
+          [0.0.10]
+          - Fix Demo not open after clone in git
+          - Add PopupPage close on backgroind click
+          - Make PopupPageRendere public modifier
           [0.0.9]
           - Fix Android Keyboard not hided when entry unfocused
           [0.0.8]
