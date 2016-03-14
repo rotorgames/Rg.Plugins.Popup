@@ -97,7 +97,7 @@ namespace Rg.Plugins.Popup.Pages
         public PopupPage()
         {
             BackgroundColor = Color.FromHex("#80000000");
-            Animation = AnimationServices.GeAnimation(AnimationName);
+            Animation = AnimationService.GeAnimation(AnimationName);
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -113,7 +113,7 @@ namespace Rg.Plugins.Popup.Pages
 
             if (propertyName == nameof(AnimationName))
             {
-                _animation = AnimationServices.GeAnimation(AnimationName);
+                _animation = AnimationService.GeAnimation(AnimationName);
             }
         }
 

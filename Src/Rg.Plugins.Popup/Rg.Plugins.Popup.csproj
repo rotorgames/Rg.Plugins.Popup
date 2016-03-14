@@ -47,10 +47,10 @@
     <Compile Include="Enums\AnimationsName.cs" />
     <Compile Include="Enums\MoveAnimationsName.cs" />
     <Compile Include="Enums\ScaleAnimationsName.cs" />
-    <Compile Include="Extensions\NavigatonExtension.cs" />
+    <Compile Include="Extensions\NavigationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\PopupPage.cs" />
-    <Compile Include="Services\AnimationServices.cs" />
+    <Compile Include="Services\AnimationService.cs" />
     <Compile Include="Services\PopupNavigation.cs" />
   </ItemGroup>
   <ItemGroup>

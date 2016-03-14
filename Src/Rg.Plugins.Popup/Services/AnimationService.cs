@@ -8,7 +8,7 @@ using Rg.Plugins.Popup.Enums;
 
 namespace Rg.Plugins.Popup.Services
 {
-    internal static class AnimationServices
+    internal static class AnimationService
     {
         public static IPopupAnimation GeAnimation(AnimationsName animation)
         {
