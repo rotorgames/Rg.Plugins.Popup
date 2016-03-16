@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.11</version>
+        <version>0.0.12</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -14,6 +14,9 @@
 Support only Android and iOS</description>
         <releaseNotes>
           -->
+          [0.0.12]
+          - Fix Popup not working if there was an open modal page.
+          - Renamed PopAllAsync in PopAll, since this method is not async
           [0.0.11]
           - Fix It does not throw an exception if an error occurred in the Popup Navigation.Pop Async
           - Fix Renamed class names and methods that have been misspelled.
