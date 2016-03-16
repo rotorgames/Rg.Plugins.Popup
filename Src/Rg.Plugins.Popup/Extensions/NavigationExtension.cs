@@ -17,9 +17,9 @@ namespace Rg.Plugins.Popup.Extensions
             await PopupNavigation.PopAsync(animate);
         }
 
-        public static void PopAllPopupAsync(this INavigation sender)
+        public static void PopAllPopup(this INavigation sender)
         {
-            PopupNavigation.PopAllAsync();
+            PopupNavigation.PopAll();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Rg.Plugins.Popup.Services
             page.DisposingAnimation();
         }
 
-        public static void PopAllAsync()
+        public static void PopAll()
         {
             foreach (var page in _popupStack)
             {

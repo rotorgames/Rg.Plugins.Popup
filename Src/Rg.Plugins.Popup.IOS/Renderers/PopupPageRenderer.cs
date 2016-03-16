@@ -66,7 +66,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             // Close all open pages the Popup, if the main page, on which opened PresentViewControllerAsync, destroyed.
             if (isNotRemoved)
             {
-                PopupNavigation.PopAllAsync();
+                PopupNavigation.PopAll();
             }
         }
 
