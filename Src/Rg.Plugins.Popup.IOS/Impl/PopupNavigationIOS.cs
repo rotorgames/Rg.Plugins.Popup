@@ -58,6 +58,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
             Page lastPage = PopupNavigation.PopupStack.LastOrDefault();
             if (lastPage == null)
             {
+                lastPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault();
+            }
+            if (lastPage == null)
+            {
                 lastPage = Application.Current.MainPage;
             }
             return lastPage;

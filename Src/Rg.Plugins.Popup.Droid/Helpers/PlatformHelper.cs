@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Rg.Plugins.Popup.Pages;
@@ -62,29 +63,15 @@ namespace Rg.Plugins.Popup.Droid.Helpers
 
         #region Navigation Methods
 
-        public static void PushPage(Page page)
+        public static Delegate GetHandleBackPressed<TDelegate>()
         {
-            var navModel = GetNavigationModel();
+            var platform = GetPlatform();
 
-            navModel.GetType()
-                .GetMethod("PushModal", BindingFlags.Public | BindingFlags.Instance)
-                .Invoke(navModel, new[] {page});
-        }
+            var handleBackPressed = platform.GetType()
+                .GetMethod("HandleBackPressed", BindingFlags.NonPublic | BindingFlags.Instance)
+                .CreateDelegate(typeof (TDelegate), platform);
 
-        public static void PopPage()
-        {
-            var navModel = GetNavigationModel();
-
-            navModel.GetType()
-                .GetMethod("PopModal", BindingFlags.Public | BindingFlags.Instance)
-                .Invoke(navModel, new object[] { });
-        }
-
-        public static void RemovePage(Page page)
-        {
-            var navTree = GetNavTree();
-            var removedPage = navTree.First(item => item.Any(p => p == page));
-            navTree.Remove(removedPage);
+            return handleBackPressed;
         }
 
         #endregion
@@ -97,35 +84,27 @@ namespace Rg.Plugins.Popup.Droid.Helpers
             return assembly.GetType("Xamarin.Forms.Platform.Android.Platform");
         }
 
-        private static object GetNavigationModel()
+        private static object GetPlatform()
         {
-            object platform;
+            object platform = null;
 
             if (Forms.Context is FormsApplicationActivity)
             {
-                var activityType = typeof (FormsApplicationActivity);
+                var activityType = typeof(FormsApplicationActivity);
                 platform = activityType.GetField("canvas", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
             }
-            else
+            else if(Forms.Context is FormsAppCompatActivity)
             {
                 var activityType = typeof(FormsAppCompatActivity);
                 platform = activityType.GetField("platform", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
             }
 
-            var navModel = platform.GetType().GetField("navModel", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(platform);
+            if (platform == null)
+            {
+                throw new InvalidOperationException("Platform is not created");
+            }
 
-            return navModel;
-        }
-
-        private static List<List<Page>> GetNavTree()
-        {
-            var navModel = GetNavigationModel();
-
-            var navTree = navModel.GetType()
-                .GetField("navTree", BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(navModel);
-
-            return (List<List<Page>>)navTree;
+            return platform;
         }
 
         #endregion

@@ -62,8 +62,8 @@ namespace Rg.Plugins.Popup.Services
         // Private
         private static void RemovePopup(PopupPage page)
         {
-            DependencyService.Get<IPopupNavigation>().RemovePopup(page);
             _popupStack.Remove(page);
+            DependencyService.Get<IPopupNavigation>().RemovePopup(page);
         }
         private static Page GetParentPage()
         {
