@@ -23,12 +23,21 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             base.OnElementChanged(e);
 
+            var tapGesture = new UITapGestureRecognizer(OnTap)
+            {
+                CancelsTouchesInView = false
+            };
+
             if (e.NewElement != null)
             {
                 ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
                 ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
-                View.AddGestureRecognizer(new UITapGestureRecognizer(OnTap));
+                View.AddGestureRecognizer(tapGesture);
+            }
+            if (e.OldElement != null)
+            {
+                View.RemoveGestureRecognizer(tapGesture);
             }
         }
 
