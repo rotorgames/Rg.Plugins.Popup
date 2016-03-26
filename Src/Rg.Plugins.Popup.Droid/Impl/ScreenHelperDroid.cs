@@ -9,6 +9,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: Dependency(typeof(ScreenHelperDroid))]
 namespace Rg.Plugins.Popup.Droid.Impl
 {
+    [Preserve(AllMembers = true)]
     class ScreenHelperDroid : IScreenHelper
     {
         public Rectangle ScreenSize

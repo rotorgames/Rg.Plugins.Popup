@@ -20,6 +20,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: Dependency(typeof(PopupNavigationDroid))]
 namespace Rg.Plugins.Popup.Droid.Impl
 {
+    [Preserve(AllMembers = true)]
     class PopupNavigationDroid : IPopupNavigation
     {
         private FrameLayout _decoreView
