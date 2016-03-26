@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.14-pre1</version>
+        <version>0.0.14</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -15,7 +15,7 @@ Support only Android and iOS</description>
         <releaseNotes>
           -->
           [0.0.14]
-          - Fix Appendix fell on ios in release mode
+          - Fix the app crash on ios in release mode.
           [0.0.13]
           - Fix ItemSelected did not work in ListView on ios
           [0.0.12]
