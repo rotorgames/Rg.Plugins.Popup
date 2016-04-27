@@ -91,12 +91,12 @@ namespace Rg.Plugins.Popup.Droid.Helpers
             if (Forms.Context is FormsApplicationActivity)
             {
                 var activityType = typeof(FormsApplicationActivity);
-                platform = activityType.GetField("canvas", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
+                platform = activityType.GetField("_canvas", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
             }
             else if(Forms.Context is FormsAppCompatActivity)
             {
                 var activityType = typeof(FormsAppCompatActivity);
-                platform = activityType.GetField("platform", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
+                platform = activityType.GetField("_platform", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Forms.Context);
             }
 
             if (platform == null)
