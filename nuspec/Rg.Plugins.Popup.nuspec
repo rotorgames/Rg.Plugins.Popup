@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.15</version>
+        <version>0.0.16</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -14,6 +14,8 @@
 Support only Android and iOS</description>
         <releaseNotes>
           -->
+          [0.0.16]
+          - Add support Xamarin.Forms v2.2.0.31
           [0.0.15]
           - Add support Link All in android
           [0.0.14]
@@ -42,7 +44,7 @@ Support only Android and iOS</description>
         </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.0.0" />
+            <dependency id="Xamarin.Forms" version="2.2.0.31" />
         </dependencies>
     </metadata>
     <files>
