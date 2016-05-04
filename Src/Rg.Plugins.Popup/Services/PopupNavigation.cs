@@ -32,7 +32,10 @@ namespace Rg.Plugins.Popup.Services
                     task.TrySetResult(true);
                 };
             }
-            DependencyService.Get<IPopupNavigation>().AddPopup(page);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                DependencyService.Get<IPopupNavigation>().AddPopup(page);
+            });
             _popupStack.Add(page);
             if(!animate) task.TrySetResult(true);
             return task.Task;
@@ -63,7 +66,10 @@ namespace Rg.Plugins.Popup.Services
         private static void RemovePopup(PopupPage page)
         {
             _popupStack.Remove(page);
-            DependencyService.Get<IPopupNavigation>().RemovePopup(page);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                DependencyService.Get<IPopupNavigation>().RemovePopup(page);
+            });
         }
         private static Page GetParentPage()
         {

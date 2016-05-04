@@ -128,7 +128,7 @@ namespace Rg.Plugins.Popup.Pages
         {
             base.OnSizeAllocated(width, height);
             base.Padding = GetPadding();
-            if (Device.OS == TargetPlatform.Android)
+            if (Device.OS == TargetPlatform.Android || Device.OS == TargetPlatform.Windows)
             {
                 Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
             }
