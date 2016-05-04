@@ -21,7 +21,7 @@
           <ActivityIndicator Color="Gray" IsRunning="True"></ActivityIndicator>
           <Slider Value="0.4" x:Name="Slider"></Slider>
           <ProgressBar BindingContext="{x:Reference Slider}" Progress="{Binding Path=Value}"></ProgressBar>
-          <Button Text="Close" Clicked="OnClose"></Button>
+          <Button Text="Close" TextColor="#A9D1DE" Clicked="OnClose"></Button>
         </StackLayout>
       </ScrollView>
     </StackLayout>

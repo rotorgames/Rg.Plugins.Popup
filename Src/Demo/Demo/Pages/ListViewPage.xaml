@@ -5,8 +5,14 @@
              x:Class="Demo.Pages.ListViewPage">
   <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
     <StackLayout BackgroundColor="White">
-      <ListView x:Name="listView"></ListView>
+      <ListView x:Name="listView">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell TextColor="Black" Text="{Binding .}"></TextCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </StackLayout>
-    <Button Text="Close" Clicked="OnClose"></Button>
+    <Button Text="Close" TextColor="#A9D1DE" Clicked="OnClose"></Button>
   </StackLayout>
 </pages:PopupPage>
