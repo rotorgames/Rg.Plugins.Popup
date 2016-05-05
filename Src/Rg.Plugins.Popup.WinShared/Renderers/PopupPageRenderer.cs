@@ -1,14 +1,18 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Windows.Graphics.Display;
-using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.WinPhone.Renderers;
+#if WINDOWS_UWP
+using Xamarin.Forms.Platform.UWP;
+#elif WINDOWS_PHONE_APP
 using Xamarin.Forms.Platform.WinRT;
+using Windows.Phone.UI.Input;
+#endif
 using Page = Xamarin.Forms.Page;
 
 [assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
@@ -25,7 +29,11 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
                 Window.Current.SizeChanged += OnSizeChanged;
                 DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
 
+#if WINDOWS_PHONE_APP
                 HardwareButtons.BackPressed += OnBackPressed;
+#elif WINDOWS_UWP
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+#endif
 
                 InputPane inputPane = InputPane.GetForCurrentView();
                 inputPane.Showing += OnKeyboardShowing;
@@ -58,7 +66,11 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
             Window.Current.SizeChanged -= OnSizeChanged;
             DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
 
+#if WINDOWS_PHONE_APP
             HardwareButtons.BackPressed -= OnBackPressed;
+#elif WINDOWS_UWP
+            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+#endif
 
             InputPane inputPane = InputPane.GetForCurrentView();
             inputPane.Showing -= OnKeyboardShowing;
@@ -75,16 +87,30 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
             Element?.ForceLayout();
         }
 
-        private void OnBackPressed(object sender, BackPressedEventArgs e)
+        private void OnBack()
         {
-            e.Handled = true;
-
             if (PopupNavigation.PopupStack.LastOrDefault() == Element)
             {
                 var isPrevent = Element.SendBackButtonPressed();
                 if (!isPrevent) Task.Run(() => PopupNavigation.PopAsync());
             }
         }
+
+#if WINDOWS_PHONE_APP
+        private void OnBackPressed(object sender, BackPressedEventArgs e)
+        {
+            e.Handled = true;
+
+            OnBack();
+        }
+#elif WINDOWS_UWP
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+
+            OnBack();
+        }
+#endif
 
         internal void Destroy()
         {

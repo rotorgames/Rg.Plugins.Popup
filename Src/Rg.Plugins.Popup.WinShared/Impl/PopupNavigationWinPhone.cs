@@ -5,7 +5,11 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Rg.Plugins.Popup.WinPhone.Renderers;
 using Xamarin.Forms;
+#if WINDOWS_UWP
+using Xamarin.Forms.Platform.UWP;
+#elif WINDOWS_PHONE_APP
 using Xamarin.Forms.Platform.WinRT;
+#endif
 using Page = Xamarin.Forms.Page;
 
 [assembly:Dependency(typeof(PopupNavigationWinPhone))]

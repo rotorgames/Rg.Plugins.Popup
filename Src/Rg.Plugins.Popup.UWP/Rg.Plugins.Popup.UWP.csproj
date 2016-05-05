@@ -116,6 +116,7 @@
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

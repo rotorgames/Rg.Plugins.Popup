@@ -25,7 +25,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.UWP", "Demo\Demo.UWP\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rg.Plugins.Popup.UWP", "Rg.Plugins.Popup.UWP\Rg.Plugins.Popup.UWP.csproj", "{2B1508FE-0298-4740-B5D3-6B2BC0F0E08D}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rg.Plugins.Popup.WinShared", "Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.shproj", "{32FF6384-D2DC-4033-B52D-0833A1E69D04}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{dc7e5d87-0056-4574-8864-037576e7c7cf}*SharedItemsImports = 4
+		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{32ff6384-d2dc-4033-b52d-0833a1e69d04}*SharedItemsImports = 13
+		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{2b1508fe-0298-4740-b5d3-6b2bc0f0e08d}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM

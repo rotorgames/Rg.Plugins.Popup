@@ -81,10 +81,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Impl\PopupNavigationWinPhone.cs" />
-    <Compile Include="Impl\ScreenHelperWinPhone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\PopupPageRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -117,6 +114,7 @@
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
