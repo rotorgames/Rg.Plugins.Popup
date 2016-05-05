@@ -9,7 +9,8 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 - [x] Android
 - [x] iOS
-- [ ] WP (Coming Soon)
+- [x] Windows Phone
+- [x] UWP
 
 ## Support Events
 
