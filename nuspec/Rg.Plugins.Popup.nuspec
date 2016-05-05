@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.16</version>
+        <version>0.1.0-pre2</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -48,12 +48,18 @@ Support only Android and iOS</description>
         </dependencies>
     </metadata>
     <files>
-        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoAndroid\Rg.Plugins.Popup.dll" />
-        <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid\Rg.Plugins.Popup.Droid.dll" />
-        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoTouch\Rg.Plugins.Popup.dll" />
-        <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\MonoTouch\Rg.Plugins.Popup.IOS.dll" />
-        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\portable-win+net45+wp8+win8+wpa81\Rg.Plugins.Popup.dll" />
-        <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\Xamarin.IOS\Rg.Plugins.Popup.dll" />
-        <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS\Rg.Plugins.Popup.IOS.dll" />
+      <!--PCL-->
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\portable-win+net45+wp8+win8+wpa81" />
+      <!--Android-->
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid" />
+      <!--IOS-->
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS" />
+      <!--wpa81-->
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\wpa81" />
+      <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Release\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />
     </files>
 </package>
