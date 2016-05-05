@@ -30,3 +30,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("Rg.Plugins.Popup.Droid")]
 [assembly: InternalsVisibleTo("Rg.Plugins.Popup.IOS")]
+[assembly: InternalsVisibleTo("Rg.Plugins.Popup.UWP")]
+[assembly: InternalsVisibleTo("Rg.Plugins.Popup.WinPhone")]

@@ -1,12 +1,13 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.WinPhone.Renderers;
+using Xamarin.Forms;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 #elif WINDOWS_PHONE_APP
@@ -20,6 +21,11 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
 {
     public class PopupPageRenderer : PageRenderer
     {
+        private PopupPage _element
+        {
+            get { return (PopupPage) Element; }
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
             base.OnElementChanged(e);
@@ -38,6 +44,8 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
                 InputPane inputPane = InputPane.GetForCurrentView();
                 inputPane.Showing += OnKeyboardShowing;
                 inputPane.Hiding += OnKeyboardHiding;
+
+                ContainerElement.PointerPressed += OnBackgroundClick;
             }
             else if(e.OldElement != null)
             {
@@ -92,7 +100,21 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
             if (PopupNavigation.PopupStack.LastOrDefault() == Element)
             {
                 var isPrevent = Element.SendBackButtonPressed();
-                if (!isPrevent) Task.Run(() => PopupNavigation.PopAsync());
+                if (!isPrevent)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await PopupNavigation.PopAsync();
+                    });
+                }
+            }
+        }
+
+        private void OnBackgroundClick(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.OriginalSource == this)
+            {
+                _element.SendBackgroundClick();
             }
         }
 
