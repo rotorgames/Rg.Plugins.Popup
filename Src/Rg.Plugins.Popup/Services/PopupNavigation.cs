@@ -41,16 +41,19 @@ namespace Rg.Plugins.Popup.Services
             return task.Task;
         }
 
-        public static async Task PopAsync(bool animate = true)
+        public static Task PopAsync(bool animate = true)
         {
-            if (PopupStack.Count == 0) return;
+            if (PopupStack.Count == 0) return null;
+            var task = new TaskCompletionSource<bool>();
             var page = PopupStack.Last();
-            if (animate)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                await page.DisappearingAnimation();
-            }
-            RemovePopup(page);
-            page.DisposingAnimation();
+                if (animate) await page.DisappearingAnimation();
+                RemovePopup(page);
+                page.DisposingAnimation();
+                task.TrySetResult(true);
+            });
+            return task.Task;
         }
 
         public static void PopAll()
