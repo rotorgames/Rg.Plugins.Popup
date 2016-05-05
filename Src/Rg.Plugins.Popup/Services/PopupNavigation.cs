@@ -32,7 +32,7 @@ namespace Rg.Plugins.Popup.Services
                     task.TrySetResult(true);
                 };
             }
-            Device.BeginInvokeOnMainThread(() =>
+            BeginInvokeOnMainThreadIfNeed(() =>
             {
                 DependencyService.Get<IPopupNavigation>().AddPopup(page);
             });
@@ -46,7 +46,7 @@ namespace Rg.Plugins.Popup.Services
             if (PopupStack.Count == 0) return null;
             var task = new TaskCompletionSource<bool>();
             var page = PopupStack.Last();
-            Device.BeginInvokeOnMainThread(async () =>
+            BeginInvokeOnMainThreadIfNeed(async () =>
             {
                 if (animate) await page.DisappearingAnimation();
                 RemovePopup(page);
@@ -74,6 +74,7 @@ namespace Rg.Plugins.Popup.Services
                 DependencyService.Get<IPopupNavigation>().RemovePopup(page);
             });
         }
+
         private static Page GetParentPage()
         {
             //if (PopupStack.Count > 0)
@@ -86,6 +87,18 @@ namespace Rg.Plugins.Popup.Services
             //}
 
             return Application.Current.MainPage;
+        }
+
+        private static void BeginInvokeOnMainThreadIfNeed(Action action)
+        {
+            if (Device.OS != TargetPlatform.iOS)
+            {
+                Device.BeginInvokeOnMainThread(action);
+            }
+            else
+            {
+                action?.Invoke();
+            }
         }
     }
 }
