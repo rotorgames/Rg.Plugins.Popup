@@ -8,23 +8,25 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations
 {
-    class FadeContentAnimation : FadeBackgroundAnimation
+    internal class FadeContentAnimation : BaseAnimation
     {
         public override void Preparing(View content, PopupPage page)
         {
-            base.Preparing(content, page);
             content.Opacity = 0;
+        }
+
+        public override void Disposing(View content, PopupPage page)
+        {
+
         }
 
         public override Task Appearing(View content, PopupPage page)
         {
-            base.Appearing(content, page);
             return content.FadeTo(1, Time, EasingIn);
         }
 
         public override Task Disappearing(View content, PopupPage page)
         {
-            base.Disappearing(content, page);
             return content.FadeTo(0, Time, EasingOut);
         }
     }

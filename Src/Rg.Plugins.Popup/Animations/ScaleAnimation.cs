@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations
 {
-    internal class ScaleAnimation : BaseAnimation
+    internal class ScaleAnimation : FadeContentAnimation
     {
         private MoveAnimationsName _animationStartName;
         private MoveAnimationsName _animationEndName;
@@ -37,6 +37,8 @@ namespace Rg.Plugins.Popup.Animations
 
         public override void Preparing(View content, PopupPage page)
         {
+            base.Preparing(content, page);
+
             if (_animationStartName != MoveAnimationsName.Center)
             {
                 Time = 500;
@@ -46,14 +48,11 @@ namespace Rg.Plugins.Popup.Animations
             content.Scale = _startScale;
         }
 
-        public override void Disposing(View content, PopupPage page)
-        {
-            
-        }
-
         public async override Task Appearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
+            
+            taskList.Add(base.Appearing(content, page));
             
             var topOffset = GetTopOffset(content, page) * StartScaleIn;
             var leftOffset = GetLeftOffset(content, page) * StartScaleIn;
@@ -87,6 +86,8 @@ namespace Rg.Plugins.Popup.Animations
         public async override Task Disappearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
+
+            taskList.Add(base.Disappearing(content, page));
             
             var topOffset = GetTopOffset(content, page) * StartScaleOut;
             var leftOffset = GetLeftOffset(content, page) * StartScaleOut;
