@@ -22,12 +22,12 @@ namespace Rg.Plugins.Popup.Animations
 
         public override async Task Appearing(View content, PopupPage page)
         {
-            await content.FadeTo(1, Time);
+            await content.FadeTo(1, Duration);
         }
 
         public override async Task Disappearing(View content, PopupPage page)
         {
-            await content.FadeTo(0, Time);
+            await content.FadeTo(0, Duration);
         }
     }
 }

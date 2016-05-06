@@ -178,6 +178,7 @@ namespace Rg.Plugins.Popup.Pages
 
             if (IsAnimating && Animation != null)
             {
+                _backgroundAnimation.Duration = Animation.Duration;
                 taskList.Add(Animation.Appearing(Content, this));
             }
             if (IsBackgroundAnimating)
@@ -194,6 +195,7 @@ namespace Rg.Plugins.Popup.Pages
 
             if (IsAnimating && Animation != null)
             {
+                _backgroundAnimation.Duration = Animation.Duration;
                 taskList.Add(Animation.Disappearing(Content, this));
             }
             if (IsBackgroundAnimating)

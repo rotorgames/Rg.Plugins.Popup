@@ -21,7 +21,7 @@ namespace Rg.Plugins.Popup.Animations
         public override void Preparing(View content, PopupPage page)
         {
             content.Opacity = 0;
-            Time = 300;
+            Duration = 300;
             EasingIn = Easing.SinOut;
             EasingOut = Easing.SinIn;
         }
@@ -56,7 +56,7 @@ namespace Rg.Plugins.Popup.Animations
                 content.TranslationX = leftOffset;
             }
 
-            taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+            taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
 
             await Task.WhenAll(taskList);
         }
@@ -70,19 +70,19 @@ namespace Rg.Plugins.Popup.Animations
 
             if (_animationEndName == MoveAnimationsName.Top)
             {
-                taskList.Add(content.TranslateTo(0, -topOffset, Time, EasingOut));
+                taskList.Add(content.TranslateTo(0, -topOffset, Duration, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Bottom)
             {
-                taskList.Add(content.TranslateTo(0, topOffset, Time, EasingOut));
+                taskList.Add(content.TranslateTo(0, topOffset, Duration, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Left)
             {
-                taskList.Add(content.TranslateTo(-leftOffset, 0, Time, EasingOut));
+                taskList.Add(content.TranslateTo(-leftOffset, 0, Duration, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Right)
             {
-                taskList.Add(content.TranslateTo(leftOffset, 0, Time, EasingOut));
+                taskList.Add(content.TranslateTo(leftOffset, 0, Duration, EasingOut));
             }
 
             await Task.WhenAll(taskList);

@@ -12,6 +12,8 @@ namespace Demo.Animations
 {
     class UserAnimation : IPopupAnimation
     {
+        public uint Duration { get; set; } = 200;
+
         public void Preparing(View content, PopupPage page)
         {
             content.Opacity = 0;
@@ -28,14 +30,14 @@ namespace Demo.Animations
             content.TranslationY = topOffset;
             content.Opacity = 1;
 
-            await content.TranslateTo(0, 0, easing: Easing.CubicOut);
+            await content.TranslateTo(0, 0, Duration, Easing.CubicOut);
         }
 
         public async Task Disappearing(View content, PopupPage page)
         {
             var topOffset = GetTopOffset(content, page);
 
-            await content.TranslateTo(0, topOffset, easing: Easing.CubicIn);
+            await content.TranslateTo(0, topOffset, Duration, Easing.CubicIn);
         }
 
         private int GetTopOffset(View content, Page page)

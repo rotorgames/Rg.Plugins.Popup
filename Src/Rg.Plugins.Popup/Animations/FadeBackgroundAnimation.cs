@@ -13,14 +13,8 @@ namespace Rg.Plugins.Popup.Animations
     {
         private Color _backgroundColor;
 
-        public uint BackgroundTime { get; protected set; }
         public Easing BackgroundEasingIn { get; protected set; } = Easing.Linear;
         public Easing BackgroundEasingOut { get; protected set; } = Easing.Linear;
-
-        public FadeBackgroundAnimation()
-        {
-            BackgroundTime = Time;
-        }
 
         public override void Preparing(View content, PopupPage page)
         {
@@ -42,7 +36,7 @@ namespace Rg.Plugins.Popup.Animations
             page.Animate("backgroundFade", d =>
             {
                 page.BackgroundColor = GetColor(d);
-            }, 0, _backgroundColor.A, length: BackgroundTime, finished: (d, b) =>
+            }, 0, _backgroundColor.A, length: Duration, finished: (d, b) =>
             {
                 task.SetResult(true);
             });
@@ -55,7 +49,7 @@ namespace Rg.Plugins.Popup.Animations
             page.Animate("backgroundFade", d =>
             {
                 page.BackgroundColor = GetColor(d);
-            }, _backgroundColor.A, 0, length: BackgroundTime, finished: (d, b) =>
+            }, _backgroundColor.A, 0, length: Duration, finished: (d, b) =>
             {
                 task.SetResult(true);
             });

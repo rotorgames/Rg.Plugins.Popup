@@ -41,7 +41,7 @@ namespace Rg.Plugins.Popup.Animations
 
             if (_animationStartName != MoveAnimationsName.Center)
             {
-                Time = 500;
+                Duration = 500;
             }
             EasingIn = Easing.SinOut;
             EasingOut = Easing.SinIn;
@@ -62,22 +62,22 @@ namespace Rg.Plugins.Popup.Animations
             if (_animationStartName == MoveAnimationsName.Top)
             {
                 content.TranslationY = -topOffset;
-                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
             }
             else if(_animationStartName == MoveAnimationsName.Bottom)
             {
                 content.TranslationY = topOffset;
-                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
             }
             else if (_animationStartName == MoveAnimationsName.Left)
             {
                 content.TranslationX = -leftOffset;
-                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
             }
             else if (_animationStartName == MoveAnimationsName.Right)
             {
                 content.TranslationX = leftOffset;
-                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
             }
 
             await Task.WhenAll(taskList);
@@ -96,19 +96,19 @@ namespace Rg.Plugins.Popup.Animations
 
             if (_animationEndName == MoveAnimationsName.Top)
             {
-                taskList.Add(content.TranslateTo(0, -topOffset, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, -topOffset, Duration, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Bottom)
             {
-                taskList.Add(content.TranslateTo(0, topOffset, Time, EasingIn));
+                taskList.Add(content.TranslateTo(0, topOffset, Duration, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Left)
             {
-                taskList.Add(content.TranslateTo(-leftOffset, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(-leftOffset, 0, Duration, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Right)
             {
-                taskList.Add(content.TranslateTo(leftOffset, 0, Time, EasingIn));
+                taskList.Add(content.TranslateTo(leftOffset, 0, Duration, EasingIn));
             }
 
             await Task.WhenAll(taskList);
@@ -123,7 +123,7 @@ namespace Rg.Plugins.Popup.Animations
                 content.Scale = d;
             }, start, end,
             easing: easing,
-            length: Time,
+            length: Duration,
             finished: (d, b) =>
             {
                 task.SetResult(true);
