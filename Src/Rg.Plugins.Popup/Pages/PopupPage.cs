@@ -12,7 +12,7 @@ namespace Rg.Plugins.Popup.Pages
     {
         private IPopupAnimation _animation;
 
-        public event Action BackgroundClicked; 
+        public event EventHandler BackgroundClicked; 
 
         public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create(nameof(IsBackgroundAnimating), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
@@ -194,7 +194,7 @@ namespace Rg.Plugins.Popup.Pages
 
         internal async void SendBackgroundClick()
         {
-            BackgroundClicked?.Invoke();
+            BackgroundClicked?.Invoke(this, EventArgs.Empty);
 
             if (IsCloseOnBackgroundClick)
             {
