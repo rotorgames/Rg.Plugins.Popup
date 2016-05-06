@@ -9,8 +9,8 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 - [x] Android
 - [x] iOS
-- [ ] WinPhone (v1.0.1-pre)
-- [ ] UWP (v1.0.1-pre)
+- [ ] WinPhone (v1.0.0-pre1)
+- [ ] UWP (v1.0.0-pre1)
 
 Prerelease supported WinPhone and UWP: https://www.nuget.org/packages/Rg.Plugins.Popup/1.0.0-pre1
 
