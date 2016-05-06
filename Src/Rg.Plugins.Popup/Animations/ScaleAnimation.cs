@@ -49,70 +49,66 @@ namespace Rg.Plugins.Popup.Animations
 
         public async override Task Appearing(View content, PopupPage page)
         {
-            base.Appearing(content, page);
+            var taskList = new List<Task>();
+            taskList.Add(base.Appearing(content, page));
+            
             var topOffset = GetTopOffset(content, page) * StartScaleIn;
             var leftOffset = GetLeftOffset(content, page) * StartScaleIn;
-            if (_animationStartName == MoveAnimationsName.Center)
-            {
-                await Scale(content, EasingIn, _startScale, 1);
-            }
-            else
-            {
-                Scale(content, EasingIn, _startScale, 1);
-            }
+            
+            taskList.Add(Scale(content, EasingIn, _startScale, 1));
 
             if (_animationStartName == MoveAnimationsName.Top)
             {
                 content.TranslationY = -topOffset;
-                await content.TranslateTo(0, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
             }
             else if(_animationStartName == MoveAnimationsName.Bottom)
             {
                 content.TranslationY = topOffset;
-                await content.TranslateTo(0, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
             }
             else if (_animationStartName == MoveAnimationsName.Left)
             {
                 content.TranslationX = -leftOffset;
-                await content.TranslateTo(0, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
             }
             else if (_animationStartName == MoveAnimationsName.Right)
             {
                 content.TranslationX = leftOffset;
-                await content.TranslateTo(0, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
             }
+
+            await Task.WhenAll(taskList);
         }
 
         public async override Task Disappearing(View content, PopupPage page)
         {
-            base.Disappearing(content, page);
+            var taskList = new List<Task>();
+            taskList.Add(base.Disappearing(content, page));
+            
             var topOffset = GetTopOffset(content, page) * StartScaleOut;
             var leftOffset = GetLeftOffset(content, page) * StartScaleOut;
-            if (_animationEndName == MoveAnimationsName.Center)
-            {
-                await Scale(content, EasingOut, 1, _startScale);
-            }
-            else
-            {
-                Scale(content, EasingOut, 1, _startScale);
-            }
+            
+            taskList.Add(Scale(content, EasingOut, 1, _startScale));
 
             if (_animationEndName == MoveAnimationsName.Top)
             {
-                await content.TranslateTo(0, -topOffset, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, -topOffset, Time, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Bottom)
             {
-                await content.TranslateTo(0, topOffset, Time, EasingIn);
+                taskList.Add(content.TranslateTo(0, topOffset, Time, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Left)
             {
-                await content.TranslateTo(-leftOffset, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(-leftOffset, 0, Time, EasingIn));
             }
             else if (_animationEndName == MoveAnimationsName.Right)
             {
-                await content.TranslateTo(leftOffset, 0, Time, EasingIn);
+                taskList.Add(content.TranslateTo(leftOffset, 0, Time, EasingIn));
             }
+
+            await Task.WhenAll(taskList);
         }
 
         private Task Scale(View content, Easing easing, double start, double end)

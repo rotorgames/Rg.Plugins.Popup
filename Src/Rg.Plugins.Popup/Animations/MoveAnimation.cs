@@ -29,7 +29,9 @@ namespace Rg.Plugins.Popup.Animations
 
         public async override Task Appearing(View content, PopupPage page)
         {
-            base.Appearing(content, page);
+            var taskList = new List<Task>();
+            taskList.Add(base.Appearing(content, page));
+
             content.Opacity = 1;
             var topOffset = GetTopOffset(content, page);
             var leftOffset = GetLeftOffset(content, page);
@@ -51,31 +53,37 @@ namespace Rg.Plugins.Popup.Animations
                 content.TranslationX = leftOffset;
             }
 
-            await content.TranslateTo(0, 0, Time, EasingIn);
+            taskList.Add(content.TranslateTo(0, 0, Time, EasingIn));
+
+            await Task.WhenAll(taskList);
         }
 
         public async override Task Disappearing(View content, PopupPage page)
         {
-            base.Disappearing(content, page);
+            var taskList = new List<Task>();
+            taskList.Add(base.Disappearing(content, page));
+
             var topOffset = GetTopOffset(content, page);
             var leftOffset = GetLeftOffset(content, page);
 
             if (_animationEndName == MoveAnimationsName.Top)
             {
-                await content.TranslateTo(0, -topOffset, Time, EasingOut);
+                taskList.Add(content.TranslateTo(0, -topOffset, Time, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Bottom)
             {
-                await content.TranslateTo(0, topOffset, Time, EasingOut);
+                taskList.Add(content.TranslateTo(0, topOffset, Time, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Left)
             {
-                await content.TranslateTo(-leftOffset, 0, Time, EasingOut);
+                taskList.Add(content.TranslateTo(-leftOffset, 0, Time, EasingOut));
             }
             else if (_animationEndName == MoveAnimationsName.Right)
             {
-                await content.TranslateTo(leftOffset, 0, Time, EasingOut);
+                taskList.Add(content.TranslateTo(leftOffset, 0, Time, EasingOut));
             }
+
+            await Task.WhenAll(taskList);
         }
     }
 }
