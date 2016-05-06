@@ -12,7 +12,7 @@ namespace Rg.Plugins.Popup.Animations
     {
         public override void Preparing(View content, PopupPage page)
         {
-            page.Opacity = 0;
+            content.Opacity = 0;
         }
 
         public override void Disposing(View content, PopupPage page)
@@ -22,12 +22,12 @@ namespace Rg.Plugins.Popup.Animations
 
         public override async Task Appearing(View content, PopupPage page)
         {
-            await page.FadeTo(1, Time);
+            await content.FadeTo(1, Time);
         }
 
         public override async Task Disappearing(View content, PopupPage page)
         {
-            await page.FadeTo(0, Time);
+            await content.FadeTo(0, Time);
         }
     }
 }
