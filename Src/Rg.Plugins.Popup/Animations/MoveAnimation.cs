@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations
 {
-    internal class MoveAnimation : FadeBackgroundAnimation
+    internal class MoveAnimation : BaseAnimation
     {
         private MoveAnimationsName _animationStartName;
         private MoveAnimationsName _animationEndName;
@@ -20,17 +20,20 @@ namespace Rg.Plugins.Popup.Animations
         }
         public override void Preparing(View content, PopupPage page)
         {
-            base.Preparing(content, page);
             content.Opacity = 0;
             Time = 300;
             EasingIn = Easing.SinOut;
             EasingOut = Easing.SinIn;
         }
 
+        public override void Disposing(View content, PopupPage page)
+        {
+            
+        }
+
         public async override Task Appearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
-            taskList.Add(base.Appearing(content, page));
 
             content.Opacity = 1;
             var topOffset = GetTopOffset(content, page);
@@ -61,7 +64,6 @@ namespace Rg.Plugins.Popup.Animations
         public async override Task Disappearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
-            taskList.Add(base.Disappearing(content, page));
 
             var topOffset = GetTopOffset(content, page);
             var leftOffset = GetLeftOffset(content, page);

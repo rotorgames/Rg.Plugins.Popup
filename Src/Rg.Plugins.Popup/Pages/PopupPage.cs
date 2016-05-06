@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Contracts;
@@ -11,6 +12,7 @@ namespace Rg.Plugins.Popup.Pages
     public class PopupPage : ContentPage
     {
         private IPopupAnimation _animation;
+        private IPopupAnimation _backgroundAnimation;
 
         public event EventHandler BackgroundClicked; 
 
@@ -98,6 +100,8 @@ namespace Rg.Plugins.Popup.Pages
         {
             BackgroundColor = Color.FromHex("#80000000");
             Animation = AnimationService.GeAnimation(AnimationName);
+            
+            _backgroundAnimation = new FadeBackgroundAnimation();
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
@@ -158,34 +162,46 @@ namespace Rg.Plugins.Popup.Pages
 
         internal void PreparingAnimation()
         {
-            if (IsAnimating && Animation != null)
-            {
-                Animation.Preparing(Content, this);
-            }
+            if (IsAnimating) Animation?.Preparing(Content, this);
+            if (IsBackgroundAnimating) _backgroundAnimation.Preparing(Content, this);
         }
 
         internal void DisposingAnimation()
         {
-            if (IsAnimating && Animation != null)
-            {
-                Animation.Disposing(Content, this);
-            }
+            if (IsAnimating) Animation?.Disposing(Content, this);
+            if (IsBackgroundAnimating) _backgroundAnimation.Disposing(Content, this);
         }
 
         internal async Task AppearingAnimation()
         {
+            var taskList = new List<Task>();
+
             if (IsAnimating && Animation != null)
             {
-                await Animation.Appearing(Content, this);
+                taskList.Add(Animation.Appearing(Content, this));
             }
+            if (IsBackgroundAnimating)
+            {
+                taskList.Add(_backgroundAnimation.Appearing(Content, this));
+            }
+
+            await Task.WhenAll(taskList);
         }
 
         internal async Task DisappearingAnimation()
         {
+            var taskList = new List<Task>();
+
             if (IsAnimating && Animation != null)
             {
-                await Animation.Disappearing(Content, this);
+                taskList.Add(Animation.Disappearing(Content, this));
             }
+            if (IsBackgroundAnimating)
+            {
+                taskList.Add(_backgroundAnimation.Disappearing(Content, this));
+            }
+
+            await Task.WhenAll(taskList);
         }
 
         #endregion

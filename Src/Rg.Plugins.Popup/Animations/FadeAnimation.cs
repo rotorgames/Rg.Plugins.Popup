@@ -15,6 +15,11 @@ namespace Rg.Plugins.Popup.Animations
             page.Opacity = 0;
         }
 
+        public override void Disposing(View content, PopupPage page)
+        {
+
+        }
+
         public override async Task Appearing(View content, PopupPage page)
         {
             await page.FadeTo(1, Time);

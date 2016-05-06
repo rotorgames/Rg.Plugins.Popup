@@ -21,6 +21,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             BackgroundTime = Time;
         }
+
         public override void Preparing(View content, PopupPage page)
         {
             if (page.IsBackgroundAnimating)
@@ -30,9 +31,13 @@ namespace Rg.Plugins.Popup.Animations
             }
         }
 
+        public override void Disposing(View content, PopupPage page)
+        {
+            
+        }
+
         public override Task Appearing(View content, PopupPage page)
         {
-            if (!page.IsBackgroundAnimating) return null;
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
             page.Animate("backgroundFade", d =>
             {
@@ -46,7 +51,6 @@ namespace Rg.Plugins.Popup.Animations
 
         public override Task Disappearing(View content, PopupPage page)
         {
-            if (!page.IsBackgroundAnimating) return null;
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
             page.Animate("backgroundFade", d =>
             {
