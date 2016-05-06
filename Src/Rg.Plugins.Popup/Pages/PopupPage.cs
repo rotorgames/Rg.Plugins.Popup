@@ -14,6 +14,8 @@ namespace Rg.Plugins.Popup.Pages
         private IPopupAnimation _animation;
         private IPopupAnimation _backgroundAnimation;
 
+        internal bool IsAnimate;
+
         public event EventHandler BackgroundClicked; 
 
         public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create(nameof(IsBackgroundAnimating), typeof(bool), typeof(PopupPage), true);
@@ -174,6 +176,7 @@ namespace Rg.Plugins.Popup.Pages
 
         internal async Task AppearingAnimation()
         {
+            IsAnimate = true;
             var taskList = new List<Task>();
 
             if (IsAnimating && Animation != null)
@@ -187,10 +190,12 @@ namespace Rg.Plugins.Popup.Pages
             }
 
             await Task.WhenAll(taskList);
+            IsAnimate = false;
         }
 
         internal async Task DisappearingAnimation()
         {
+            IsAnimate = true;
             var taskList = new List<Task>();
 
             if (IsAnimating && Animation != null)
@@ -204,6 +209,7 @@ namespace Rg.Plugins.Popup.Pages
             }
 
             await Task.WhenAll(taskList);
+            IsAnimate = false;
         }
 
         #endregion

@@ -46,13 +46,21 @@ namespace Rg.Plugins.Popup.Services
             if (PopupStack.Count == 0) return null;
             var task = new TaskCompletionSource<bool>();
             var page = PopupStack.Last();
-            BeginInvokeOnMainThreadIfNeed(async () =>
+            if (!page.IsAnimate)
             {
-                if (animate) await page.DisappearingAnimation();
-                RemovePopup(page);
-                page.DisposingAnimation();
+                BeginInvokeOnMainThreadIfNeed(async () =>
+                {
+                    if (animate) await page.DisappearingAnimation();
+                    RemovePopup(page);
+                    page.DisposingAnimation();
+                    task.TrySetResult(true);
+                });
+            }
+            else
+            {
                 task.TrySetResult(true);
-            });
+            }
+            
             return task.Task;
         }
 
