@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Droid.Extensions;
 using Rg.Plugins.Popup.Droid.Helpers;
 using Rg.Plugins.Popup.Droid.Impl;
 using Rg.Plugins.Popup.Pages;
@@ -31,7 +32,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             var decoreView = _decoreView;
 
-            var renderer = GetRenderer(page);
+            var renderer = page.GetOrCreateRenderer();
 
             page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
 
@@ -41,19 +42,8 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public void RemovePopup(PopupPage page)
         {
-            _decoreView.RemoveView(GetRenderer(page).ViewGroup);
+            _decoreView.RemoveView(page.GetOrCreateRenderer().ViewGroup);
             UpdateListeners(false);
-        }
-
-        private IVisualElementRenderer GetRenderer(PopupPage page)
-        {
-            IVisualElementRenderer renderer = PlatformHelper.GetRenderer(page);
-            if (renderer == null)
-            {
-                renderer = PlatformHelper.CreateRenderer(page);
-                PlatformHelper.SetRenderer(page, renderer);
-            }
-            return renderer;
         }
 
         #region Listeners
