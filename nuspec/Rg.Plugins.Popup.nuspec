@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>0.0.16</version>
+        <version>0.0.17</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -14,6 +14,8 @@
 Support only Android and iOS</description>
         <releaseNotes>
           -->
+          [0.0.17]
+          - Remove reflection methods that recovered page renderer
           [0.0.16]
           - Add support Xamarin.Forms v2.2.0.31
           [0.0.15]
