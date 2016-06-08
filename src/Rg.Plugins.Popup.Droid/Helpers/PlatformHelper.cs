@@ -19,48 +19,6 @@ namespace Rg.Plugins.Popup.Droid.Helpers
 {
     internal static class PlatformHelper
     {
-        #region Renderers Methods
-
-        public static IVisualElementRenderer GetRenderer(BindableObject bindable)
-        {
-            var type = CreatePlatformType();
-
-            var method = type.GetMethod("GetRenderer", BindingFlags.Public | BindingFlags.Static);
-
-            return (IVisualElementRenderer)method.Invoke(null, new Object[] { bindable });
-        }
-
-        public static void SetRenderer(BindableObject bindable, IVisualElementRenderer value)
-        {
-            var type = CreatePlatformType();
-
-            var method = type.GetMethod("SetRenderer", BindingFlags.Public | BindingFlags.Static);
-
-            method.Invoke(null, new Object[] { bindable, value });
-        }
-
-        public static IVisualElementRenderer CreateRenderer(BindableObject bindable)
-        {
-            var type = CreatePlatformType();
-
-            var method = type.GetMethod("CreateRenderer", BindingFlags.Public | BindingFlags.Static);
-
-            return (IVisualElementRenderer)method.Invoke(null, new Object[] { bindable });
-        }
-
-        public static BindableProperty RendererProperty
-        {
-            get
-            {
-                var type = CreatePlatformType();
-
-                var property = type.GetRuntimeFields().First(p => p.Name == "RendererProperty");
-                return (BindableProperty)property.GetValue(null);
-            }
-        }
-
-        #endregion
-
         #region Navigation Methods
 
         public static Delegate GetHandleBackPressed<TDelegate>()
@@ -77,12 +35,6 @@ namespace Rg.Plugins.Popup.Droid.Helpers
         #endregion
 
         #region Reflection Private Methods
-
-        private static Type CreatePlatformType()
-        {
-            var assembly = Assembly.Load("Xamarin.Forms.Platform.Android");
-            return assembly.GetType("Xamarin.Forms.Platform.Android.Platform");
-        }
 
         private static object GetPlatform()
         {

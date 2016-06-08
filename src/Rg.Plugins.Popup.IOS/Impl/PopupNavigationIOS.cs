@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoreFoundation;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.IOS.Helpers;
+using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -21,8 +21,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
     {
         public void AddPopup(PopupPage page)
         {
-            var renderer = GetRenderer(page);
-            var currentRenderer = GetRenderer(GetCurrentPage());
+            var renderer = page.GetOrCreateRenderer();
+            var currentRenderer = GetCurrentPage().GetOrCreateRenderer();
 
             DispatchQueue.MainQueue.DispatchAfter(DispatchTime.Now, async () =>
             {
@@ -32,7 +32,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public void RemovePopup(PopupPage page)
         {
-            var viewController = PlatformHelper.GetRenderer(page).ViewController;
+            var viewController = page.GetOrCreateRenderer().ViewController;
 
             if (viewController != null && !viewController.IsBeingDismissed)
             {
@@ -41,17 +41,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 });
             }
 
-        }
-
-        private IVisualElementRenderer GetRenderer(Page page)
-        {
-            IVisualElementRenderer renderer = PlatformHelper.GetRenderer(page);
-            if (renderer == null)
-            {
-                renderer = PlatformHelper.CreateRenderer(page);
-                PlatformHelper.SetRenderer(page, renderer);
-            }
-            return renderer;
         }
 
         private Page GetCurrentPage()
