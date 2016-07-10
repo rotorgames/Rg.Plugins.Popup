@@ -42,8 +42,13 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public void RemovePopup(PopupPage page)
         {
-            _decoreView.RemoveView(page.GetOrCreateRenderer().ViewGroup);
-            UpdateListeners(false);
+            var renderer = page.GetOrCreateRenderer();
+            if (renderer != null)
+            {
+                _decoreView.RemoveView(renderer.ViewGroup);
+                UpdateListeners(false);
+                renderer.Dispose();
+            }
         }
 
         #region Listeners

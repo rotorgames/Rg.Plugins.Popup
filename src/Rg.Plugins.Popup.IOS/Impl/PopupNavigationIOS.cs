@@ -32,12 +32,14 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public void RemovePopup(PopupPage page)
         {
-            var viewController = page.GetOrCreateRenderer().ViewController;
+            var renderer = page.GetOrCreateRenderer();
+            var viewController = renderer?.ViewController;
 
             if (viewController != null && !viewController.IsBeingDismissed)
             {
                 DispatchQueue.MainQueue.DispatchAfter(DispatchTime.Now, async () => {
                     await viewController.DismissViewControllerAsync(false);
+                    renderer.Dispose();
                 });
             }
 
