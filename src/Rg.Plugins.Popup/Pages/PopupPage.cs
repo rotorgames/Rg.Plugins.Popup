@@ -22,7 +22,6 @@ namespace Rg.Plugins.Popup.Pages
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create(nameof(IsSystemPadding), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create(nameof(AnimationName), typeof(AnimationsName), typeof(PopupPage), AnimationsName.ScaleCenterUp);
-        public static new readonly BindableProperty PaddingProperty = BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(PopupPage), new Thickness());
         public static readonly BindableProperty IsCloseOnBackgroundClickProperty = BindableProperty.Create(nameof(IsCloseOnBackgroundClick), typeof(bool), typeof(PopupPage), true);
 
         public bool IsBackgroundAnimating
@@ -78,15 +77,6 @@ namespace Rg.Plugins.Popup.Pages
             }
         }
 
-        public new Thickness Padding
-        {
-            get { return (Thickness) GetValue(PaddingProperty); }
-            set
-            {
-                SetValue(PaddingProperty, value);
-            }
-        }
-
         public Thickness SystemPadding
         {
             get { return DependencyService.Get<IScreenHelper>().ScreenOffsets; }
@@ -110,7 +100,7 @@ namespace Rg.Plugins.Popup.Pages
         {
             if (propertyName == nameof(Padding) || propertyName == nameof(IsSystemPadding))
             {
-                base.Padding = GetPadding();
+                ForceLayout();
             }
             else
             {
@@ -133,29 +123,28 @@ namespace Rg.Plugins.Popup.Pages
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
-            base.Padding = GetPadding();
             if (Device.OS == TargetPlatform.Android || Device.OS == TargetPlatform.Windows)
             {
                 Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
             }
         }
 
-        private Thickness GetPadding()
+        protected override void LayoutChildren(double x, double y, double width, double height)
         {
             if (!IsSystemPadding)
             {
-                return Padding;
+                base.LayoutChildren(x, y, width, height);
+                return;
             }
-            var userPadding = Padding;
-            var systemPadding = DependencyService.Get<IScreenHelper>().ScreenOffsets;
-            var padding = new Thickness
-            {
-                Top = userPadding.Top + systemPadding.Top,
-                Bottom = userPadding.Bottom + systemPadding.Bottom,
-                Left = userPadding.Left + systemPadding.Left,
-                Right = userPadding.Right + systemPadding.Right,
-            };
-            return padding;
+
+            var systemPadding = SystemPadding;
+
+            x += systemPadding.Left;
+            y += systemPadding.Top;
+            width -= systemPadding.Left + systemPadding.Right;
+            height -= systemPadding.Top + systemPadding.Bottom;
+
+            base.LayoutChildren(x, y, width, height);
         }
 
         #endregion
