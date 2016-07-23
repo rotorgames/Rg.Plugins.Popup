@@ -133,10 +133,5 @@ namespace Rg.Plugins.Popup.WinPhone.Renderers
             OnBack();
         }
 #endif
-
-        internal void Destroy()
-        {
-            Dispose(true);
-        }
     }
 }
