@@ -2,7 +2,11 @@
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
              x:Class="Demo.Pages.UserAnimationPage">
+  <pages:PopupPage.Animation>
+    <animations:UserAnimation/>
+  </pages:PopupPage.Animation>
   <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
     <Frame BackgroundColor="Silver">
       <StackLayout Spacing="20">

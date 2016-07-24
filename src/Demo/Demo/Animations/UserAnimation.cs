@@ -5,45 +5,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace Demo.Animations
 {
-    class UserAnimation : IPopupAnimation
+    class UserAnimation : FadeBackgroundAnimation
     {
-        public uint Duration { get; set; } = 200;
+        private double _defaultTranslationY;
 
-        public void Preparing(View content, PopupPage page)
+        public UserAnimation()
         {
-            content.Opacity = 0;
+            DurationIn = DurationOut = 300;
+            EasingIn = Easing.CubicOut;
+            EasingOut = Easing.CubicIn;
         }
 
-        public void Disposing(View content, PopupPage page)
+        public override void Preparing(View content, PopupPage page)
         {
+            base.Preparing(content, page);
             
+            if(content == null) return;
+
+            _defaultTranslationY = content.TranslationY;
         }
 
-        public async Task Appearing(View content, PopupPage page)
+        public override void Disposing(View content, PopupPage page)
         {
-            var topOffset = GetTopOffset(content, page);
-            content.TranslationY = topOffset;
-            content.Opacity = 1;
+            base.Disposing(content, page);
 
-            await content.TranslateTo(0, 0, Duration, Easing.CubicOut);
+            if(content == null) return;
+
+            content.TranslationY = _defaultTranslationY;
         }
 
-        public async Task Disappearing(View content, PopupPage page)
+        public async override Task Appearing(View content, PopupPage page)
         {
-            var topOffset = GetTopOffset(content, page);
+            var taskList = new List<Task>();
 
-            await content.TranslateTo(0, topOffset, Duration, Easing.CubicIn);
+            taskList.Add(base.Appearing(content, page));
+
+            if (content != null)
+            {
+                var topOffset = GetTopOffset(content, page);
+                content.TranslationY = topOffset;
+
+                taskList.Add(content.TranslateTo(content.TranslationX, _defaultTranslationY, DurationIn, EasingIn));
+            };
+
+            await Task.WhenAll(taskList);
         }
 
-        private int GetTopOffset(View content, Page page)
+        public async override Task Disappearing(View content, PopupPage page)
         {
-            return (int)(content.Height + page.Height) / 2;
+            var taskList = new List<Task>();
+
+            taskList.Add(base.Disappearing(content, page));
+
+            if (content != null)
+            {
+                _defaultTranslationY = content.TranslationX;
+
+                var topOffset = GetTopOffset(content, page);
+
+                taskList.Add(content.TranslateTo(content.TranslationX, topOffset, DurationOut, EasingOut));
+            };
+
+            await Task.WhenAll(taskList);
         }
     }
 }

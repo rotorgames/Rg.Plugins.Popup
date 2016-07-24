@@ -15,7 +15,6 @@ namespace Demo.Pages
         public UserAnimationPage()
         {
             InitializeComponent();
-            Animation = new UserAnimation();
         }
 
         private void OnClose(object sender, EventArgs e)
