@@ -3,7 +3,7 @@ using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
-namespace Rg.Plugins.Popup.Animations.Defaults
+namespace Rg.Plugins.Popup.Animations
 {
     public class FadeAnimation : BaseAnimation
     {
