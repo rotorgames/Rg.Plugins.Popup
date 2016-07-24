@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Animations.Defaults;
 using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Interfaces.Animations;
 
 namespace Rg.Plugins.Popup.Services
 {

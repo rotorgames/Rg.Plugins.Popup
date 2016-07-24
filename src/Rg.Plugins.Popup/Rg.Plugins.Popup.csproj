@@ -35,13 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Animations\BaseAnimation.cs" />
-    <Compile Include="Animations\FadeAnimation.cs" />
-    <Compile Include="Animations\FadeBackgroundAnimation.cs" />
-    <Compile Include="Animations\FadeContentAnimation.cs" />
-    <Compile Include="Animations\IPopupAnimation.cs" />
-    <Compile Include="Animations\MoveAnimation.cs" />
-    <Compile Include="Animations\ScaleAnimation.cs" />
+    <Compile Include="Animations\Base\BaseAnimation.cs" />
+    <Compile Include="Animations\Defaults\FadeAnimation.cs" />
+    <Compile Include="Animations\Base\FadeBackgroundAnimation.cs" />
+    <Compile Include="Animations\Base\FadeContentAnimation.cs" />
+    <Compile Include="Interfaces\Animations\IPopupAnimation.cs" />
+    <Compile Include="Animations\Defaults\MoveAnimation.cs" />
+    <Compile Include="Animations\Defaults\ScaleAnimation.cs" />
     <Compile Include="Contracts\IPopupNavigation.cs" />
     <Compile Include="Contracts\IScreenHelper.cs" />
     <Compile Include="Enums\AnimationsName.cs" />
@@ -71,6 +71,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.2.0.31\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.2.0.31\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

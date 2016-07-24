@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
-namespace Rg.Plugins.Popup.Animations
+namespace Rg.Plugins.Popup.Animations.Defaults
 {
     internal class FadeAnimation : BaseAnimation
     {
