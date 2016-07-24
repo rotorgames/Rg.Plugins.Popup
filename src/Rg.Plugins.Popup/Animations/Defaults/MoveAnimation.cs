@@ -18,7 +18,6 @@ namespace Rg.Plugins.Popup.Animations.Defaults
         }
         public override void Preparing(View content, PopupPage page)
         {
-            content.Opacity = 0;
             Duration = 300;
             EasingIn = Easing.SinOut;
             EasingOut = Easing.SinIn;
@@ -33,7 +32,6 @@ namespace Rg.Plugins.Popup.Animations.Defaults
         {
             var taskList = new List<Task>();
 
-            content.Opacity = 1;
             var topOffset = GetTopOffset(content, page);
             var leftOffset = GetLeftOffset(content, page);
 

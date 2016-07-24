@@ -38,7 +38,6 @@
     <Compile Include="Animations\Base\BaseAnimation.cs" />
     <Compile Include="Animations\Defaults\FadeAnimation.cs" />
     <Compile Include="Animations\Base\FadeBackgroundAnimation.cs" />
-    <Compile Include="Animations\Base\FadeContentAnimation.cs" />
     <Compile Include="Interfaces\Animations\IPopupAnimation.cs" />
     <Compile Include="Animations\Defaults\MoveAnimation.cs" />
     <Compile Include="Animations\Defaults\ScaleAnimation.cs" />

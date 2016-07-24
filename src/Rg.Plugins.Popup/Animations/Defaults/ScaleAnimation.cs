@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations.Defaults
 {
-    internal class ScaleAnimation : FadeContentAnimation
+    internal class ScaleAnimation : FadeAnimation
     {
         private MoveAnimationsName _animationStartName;
         private MoveAnimationsName _animationEndName;

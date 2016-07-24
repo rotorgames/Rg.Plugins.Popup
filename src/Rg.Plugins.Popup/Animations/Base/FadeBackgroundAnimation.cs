@@ -13,16 +13,13 @@ namespace Rg.Plugins.Popup.Animations.Base
 
         public override void Preparing(View content, PopupPage page)
         {
-            if (page.IsBackgroundAnimating)
-            {
-                _backgroundColor = page.BackgroundColor;
-                page.BackgroundColor = GetColor(0);
-            }
+            _backgroundColor = page.BackgroundColor;
+            page.BackgroundColor = GetColor(0);
         }
 
         public override void Disposing(View content, PopupPage page)
         {
-            
+            page.BackgroundColor = _backgroundColor;
         }
 
         public override Task Appearing(View content, PopupPage page)
@@ -41,6 +38,9 @@ namespace Rg.Plugins.Popup.Animations.Base
         public override Task Disappearing(View content, PopupPage page)
         {
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+
+            _backgroundColor = page.BackgroundColor;
+
             page.Animate("backgroundFade", d =>
             {
                 page.BackgroundColor = GetColor(d);
