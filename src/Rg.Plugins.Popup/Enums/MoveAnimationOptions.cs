@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Rg.Plugins.Popup.Enums
 {
-    internal enum ScaleAnimationsName
+    public enum MoveAnimationOptions
     {
-        Up,
-        Down
+        Center,
+        Left,
+        Right,
+        Top,
+        Bottom
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Animations.Base;
+using Rg.Plugins.Popup.Animations.Defaults;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
@@ -13,70 +14,51 @@ namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
     {
-        private IPopupAnimation _animation;
-        private IPopupAnimation _backgroundAnimation;
+        #region Private Fields
+
+        private Action _appearingAction;
+
+        #endregion
+
+        #region Internal Fields
 
         internal bool IsAnimate;
 
-        public event EventHandler BackgroundClicked; 
+        #endregion
 
-        public static readonly BindableProperty IsBackgroundAnimatingProperty = BindableProperty.Create(nameof(IsBackgroundAnimating), typeof(bool), typeof(PopupPage), true);
+        #region Events
+
+        public event EventHandler BackgroundClicked;
+
+        #endregion
+
+        #region Bindable Properties
+
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create(nameof(IsSystemPadding), typeof(bool), typeof(PopupPage), true);
-        public static readonly BindableProperty AnimationNameProperty = BindableProperty.Create(nameof(AnimationName), typeof(AnimationsName), typeof(PopupPage), AnimationsName.ScaleCenterUp);
+        public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
         public static readonly BindableProperty IsCloseOnBackgroundClickProperty = BindableProperty.Create(nameof(IsCloseOnBackgroundClick), typeof(bool), typeof(PopupPage), true);
 
-        public bool IsBackgroundAnimating
-        {
-            get
-            {
-                return (bool) GetValue(IsBackgroundAnimatingProperty);
-                
-            }
-            set { SetValue(IsBackgroundAnimatingProperty, value);}
-        }
+        #endregion
+
+        #region Properties
 
         public bool IsAnimating
         {
-            get
-            {
-                return (bool)GetValue(IsAnimatingProperty);
-
-            }
+            get { return (bool)GetValue(IsAnimatingProperty); }
             set { SetValue(IsAnimatingProperty, value); }
         }
 
         public bool IsSystemPadding
         {
-            get
-            {
-                return (bool)GetValue(IsSystemPaddingProperty);
-
-            }
+            get { return (bool)GetValue(IsSystemPaddingProperty); }
             set { SetValue(IsSystemPaddingProperty, value); }
         }
 
-        public AnimationsName AnimationName
+        public IPopupAnimation Animation
         {
-            get
-            {
-                return (AnimationsName)GetValue(AnimationNameProperty);
-
-            }
-            set
-            {
-                SetValue(AnimationNameProperty, value);
-            }
-        }
-
-        protected IPopupAnimation Animation
-        {
-            get { return _animation; }
-            set
-            {
-                if(AnimationName != AnimationsName.Others) AnimationName = AnimationsName.Others;
-                _animation = value;
-            }
+            get { return (IPopupAnimation)GetValue(AnimationProperty); }
+            set { SetValue(AnimationProperty, value); }
         }
 
         public Thickness SystemPadding
@@ -86,32 +68,35 @@ namespace Rg.Plugins.Popup.Pages
 
         public bool IsCloseOnBackgroundClick
         {
-            get { return (bool) GetValue(IsCloseOnBackgroundClickProperty); }
-            set { SetValue(IsCloseOnBackgroundClickProperty, value);}
+            get { return (bool)GetValue(IsCloseOnBackgroundClickProperty); }
+            set { SetValue(IsCloseOnBackgroundClickProperty, value); }
         }
+
+        #endregion
+
+        #region Main Methods
 
         public PopupPage()
         {
             BackgroundColor = Color.FromHex("#80000000");
-            Animation = AnimationService.GeAnimation(AnimationName);
-            
-            _backgroundAnimation = new FadeBackgroundAnimation();
+            Animation = new ScaleAnimation();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _appearingAction?.Invoke();
+            _appearingAction = null;
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
         {
+            base.OnPropertyChanged(propertyName);
+
             if (propertyName == nameof(Padding) || propertyName == nameof(IsSystemPadding))
             {
                 ForceLayout();
-            }
-            else
-            {
-                base.OnPropertyChanged(propertyName);
-            }
-
-            if (propertyName == nameof(AnimationName))
-            {
-                _animation = AnimationService.GeAnimation(AnimationName);
             }
         }
 
@@ -119,6 +104,17 @@ namespace Rg.Plugins.Popup.Pages
         {
             return false;
         }
+
+        #endregion
+
+        #region Helper Methods
+
+        internal void ExecuteWhenAppearingOnce(Action action)
+        {
+            _appearingAction = action;
+        }
+
+        #endregion
 
         #region Size Methods
 
@@ -156,52 +152,40 @@ namespace Rg.Plugins.Popup.Pages
         internal void PreparingAnimation()
         {
             if (IsAnimating) Animation?.Preparing(Content, this);
-            if (IsBackgroundAnimating) _backgroundAnimation.Preparing(Content, this);
         }
 
         internal void DisposingAnimation()
         {
             if (IsAnimating) Animation?.Disposing(Content, this);
-            if (IsBackgroundAnimating) _backgroundAnimation.Disposing(Content, this);
         }
 
         internal async Task AppearingAnimation()
         {
             IsAnimate = true;
-            var taskList = new List<Task>();
 
             if (IsAnimating && Animation != null)
-            {
-                _backgroundAnimation.Duration = Animation.Duration;
-                taskList.Add(Animation.Appearing(Content, this));
-            }
-            if (IsBackgroundAnimating)
-            {
-                taskList.Add(_backgroundAnimation.Appearing(Content, this));
-            }
+                await Animation.Appearing(Content, this);
 
-            await Task.WhenAll(taskList);
             IsAnimate = false;
+
+            OnAppearingAnimationEnd();
         }
 
         internal async Task DisappearingAnimation()
         {
             IsAnimate = true;
-            var taskList = new List<Task>();
 
             if (IsAnimating && Animation != null)
-            {
-                _backgroundAnimation.Duration = Animation.Duration;
-                taskList.Add(Animation.Disappearing(Content, this));
-            }
-            if (IsBackgroundAnimating)
-            {
-                taskList.Add(_backgroundAnimation.Disappearing(Content, this));
-            }
+                await Animation.Disappearing(Content, this);
 
-            await Task.WhenAll(taskList);
             IsAnimate = false;
+
+            OnDisappearingAnimationEnd();
         }
+
+        protected virtual void OnAppearingAnimationEnd() { }
+
+        protected virtual void OnDisappearingAnimationEnd() { }
 
         #endregion
 

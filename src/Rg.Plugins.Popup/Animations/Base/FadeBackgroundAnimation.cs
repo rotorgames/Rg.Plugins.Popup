@@ -4,51 +4,68 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations.Base
 {
-    internal class FadeBackgroundAnimation : BaseAnimation
+    public abstract class FadeBackgroundAnimation : BaseAnimation
     {
         private Color _backgroundColor;
 
-        public Easing BackgroundEasingIn { get; protected set; } = Easing.Linear;
-        public Easing BackgroundEasingOut { get; protected set; } = Easing.Linear;
+        public bool HasBackgroundAnimation { get; set; } = true;
 
         public override void Preparing(View content, PopupPage page)
         {
-            _backgroundColor = page.BackgroundColor;
-            page.BackgroundColor = GetColor(0);
+            if (HasBackgroundAnimation)
+            {
+                _backgroundColor = page.BackgroundColor;
+                page.BackgroundColor = GetColor(0);
+            }
         }
 
         public override void Disposing(View content, PopupPage page)
         {
-            page.BackgroundColor = _backgroundColor;
+            if (HasBackgroundAnimation)
+            {
+                page.BackgroundColor = _backgroundColor;
+            }
         }
 
         public override Task Appearing(View content, PopupPage page)
         {
-            TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            page.Animate("backgroundFade", d =>
+            if (HasBackgroundAnimation)
             {
-                page.BackgroundColor = GetColor(d);
-            }, 0, _backgroundColor.A, length: Duration, finished: (d, b) =>
-            {
-                task.SetResult(true);
-            });
-            return task.Task;
+                TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+                page.Animate("backgroundFade", d =>
+                {
+                    page.BackgroundColor = GetColor(d);
+                }, 0, _backgroundColor.A, length: DurationIn, finished: (d, b) =>
+                {
+                    task.SetResult(true);
+                });
+
+                return task.Task;
+            }
+
+            return Task.FromResult(0);
         }
 
         public override Task Disappearing(View content, PopupPage page)
         {
-            TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-
-            _backgroundColor = page.BackgroundColor;
-
-            page.Animate("backgroundFade", d =>
+            if (HasBackgroundAnimation)
             {
-                page.BackgroundColor = GetColor(d);
-            }, _backgroundColor.A, 0, length: Duration, finished: (d, b) =>
-            {
-                task.SetResult(true);
-            });
-            return task.Task;
+                TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+
+                _backgroundColor = page.BackgroundColor;
+
+                page.Animate("backgroundFade", d =>
+                {
+                    page.BackgroundColor = GetColor(d);
+                }, _backgroundColor.A, 0, length: DurationOut, finished: (d, b) =>
+                {
+                    task.SetResult(true);
+                });
+
+                return task.Task;
+            }
+
+            return Task.FromResult(0);
         }
 
         private Color GetColor(double transparent)

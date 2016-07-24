@@ -6,7 +6,6 @@ namespace Rg.Plugins.Popup.Interfaces.Animations
 {
     public interface IPopupAnimation
     {
-        uint Duration { get; set; }
         void Preparing(View content, PopupPage page);
         void Disposing(View content, PopupPage page);
         Task Appearing(View content, PopupPage page);

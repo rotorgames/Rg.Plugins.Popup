@@ -2,57 +2,81 @@
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations.Defaults
 {
-    internal class MoveAnimation : BaseAnimation
+    public class MoveAnimation : FadeBackgroundAnimation
     {
-        private MoveAnimationsName _animationStartName;
-        private MoveAnimationsName _animationEndName;
-        public MoveAnimation(MoveAnimationsName animationStartName, MoveAnimationsName animationEndName)
+        private double _defaultTranslationX;
+        private double _defaultTranslationY;
+
+        public MoveAnimationOptions PositionIn { get; set; }
+        public MoveAnimationOptions PositionOut { get; set; }
+
+        public MoveAnimation(): this(MoveAnimationOptions.Bottom, MoveAnimationOptions.Bottom) {}
+
+        public MoveAnimation(MoveAnimationOptions positionIn, MoveAnimationOptions positionOut)
         {
-            _animationStartName = animationStartName;
-            _animationEndName = animationEndName;
-        }
-        public override void Preparing(View content, PopupPage page)
-        {
-            Duration = 300;
+            PositionIn = positionIn;
+            PositionOut = positionOut;
+
+            DurationIn = DurationOut = 300;
             EasingIn = Easing.SinOut;
             EasingOut = Easing.SinIn;
         }
 
+        public override void Preparing(View content, PopupPage page)
+        {
+            base.Preparing(content, page);
+
+            if(content == null) return;
+
+            UpdateDefaultTranslations(content);
+        }
+
         public override void Disposing(View content, PopupPage page)
         {
-            
+            base.Disposing(content, page);
+
+            if (content == null) return;
+
+            content.TranslationX = _defaultTranslationX;
+            content.TranslationY = _defaultTranslationY;
         }
 
         public async override Task Appearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
 
-            var topOffset = GetTopOffset(content, page);
-            var leftOffset = GetLeftOffset(content, page);
+            taskList.Add(base.Appearing(content, page));
 
-            if (_animationStartName == MoveAnimationsName.Top)
+            if (content != null)
             {
-                content.TranslationY = -topOffset;
-            }
-            else if (_animationStartName == MoveAnimationsName.Bottom)
-            {
-                content.TranslationY = topOffset;
-            }
-            else if (_animationStartName == MoveAnimationsName.Left)
-            {
-                content.TranslationX = -leftOffset;
-            }
-            else if (_animationStartName == MoveAnimationsName.Right)
-            {
-                content.TranslationX = leftOffset;
-            }
+                var topOffset = GetTopOffset(content, page);
+                var leftOffset = GetLeftOffset(content, page);
 
-            taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
+                if (PositionIn == MoveAnimationOptions.Top)
+                {
+                    content.TranslationY = -topOffset;
+                }
+                else if (PositionIn == MoveAnimationOptions.Bottom)
+                {
+                    content.TranslationY = topOffset;
+                }
+                else if (PositionIn == MoveAnimationOptions.Left)
+                {
+                    content.TranslationX = -leftOffset;
+                }
+                else if (PositionIn == MoveAnimationOptions.Right)
+                {
+                    content.TranslationX = leftOffset;
+                }
+
+                taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
+            }
 
             await Task.WhenAll(taskList);
         }
@@ -61,27 +85,40 @@ namespace Rg.Plugins.Popup.Animations.Defaults
         {
             var taskList = new List<Task>();
 
-            var topOffset = GetTopOffset(content, page);
-            var leftOffset = GetLeftOffset(content, page);
+            taskList.Add(base.Disappearing(content, page));
 
-            if (_animationEndName == MoveAnimationsName.Top)
+            if (content != null)
             {
-                taskList.Add(content.TranslateTo(0, -topOffset, Duration, EasingOut));
-            }
-            else if (_animationEndName == MoveAnimationsName.Bottom)
-            {
-                taskList.Add(content.TranslateTo(0, topOffset, Duration, EasingOut));
-            }
-            else if (_animationEndName == MoveAnimationsName.Left)
-            {
-                taskList.Add(content.TranslateTo(-leftOffset, 0, Duration, EasingOut));
-            }
-            else if (_animationEndName == MoveAnimationsName.Right)
-            {
-                taskList.Add(content.TranslateTo(leftOffset, 0, Duration, EasingOut));
+                UpdateDefaultTranslations(content);
+
+                var topOffset = GetTopOffset(content, page);
+                var leftOffset = GetLeftOffset(content, page);
+
+                if (PositionOut == MoveAnimationOptions.Top)
+                {
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, -topOffset, DurationOut, EasingOut));
+                }
+                else if (PositionOut == MoveAnimationOptions.Bottom)
+                {
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, topOffset, DurationOut, EasingOut));
+                }
+                else if (PositionOut == MoveAnimationOptions.Left)
+                {
+                    taskList.Add(content.TranslateTo(-leftOffset, _defaultTranslationY, DurationOut, EasingOut));
+                }
+                else if (PositionOut == MoveAnimationOptions.Right)
+                {
+                    taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingOut));
+                }
             }
 
             await Task.WhenAll(taskList);
+        }
+
+        private void UpdateDefaultTranslations(View content)
+        {
+            _defaultTranslationX = content.TranslationX;
+            _defaultTranslationY = content.TranslationY;
         }
     }
 }

@@ -26,11 +26,11 @@ namespace Rg.Plugins.Popup.Services
             if (animate)
             {
                 page.PreparingAnimation();
-                page.Appearing += async (sender, args) =>
+                page.ExecuteWhenAppearingOnce(async () =>
                 {
                     await page.AppearingAnimation();
                     task.TrySetResult(true);
-                };
+                });
             }
             BeginInvokeOnMainThreadIfNeed(() =>
             {
@@ -40,6 +40,8 @@ namespace Rg.Plugins.Popup.Services
             if(!animate) task.TrySetResult(true);
             return task.Task;
         }
+
+       
 
         public static Task PopAsync(bool animate = true)
         {

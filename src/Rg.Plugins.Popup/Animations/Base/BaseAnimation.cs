@@ -1,14 +1,25 @@
 ﻿using System.Threading.Tasks;
+using Rg.Plugins.Popup.Converters.TypeConverters;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations.Base
 {
-    internal abstract class BaseAnimation : IPopupAnimation
+    public abstract class BaseAnimation : IPopupAnimation
     {
-        public uint Duration { get; set; } = 200;
+        private const uint DefaultDuration = 200;
+
+        [TypeConverter(typeof (UintTypeConverter))]
+        public uint DurationIn { get; set; } = DefaultDuration;
+
+        [TypeConverter(typeof (UintTypeConverter))]
+        public uint DurationOut { get; set; } = DefaultDuration;
+
+        [TypeConverter(typeof(EasingTypeConverter))]
         public Easing EasingIn { get; protected set; } = Easing.Linear;
+
+        [TypeConverter(typeof(EasingTypeConverter))]
         public Easing EasingOut { get; protected set; } = Easing.Linear;
 
         public abstract void Preparing(View content, PopupPage page);

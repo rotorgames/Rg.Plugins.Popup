@@ -2,78 +2,94 @@
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Enums;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Animations.Defaults
 {
-    internal class ScaleAnimation : FadeAnimation
+    public class ScaleAnimation : FadeAnimation
     {
-        private MoveAnimationsName _animationStartName;
-        private MoveAnimationsName _animationEndName;
+        private double _defaultScale;
+        private double _defaultOpacity;
+        private double _defaultTranslationX;
+        private double _defaultTranslationY;
 
-        private double _startScale;
+        public double ScaleIn { get; set; } = 0.8;
+        public double ScaleOut { get; set; } = 0.8;
 
-        public double StartScaleIn { get; set; } = 0.8;
-        public double StartScaleOut { get; set; } = 1.2;
+        public MoveAnimationOptions PositionIn { get; set; }
+        public MoveAnimationOptions PositionOut { get; set; }
 
-        public ScaleAnimation(MoveAnimationsName startName, MoveAnimationsName endName, ScaleAnimationsName scaleName)
+        public ScaleAnimation():this(MoveAnimationOptions.Center, MoveAnimationOptions.Center) {}
+
+        public ScaleAnimation(MoveAnimationOptions positionIn, MoveAnimationOptions positionOut)
         {
-            _animationStartName = startName;
-            _animationEndName = endName;
-            if (scaleName == ScaleAnimationsName.Up)
-            {
-                _startScale = StartScaleIn;
-            }
-            else
-            {
-                _startScale = StartScaleOut;
-            }
+            PositionIn = positionIn;
+            PositionOut = positionOut;
+            EasingIn = Easing.SinOut;
+            EasingOut = Easing.SinIn;
+
+            if (PositionIn != MoveAnimationOptions.Center) DurationIn = 500;
+            if (PositionOut != MoveAnimationOptions.Center) DurationOut = 500;
         }
 
         public override void Preparing(View content, PopupPage page)
         {
-            base.Preparing(content, page);
+            if(HasBackgroundAnimation) base.Preparing(content, page);
 
-            if (_animationStartName != MoveAnimationsName.Center)
-            {
-                Duration = 500;
-            }
-            EasingIn = Easing.SinOut;
-            EasingOut = Easing.SinIn;
-            content.Scale = _startScale;
+            if(content == null) return;
+
+            UpdateDefaultProperties(content);
+
+            if(!HasBackgroundAnimation) content.Opacity = 0;
+        }
+
+        public override void Disposing(View content, PopupPage page)
+        {
+            if (HasBackgroundAnimation) base.Disposing(content, page);
+
+            if(content == null) return;
+
+            content.Scale = _defaultScale;
+            content.Opacity = _defaultOpacity;
+            content.TranslationX = _defaultTranslationX;
+            content.TranslationY = _defaultTranslationY;
         }
 
         public async override Task Appearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
-            
-            taskList.Add(base.Appearing(content, page));
-            
-            var topOffset = GetTopOffset(content, page) * StartScaleIn;
-            var leftOffset = GetLeftOffset(content, page) * StartScaleIn;
-            
-            taskList.Add(Scale(content, EasingIn, _startScale, 1));
 
-            if (_animationStartName == MoveAnimationsName.Top)
+            taskList.Add(base.Appearing(content, page));
+
+            if (content != null)
             {
-                content.TranslationY = -topOffset;
-                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
-            }
-            else if(_animationStartName == MoveAnimationsName.Bottom)
-            {
-                content.TranslationY = topOffset;
-                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
-            }
-            else if (_animationStartName == MoveAnimationsName.Left)
-            {
-                content.TranslationX = -leftOffset;
-                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
-            }
-            else if (_animationStartName == MoveAnimationsName.Right)
-            {
-                content.TranslationX = leftOffset;
-                taskList.Add(content.TranslateTo(0, 0, Duration, EasingIn));
+                var topOffset = GetTopOffset(content, page) * ScaleIn;
+                var leftOffset = GetLeftOffset(content, page) * ScaleIn;
+
+                taskList.Add(Scale(content, EasingIn, ScaleIn, _defaultScale, true));
+
+                if (PositionIn == MoveAnimationOptions.Top)
+                {
+                    content.TranslationY = -topOffset;
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
+                }
+                else if (PositionIn == MoveAnimationOptions.Bottom)
+                {
+                    content.TranslationY = topOffset;
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
+                }
+                else if (PositionIn == MoveAnimationOptions.Left)
+                {
+                    content.TranslationX = -leftOffset;
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
+                }
+                else if (PositionIn == MoveAnimationOptions.Right)
+                {
+                    content.TranslationX = leftOffset;
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
+                }
             }
 
             await Task.WhenAll(taskList);
@@ -84,33 +100,38 @@ namespace Rg.Plugins.Popup.Animations.Defaults
             var taskList = new List<Task>();
 
             taskList.Add(base.Disappearing(content, page));
-            
-            var topOffset = GetTopOffset(content, page) * StartScaleOut;
-            var leftOffset = GetLeftOffset(content, page) * StartScaleOut;
-            
-            taskList.Add(Scale(content, EasingOut, 1, _startScale));
 
-            if (_animationEndName == MoveAnimationsName.Top)
+            if (content != null)
             {
-                taskList.Add(content.TranslateTo(0, -topOffset, Duration, EasingIn));
-            }
-            else if (_animationEndName == MoveAnimationsName.Bottom)
-            {
-                taskList.Add(content.TranslateTo(0, topOffset, Duration, EasingIn));
-            }
-            else if (_animationEndName == MoveAnimationsName.Left)
-            {
-                taskList.Add(content.TranslateTo(-leftOffset, 0, Duration, EasingIn));
-            }
-            else if (_animationEndName == MoveAnimationsName.Right)
-            {
-                taskList.Add(content.TranslateTo(leftOffset, 0, Duration, EasingIn));
+                UpdateDefaultProperties(content);
+
+                var topOffset = GetTopOffset(content, page) * ScaleOut;
+                var leftOffset = GetLeftOffset(content, page) * ScaleOut;
+
+                taskList.Add(Scale(content, EasingOut, _defaultScale, ScaleOut, false));
+
+                if (PositionOut == MoveAnimationOptions.Top)
+                {
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, -topOffset, DurationOut, EasingIn));
+                }
+                else if (PositionOut == MoveAnimationOptions.Bottom)
+                {
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, topOffset, DurationOut, EasingIn));
+                }
+                else if (PositionOut == MoveAnimationOptions.Left)
+                {
+                    taskList.Add(content.TranslateTo(-leftOffset, _defaultTranslationY, DurationOut, EasingIn));
+                }
+                else if (PositionOut == MoveAnimationOptions.Right)
+                {
+                    taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingIn));
+                }
             }
 
             await Task.WhenAll(taskList);
         }
 
-        private Task Scale(View content, Easing easing, double start, double end)
+        private Task Scale(View content, Easing easing, double start, double end, bool isAppearing)
         {
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
             
@@ -119,12 +140,20 @@ namespace Rg.Plugins.Popup.Animations.Defaults
                 content.Scale = d;
             }, start, end,
             easing: easing,
-            length: Duration,
+            length: isAppearing ? DurationIn : DurationOut,
             finished: (d, b) =>
             {
                 task.SetResult(true);
             });
             return task.Task;
+        }
+
+        private void UpdateDefaultProperties(View content)
+        {
+            _defaultScale = content.Scale;
+            _defaultOpacity = content.Opacity;
+            _defaultTranslationX = content.TranslationX;
+            _defaultTranslationY = content.TranslationY;
         }
     }
 }
