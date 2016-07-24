@@ -31,7 +31,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         public void RemovePopup(PopupPage page)
         {
             var popup = _popupPageList.First(pair => pair.Key == page).Value;
-            ((PopupPageRenderer)popup.Child).Dispose();
+            //((PopupPageRenderer)popup.Child).Dispose();
             popup.Child = null;
             popup.IsOpen = false;
             _popupPageList.Remove(page);

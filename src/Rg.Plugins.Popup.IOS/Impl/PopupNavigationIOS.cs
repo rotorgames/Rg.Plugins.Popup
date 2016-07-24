@@ -39,7 +39,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             {
                 DispatchQueue.MainQueue.DispatchAfter(DispatchTime.Now, async () => {
                     await viewController.DismissViewControllerAsync(false);
-                    renderer.Dispose();
+                    //renderer.Dispose();
                 });
             }
 

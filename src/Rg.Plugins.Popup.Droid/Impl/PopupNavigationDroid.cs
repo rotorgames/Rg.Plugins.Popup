@@ -47,7 +47,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 _decoreView.RemoveView(renderer.ViewGroup);
                 UpdateListeners(false);
-                renderer.Dispose();
+                //renderer.Dispose();
             }
         }
 
