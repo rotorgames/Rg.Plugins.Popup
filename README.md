@@ -9,10 +9,11 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 - [x] Android
 - [x] iOS
-- [ ] WinPhone (v1.0.0-pre1)
-- [ ] UWP (v1.0.0-pre1)
+- [ ] WinPhone (v1.0.0-pre3)
+- [ ] UWP (v1.0.0-pre3)
 
-Prerelease supported WinPhone and UWP: https://www.nuget.org/packages/Rg.Plugins.Popup/1.0.0-pre1
+Prerelease supported WinPhone and UWP: https://www.nuget.org/packages/Rg.Plugins.Popup/1.0.0-pre3
+*[Documentation for 1.0.0-pre](https://github.com/rotorgames/Rg.Plugins.Popup/blob/v1.0.0/README.md)
 
 ## Support Events
 
