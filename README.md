@@ -17,6 +17,8 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 * OnAppearing
 * OnDisappearing
 * OnBackButtonPressed
+* OnAppearingAnimationEnd
+* OnDisappearingAnimationEnd
 
 ## Events
 
@@ -115,6 +117,18 @@ public partial class MyPopupPage : PopupPage
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+        }
+        
+        When show animation end
+        protected override void OnAppearingAnimationEnd()
+        {
+            base.OnAppearingAnimationEnd();
+        }
+        
+        When hide animation end
+        protected override void OnDisappearingAnimationEnd()
+        {
+            base.OnDisappearingAnimationEnd();
         }
 
         protected override bool OnBackButtonPressed()
