@@ -22,10 +22,10 @@
           - Now, new animation system
           - Improved performance animation on Android
           - When you compile in the console does not display warnings.
-          - The application is no longer painted, if during the animation, press the back button
+          - The application no longer crashes if during the animation, press the back button
           - Removed some reflection methods
           - Now it is possible to use one copy of the page a few times
-          - Now PopupPage no methods and Property, which overrides the method and the Property Page.
+          - Removed from Popup Page, properties that override the default properties Page
           [1.0.0-pre1]
           - Add support Windows Phone and UWP
           [0.0.16]
