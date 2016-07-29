@@ -12,54 +12,52 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 - [x] Windows Phone
 - [x] UWP
 
-## Support Events
+## Override Methods
 
 * OnAppearing
 * OnDisappearing
 * OnBackButtonPressed
-* BackgroundClicked: Called when clicked on background 
+
+## Events
+
+* BackgroundClicked: Called when clicked on background
 
 ## Animations
 
-#### Fade Animation
+#### FadeAnimation
 
-* Fade
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
 
-#### Scale Animation
+#### MoveAnimation
 
-* ScaleCenterUp
-* ScaleTopUp
-* ScaleTopBottomUp
-* ScaleBottomUp
-* ScaleBottomTopUp
-* ScaleLeftUp
-* ScaleLeftRightUp
-* ScaleRightUp
-* ScaleRightLeftUp
-* ScaleCenterDown
-* ScaleTopDown
-* ScaleTopBottomDown
-* ScaleBottomDown
-* ScaleBottomTopDown
-* ScaleLeftDown
-* ScaleLeftRightDown
-* ScaleRightDown
-* ScaleRightLeftDown
+* PositionIn (MoveAnimationOptions)
+* PositionOut (MoveAnimationOptions)
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
 
-#### Move Animation
+#### ScaleAnimation
 
-* MoveTop
-* MoveTopBottom
-* MoveBottom
-* MoveBottomTop
-* MoveLeft
-* MoveLeftRight
-* MoveRight
-* MoveRightLeft
+* ScaleIn (double)
+* ScaleOut (double)
+* PositionIn (MoveAnimationOptions)
+* PositionOut (MoveAnimationOptions)
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
+
 
 ## Initialize
 
-#### Android 
+#### Android, WP, UWP
 
 Not required
 
@@ -81,11 +79,10 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 
 ## PopupPage Properties
 
-* BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
-* IsBackgroundAnimating
 * IsAnimating
+* Animation
+* BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
 * IsCloseOnBackgroundClick: Close pop-up when click on the background
-* AnimationName: In default animations
 * IsSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
 	
 	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
@@ -192,6 +189,22 @@ public partial class MyPopupPage : PopupPage
             Animation = new UserAnimation();
         }
     }
+```
+
+Or in xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
+             x:Class="Demo.Pages.UserAnimationPage">
+  <pages:PopupPage.Animation>
+    <animations:UserAnimation/>
+  </pages:PopupPage.Animation>
+  ...
+</pages:PopupPage>
 ```
 
 ## Thanks
