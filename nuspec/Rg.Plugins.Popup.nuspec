@@ -21,6 +21,7 @@
           [1.0.0-pre3]
           - Now, new animation system
           - Improved performance animation on Android
+          - Added overridden methods OnAppearingAnimationEnd and OnDisappearingAnimationEnd
           - When you compile in the console does not display warnings.
           - The application no longer crashes if during the animation, press the back button
           - Removed some reflection methods
