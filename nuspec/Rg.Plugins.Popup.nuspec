@@ -2,19 +2,31 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.0.0-pre1</version>
+        <version>1.0.0-pre2</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
         <projectUrl>https://github.com/rotorgames/Rg.Plugins.Popup</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/rotorgames/Rg.Plugins.Popup/master/icons/icon.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Plugin for Xamarin forms. Allows you to open any page as a popup.
+        <description>
+          Plugin for Xamarin forms. Allows you to open any page as a popup.
 
-Support Android, iOS, WinPhone, UWP</description>
+          Support Android, iOS, WinPhone, UWP
+
+          Attention. This version is not compatible with 0.0.17 and 1.0.0-pre1
+        </description>
         <releaseNotes>
           -->
-          [1.0.0]
+          [1.0.0-pre2]
+          - Now, new animation system
+          - Improved performance animation on Android
+          - When you compile in the console does not display warnings.
+          - The application is no longer painted, if during the animation, press the back button
+          - Removed some reflection methods
+          - Now it is possible to use one copy of the page a few times
+          - Now PopupPage no methods and Property, which overrides the method and the Property Page.
+          [1.0.0-pre1]
           - Add support Windows Phone and UWP
           [0.0.16]
           - Add support Xamarin.Forms v2.2.0.31
