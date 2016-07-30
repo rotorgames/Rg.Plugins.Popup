@@ -12,7 +12,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 - [x] Windows Phone
 - [x] UWP
 
-## Override Methods
+## Override Methods PopupPage
 
 * OnAppearing
 * OnDisappearing
