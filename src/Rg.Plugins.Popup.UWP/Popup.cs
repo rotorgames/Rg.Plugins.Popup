@@ -17,6 +17,9 @@ namespace Rg.Plugins.Popup.UWP
             assemblies.Add(typeof(ScreenHelperWinPhone).GetTypeInfo().Assembly);
             assemblies.Add(typeof(PopupPageRenderer).GetTypeInfo().Assembly);
 
+            Xamarin.Forms.DependencyService.Register<PopupNavigationWinPhone>();
+            Xamarin.Forms.DependencyService.Register<ScreenHelperWinPhone>();
+
             return assemblies;
         }
     }
