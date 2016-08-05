@@ -3,7 +3,6 @@ using System.Linq;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WinPhone.Impl;
-using Rg.Plugins.Popup.WinPhone.Renderers;
 using Xamarin.Forms;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
@@ -17,11 +16,11 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
 {
     class PopupNavigationWinPhone : IPopupNavigation
     {
-        private readonly Dictionary<Page, Windows.UI.Xaml.Controls.Primitives.Popup> _popupPageList = new Dictionary<Page, Windows.UI.Xaml.Controls.Primitives.Popup>(); 
+        private readonly Dictionary<Page, global::Windows.UI.Xaml.Controls.Primitives.Popup> _popupPageList = new Dictionary<Page, global::Windows.UI.Xaml.Controls.Primitives.Popup>(); 
 
         public void AddPopup(PopupPage page)
         {
-            var popup = new Windows.UI.Xaml.Controls.Primitives.Popup();
+            var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             popup.Child = page.GetOrCreateRenderer().ContainerElement;
             popup.IsOpen = true;
             page.ForceLayout();

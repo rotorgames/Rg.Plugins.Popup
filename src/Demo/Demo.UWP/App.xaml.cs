@@ -59,7 +59,9 @@ namespace Demo.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.UWP.Popup.GetLinkedAssemblies());
+                Rg.Plugins.Popup.Windows.Popup.Init();
+
+                Xamarin.Forms.Forms.Init(e);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
