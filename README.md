@@ -100,6 +100,12 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
     };
 
     Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.UWP.Popup.GetLinkedAssemblies(customAssemblies));
+    
+    // or 
+    
+    customAssemblies.AddRange(Rg.Plugins.Popup.UWP.Popup.GetLinkedAssemblies());
+
+    Xamarin.Forms.Forms.Init(e, customAssemblies);
 
     ...
 }
