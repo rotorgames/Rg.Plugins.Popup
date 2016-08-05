@@ -59,7 +59,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 ## Initialize
 
-#### Android, WP, UWP
+#### Android, WP
 
 Not required
 
@@ -76,6 +76,32 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
         LoadApplication(new App());
         return base.FinishedLaunching(app, options);
     }
+}
+```
+
+#### UWP
+```csharp
+// In App.xaml.cs
+protected override void OnLaunched(LaunchActivatedEventArgs e)
+{
+    ...
+
+    // Initialization is required due to an error when compiling in release mode.
+    // Details: https://developer.xamarin.com/guides/xamarin-forms/platform-features/windows/installation/universal/#Troubleshooting
+
+    // If you do not custom assemblies
+    Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.UWP.Popup.GetLinkedAssemblies());
+
+    // If there is a custom assemblies
+
+    var customAssemblies = new List<Assembly>
+    {
+         typeof(YOU_RENDERERS_OR_DEPENDENCY_SERVICE_IMPLEMENTATION).GetTypeInfo().Assembly
+    };
+
+    Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.UWP.Popup.GetLinkedAssemblies(customAssemblies));
+
+    ...
 }
 ```
 
