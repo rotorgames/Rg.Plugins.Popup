@@ -16,7 +16,7 @@ using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+//[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
 {
     [Preserve(AllMembers = true)]

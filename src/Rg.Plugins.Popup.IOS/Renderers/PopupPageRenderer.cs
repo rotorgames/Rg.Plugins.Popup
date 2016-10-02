@@ -10,7 +10,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Size = Xamarin.Forms.Size;
 
-[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+//[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.IOS.Renderers
 {
     [Preserve(AllMembers = true)]

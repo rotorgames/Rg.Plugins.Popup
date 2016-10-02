@@ -107,6 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Rg.Plugins.Popup.Platform.cs">
+      <Link>Rg.Plugins.Popup.Platform.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Rg.Plugins.Popup.Platform.UWP.rd.xml" />
   </ItemGroup>

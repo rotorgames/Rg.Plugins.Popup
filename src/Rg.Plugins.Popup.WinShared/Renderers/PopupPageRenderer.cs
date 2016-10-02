@@ -16,7 +16,7 @@ using Windows.Phone.UI.Input;
 #endif
 using Page = Xamarin.Forms.Page;
 
-[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+//[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.WinPhone.Renderers
 {
     public class PopupPageRenderer : PageRenderer
