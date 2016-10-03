@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Impl;
 using UIKit;
