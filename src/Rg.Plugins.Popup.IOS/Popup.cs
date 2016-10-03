@@ -9,17 +9,11 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.IOS
 {
-    [Preserve(AllMembers = true)]
     public static class Popup
     {
-        internal static readonly List<Type> LinkList = new List<Type>();
+        [Obsolete("Initialization is not required in iOS project")]
         public static void Init()
         {
-            // Fix https://github.com/rotorgames/Rg.Plugins.Popup/issues/9 
-            // and https://github.com/rotorgames/Rg.Plugins.Popup/issues/3
-            LinkList.Add(typeof(PopupNavigationIOS));
-            LinkList.Add(typeof(ScreenHelperIos));
-            LinkList.Add(typeof(PopupPageRenderer));
         }
     }
 }
