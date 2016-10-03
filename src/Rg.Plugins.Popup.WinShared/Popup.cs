@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
-using Rg.Plugins.Popup.WinPhone.Renderers;
+using Xamarin.Forms.Internals;
 
 namespace Rg.Plugins.Popup.Windows
 {
