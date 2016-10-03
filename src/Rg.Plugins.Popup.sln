@@ -35,6 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rg.Plugins.Popup.Platform.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rg.Plugins.Popup.Platform.IOS", "Stubs\Rg.Plugins.Popup.Platform.IOS\Rg.Plugins.Popup.Platform.IOS.csproj", "{F2F3498B-BE5F-4794-AFF7-1FD3C85AF130}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{513DF223-8613-44A0-A67E-2C05601D5A62}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuspec\Rg.Plugins.Popup.nuspec = ..\nuspec\Rg.Plugins.Popup.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{2b1508fe-0298-4740-b5d3-6b2bc0f0e08d}*SharedItemsImports = 4
