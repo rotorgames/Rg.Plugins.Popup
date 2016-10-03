@@ -4,13 +4,21 @@ using Windows.UI.Xaml;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Thickness = Xamarin.Forms.Thickness;
 
 [assembly:Dependency(typeof(ScreenHelperWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl
 {
+    [Preserve(AllMembers = true)]
     class ScreenHelperWinPhone : IScreenHelper
     {
+        [Preserve]
+        public ScreenHelperWinPhone()
+        {
+            
+        }
+
         public Rectangle ScreenSize
         {
             get

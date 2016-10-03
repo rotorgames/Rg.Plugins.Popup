@@ -8,6 +8,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 #elif WINDOWS_PHONE_APP
@@ -19,11 +20,18 @@ using Page = Xamarin.Forms.Page;
 [assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Windows.Renderers
 {
+    [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
         private PopupPage _element
         {
             get { return (PopupPage) Element; }
+        }
+
+        [Preserve]
+        public PopupPageRenderer()
+        {
+            
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
