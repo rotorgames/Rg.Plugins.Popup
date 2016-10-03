@@ -59,27 +59,11 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 ## Initialize
 
-#### Android
+Initialization is not required for Android, iOS, WP.
 
-Not required
+UWP required add assemblies in Xamarin.Forms.Forms.Init method if you use .NET Native compile:
 
-#### iOS
-
-```csharp
-public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
-{
-    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
-    {
-        Rg.Plugins.Popup.IOS.Popup.Init(); // Init Popup
-        
-        global::Xamarin.Forms.Forms.Init();
-        LoadApplication(new App());
-        return base.FinishedLaunching(app, options);
-    }
-}
-```
-
-#### WP, UWP
+#### UWP Example
 ```csharp
 // In App.xaml.cs
 protected override void OnLaunched(LaunchActivatedEventArgs e)
@@ -88,10 +72,18 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
 
     // Initialization is required due to an error when compiling in release mode.
     // Details: https://developer.xamarin.com/guides/xamarin-forms/platform-features/windows/installation/universal/#Troubleshooting
-
-    Rg.Plugins.Popup.Windows.Popup.Init();
     
-    Xamarin.Forms.Forms.Init(e);
+    Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies());
+
+	// or if you have other renderers and DependencyService implementations
+
+	var assemblies = new List<Assembly>
+    {
+	   typeof(YourRenderer).GetTypeInfo().Assembly
+	   typeof(YourServiceImplementation).GetTypeInfo().Assembly
+    };
+
+	Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies(assemblies));
 
     ...
 }
@@ -137,13 +129,13 @@ public partial class MyPopupPage : PopupPage
             base.OnDisappearing();
         }
         
-        When show animation end
+        // When show animation end
         protected override void OnAppearingAnimationEnd()
         {
             base.OnAppearingAnimationEnd();
         }
         
-        When hide animation end
+        // When hide animation end
         protected override void OnDisappearingAnimationEnd()
         {
             base.OnDisappearingAnimationEnd();
@@ -173,7 +165,7 @@ public partial class MyPopupPage : PopupPage
             
             await Navigation.PushPopupAsync(page);
             // or
-            PopupNavigation.PushAsync(page);
+            await PopupNavigation.PushAsync(page);
         }
     }
 ```
