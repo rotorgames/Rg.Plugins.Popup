@@ -2,16 +2,16 @@
 using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
-using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Platform.Renderers;
 using Rg.Plugins.Popup.Services;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using Size = Xamarin.Forms.Size;
 
-//[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
-namespace Rg.Plugins.Popup.IOS.Renderers
+[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+namespace Rg.Plugins.Popup.Platform.Renderers
 {
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer

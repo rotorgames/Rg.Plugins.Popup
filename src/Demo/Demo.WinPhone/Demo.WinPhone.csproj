@@ -121,6 +121,10 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Stubs\Rg.Plugins.Popup.Platform.WinPhone\Rg.Plugins.Popup.Platform.WinPhone.csproj">
+      <Project>{2c5f5d70-3494-49f6-be6b-6bb823a219be}</Project>
+      <Name>Rg.Plugins.Popup.Platform.WinPhone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Demo\Demo.csproj">
       <Project>{e7c8d327-b800-4f8f-9cad-6b90fb220d7c}</Project>
       <Name>Demo</Name>

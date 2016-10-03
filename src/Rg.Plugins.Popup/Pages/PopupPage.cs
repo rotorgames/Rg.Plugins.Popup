@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Interfaces.Animations;
+using Rg.Plugins.Popup.Platform.Renderers;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Pages
 {
+    [RenderWith(typeof(_PopupPageRenderer))]
     public class PopupPage : ContentPage
     {
         #region Private Fields

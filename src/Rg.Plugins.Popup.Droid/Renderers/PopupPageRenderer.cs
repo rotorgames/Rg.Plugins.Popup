@@ -1,23 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Rg.Plugins.Popup.Droid.Impl;
-using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Platform.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-//[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
-namespace Rg.Plugins.Popup.Droid.Renderers
+[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+namespace Rg.Plugins.Popup.Platform.Renderers
 {
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer

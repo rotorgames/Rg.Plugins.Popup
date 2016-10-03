@@ -5,8 +5,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Platform.Renderers;
 using Rg.Plugins.Popup.Services;
-using Rg.Plugins.Popup.WinPhone.Renderers;
 using Xamarin.Forms;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
@@ -16,8 +16,8 @@ using Windows.Phone.UI.Input;
 #endif
 using Page = Xamarin.Forms.Page;
 
-//[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
-namespace Rg.Plugins.Popup.WinPhone.Renderers
+[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+namespace Rg.Plugins.Popup.Platform.Renderers
 {
     public class PopupPageRenderer : PageRenderer
     {

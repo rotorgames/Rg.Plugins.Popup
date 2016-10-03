@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using XFPlatform = Xamarin.Forms.Platform.Android.Platform;
 
 namespace Rg.Plugins.Popup.Droid.Extensions
 {
@@ -18,11 +19,11 @@ namespace Rg.Plugins.Popup.Droid.Extensions
     {
         public static IVisualElementRenderer GetOrCreateRenderer(this VisualElement bindable)
         {
-            var renderer = Platform.GetRenderer(bindable);
+            var renderer = XFPlatform.GetRenderer(bindable);
             if (renderer == null)
             {
-                renderer = Platform.CreateRenderer(bindable);
-                Platform.SetRenderer(bindable, renderer);
+                renderer = XFPlatform.CreateRenderer(bindable);
+                XFPlatform.SetRenderer(bindable, renderer);
             }
             return renderer;
         }
