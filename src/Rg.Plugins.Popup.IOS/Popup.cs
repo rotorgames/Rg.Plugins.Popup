@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using Rg.Plugins.Popup.IOS.Impl;
-using Rg.Plugins.Popup.Platform.Renderers;
+using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 
