@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Converters.TypeConverters
 {
-    internal class EasingTypeConverter : TypeConverter
+    public class EasingTypeConverter : TypeConverter
     {
         public override object ConvertFromInvariantString(string value)
         {
