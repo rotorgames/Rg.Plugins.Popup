@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreFoundation;
+using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Extensions;
@@ -23,12 +24,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
         public void AddPopup(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
-            var currentRenderer = GetCurrentPage().GetOrCreateRenderer();
-
-            DispatchQueue.MainQueue.DispatchAfter(DispatchTime.Now, async () =>
-            {
-                await currentRenderer.ViewController.PresentViewControllerAsync(renderer.ViewController, false);
-            });
+            GetTopViewController().View.AddSubview(renderer.NativeView);
         }
 
         public void RemovePopup(PopupPage page)
@@ -37,27 +33,18 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var viewController = renderer?.ViewController;
 
             if (viewController != null && !viewController.IsBeingDismissed)
-            {
-                DispatchQueue.MainQueue.DispatchAfter(DispatchTime.Now, async () => {
-                    await viewController.DismissViewControllerAsync(false);
-                    //renderer.Dispose();
-                });
-            }
+                renderer.NativeView.RemoveFromSuperview();
 
         }
 
-        private Page GetCurrentPage()
+        private UIViewController GetTopViewController()
         {
-            Page lastPage = PopupNavigation.PopupStack.LastOrDefault();
-            if (lastPage == null)
-            {
-                lastPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault();
-            }
-            if (lastPage == null)
-            {
-                lastPage = Application.Current.MainPage;
-            }
-            return lastPage;
+            var navigation = Application.Current.MainPage.Navigation;
+
+            if (navigation.ModalStack.Count > 0)
+                return navigation.ModalStack.First().GetOrCreateRenderer().ViewController;
+
+            return UIApplication.SharedApplication.KeyWindow.RootViewController;
         }
     }
 }

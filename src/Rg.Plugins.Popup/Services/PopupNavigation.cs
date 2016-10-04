@@ -41,8 +41,6 @@ namespace Rg.Plugins.Popup.Services
             return task.Task;
         }
 
-       
-
         public static Task PopAsync(bool animate = true)
         {
             if (PopupStack.Count == 0) return null;
@@ -75,6 +73,20 @@ namespace Rg.Plugins.Popup.Services
             _popupStack.Clear();
         }
 
+        // Internals 
+
+        internal static void RemoveFromStack(PopupPage page)
+        {
+            if (_popupStack.Any(popupPage => popupPage == page))
+            {
+                _popupStack.Remove(page);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(page.GetType().Name, "There is page is not in PopupStack");
+            }
+        }
+
         // Private
         private static void RemovePopup(PopupPage page)
         {
@@ -87,16 +99,12 @@ namespace Rg.Plugins.Popup.Services
 
         private static Page GetParentPage()
         {
-            //if (PopupStack.Count > 0)
-            //{
-            //    return PopupStack.Last();
-            //}
-            //else
-            //{
-            //    return Application.Current.MainPage;
-            //}
+            Page lastPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault();
 
-            return Application.Current.MainPage;
+            if (lastPage == null)
+                lastPage = Application.Current.MainPage;
+
+            return lastPage;
         }
 
         private static void BeginInvokeOnMainThreadIfNeed(Action action)
