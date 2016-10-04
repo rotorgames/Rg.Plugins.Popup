@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
@@ -43,9 +42,25 @@ namespace Rg.Plugins.Popup.Services
 
         public static Task PopAsync(bool animate = true)
         {
-            if (PopupStack.Count == 0) return null;
+            if (PopupStack.Count == 0) 
+                throw new IndexOutOfRangeException("There is not page in PopupStack");
+
+            return RemovePageAsync(PopupStack.Last(), animate);
+        }
+
+        public async static Task PopAllAsync(bool animate = true)
+        {
+            var popupTasks = _popupStack.ToList().Select(page => RemovePageAsync(page, animate));
+
+            await Task.WhenAll(popupTasks);
+        }
+
+        public static Task RemovePageAsync(PopupPage page, bool animate = true)
+        {
+            if(page == null)
+                throw new NullReferenceException("Page can not be null");
+
             var task = new TaskCompletionSource<bool>();
-            var page = PopupStack.Last();
             if (!page.IsAnimate)
             {
                 BeginInvokeOnMainThreadIfNeed(async () =>
@@ -60,17 +75,8 @@ namespace Rg.Plugins.Popup.Services
             {
                 task.TrySetResult(true);
             }
-            
-            return task.Task;
-        }
 
-        public static void PopAll()
-        {
-            foreach (var page in _popupStack)
-            {
-                DependencyService.Get<IPopupNavigation>().RemovePopup(page);
-            }
-            _popupStack.Clear();
+            return task.Task;
         }
 
         // Internals 
@@ -83,11 +89,12 @@ namespace Rg.Plugins.Popup.Services
             }
             else
             {
-                throw new ArgumentOutOfRangeException(page.GetType().Name, "There is page is not in PopupStack");
+                throw new ArgumentOutOfRangeException(page.GetType().Name, "There is not page in PopupStack");
             }
         }
 
         // Private
+
         private static void RemovePopup(PopupPage page)
         {
             _popupStack.Remove(page);

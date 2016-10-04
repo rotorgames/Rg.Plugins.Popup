@@ -7,19 +7,24 @@ namespace Rg.Plugins.Popup.Extensions
 {
     public static class NavigationExtension
     {
-        public static async Task PushPopupAsync(this INavigation sender, PopupPage page, bool animate = true)
+        public static Task PushPopupAsync(this INavigation sender, PopupPage page, bool animate = true)
         {
-            await PopupNavigation.PushAsync(page, animate);
+            return PopupNavigation.PushAsync(page, animate);
         }
 
-        public static async Task PopPopupAsync(this INavigation sender, bool animate = true)
+        public static Task PopPopupAsync(this INavigation sender, bool animate = true)
         {
-            await PopupNavigation.PopAsync(animate);
+            return PopupNavigation.PopAsync(animate);
         }
 
-        public static void PopAllPopup(this INavigation sender)
+        public static Task PopAllPopupAsync(this INavigation sender, bool animate = true)
         {
-            PopupNavigation.PopAll();
+            return PopupNavigation.PopAllAsync(animate);
+        }
+
+        public static Task RemovePopupPageAsync(this INavigation sender, PopupPage page, bool animate = true)
+        {
+            return PopupNavigation.RemovePageAsync(page, animate);
         }
     }
 }
