@@ -19,7 +19,7 @@ using Xamarin.Forms.Platform.iOS;
 namespace Rg.Plugins.Popup.IOS.Impl
 {
     [Preserve(AllMembers = true)]
-    class PopupNavigationIOS : IPopupNavigation
+    internal class PopupNavigationIOS : IPopupNavigation
     {
         public void AddPopup(PopupPage page)
         {

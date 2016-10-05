@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Platform.Renderers;
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Services
@@ -15,6 +16,11 @@ namespace Rg.Plugins.Popup.Services
         public static IReadOnlyList<PopupPage> PopupStack
         {
             get { return _popupStack; }
+        }
+
+        static PopupNavigation()
+        {
+            Loader.Load();
         }
 
         public static Task PushAsync(PopupPage page, bool animate = true)
