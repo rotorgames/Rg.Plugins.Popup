@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.0.0-pre5</version>
+        <version>1.0.0</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -14,23 +14,25 @@
 
           Support Android, iOS, WinPhone, UWP
 
-          Attention. This version is not compatible with 0.0.17 and 1.0.0-pre1
+          Attention. This version is not compatible with 0.0.17 and 1.0.0
         </description>
         <releaseNotes>
           -->
-          [1.0.0-pre5]
-          - Fix. UWP project crashes in release mode.
-          [1.0.0-pre3]
-          - Now, new animation system
-          - Improved performance animation on Android
-          - Added overridden methods OnAppearingAnimationEnd and OnDisappearingAnimationEnd
-          - When you compile in the console does not display warnings.
-          - The application no longer crashes if during the animation, press the back button
-          - Removed some reflection methods
-          - Now it is possible to use one copy of the page a few times
-          - Removed from Popup Page, properties that override the default properties Page
-          [1.0.0-pre1]
+          [1.0.0]
           - Add support Windows Phone and UWP
+          - Initialization is not required now (except UWP)
+          - Improved performance animation on Android
+          - Now, new animation system
+          - Now it is possible to use one copy of the page a few times
+          - Add overridden methods OnAppearingAnimationEnd and OnDisappearingAnimationEnd
+          - Add overridden method OnBackgroundClicked in PopupPage
+          - Removed some reflection methods
+          - Removed from Popup Page, properties that override the default properties Page
+          - Fix. BackgroundImage is not visible in PopupPage
+          - Fix. DisplayAlert and DisplayActionSheet did not shown in iOS
+          - Fix. UWP project crashes in release mode.
+          - Fix. When you compile in the console does not display warnings.
+          - Fix. The application no longer crashes if during the animation, press the back button
           [0.0.16]
           - Add support Xamarin.Forms v2.2.0.31
           [0.0.15]
