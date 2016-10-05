@@ -68,6 +68,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             InputPane inputPane = InputPane.GetForCurrentView();
             inputPane.Showing -= OnKeyboardShowing;
             inputPane.Hiding -= OnKeyboardHiding;
+
+            ContainerElement.PointerPressed -= OnBackgroundClick;
         }
 
         private void OnOrientationChanged(DisplayInformation sender, object args)
