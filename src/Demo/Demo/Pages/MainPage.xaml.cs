@@ -11,15 +11,19 @@ namespace Demo.Pages
 {
     public partial class MainPage : ContentPage
     {
+        private LoginPopupPage _loginPopup;
+
         public MainPage()
         {
             InitializeComponent();
+
+            _loginPopup = new LoginPopupPage();
         }
 
         private async void OnOpenPupup(object sender, EventArgs e)
         {
-            var page = new FirstPopupPage();
-            await Navigation.PushPopupAsync(page);
+            //var page = new LoginPopupPage();
+            await Navigation.PushPopupAsync(_loginPopup);
         }
 
         private async void OnUserAnimationPupup(object sender, EventArgs e)

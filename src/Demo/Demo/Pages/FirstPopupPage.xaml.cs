@@ -21,12 +21,12 @@ namespace Demo.Pages
 
         protected override Task OnAppearingAnimationEnd()
         {
-            return Task.Delay(5000);
+            return Content.FadeTo(0.5);
         }
 
         protected override Task OnDisappearingAnimationBegin()
         {
-            return Task.Delay(2000);
+            return Content.FadeTo(1);
         }
     }
 }

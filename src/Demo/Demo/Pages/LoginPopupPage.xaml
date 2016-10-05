@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             x:Class="Demo.Pages.LoginPopupPage">
+  <pages:PopupPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="EntryStyle" TargetType="Entry">
+        <Setter Property="PlaceholderColor" Value="#9cdaf1"/>
+        <Setter Property="TextColor" Value="#7dbbe6"/>
+      </Style>
+    </ResourceDictionary>
+  </pages:PopupPage.Resources>
+  <pages:PopupPage.Animation>
+    <animations:ScaleAnimation
+      PositionIn="Bottom"
+      PositionOut="Center"
+      ScaleIn="1"
+      ScaleOut="0.7"
+      DurationIn="700"
+      EasingIn="BounceOut"/>
+  </pages:PopupPage.Animation>
+  <ScrollView
+    HorizontalOptions="Center"
+    VerticalOptions="Center">
+    <AbsoluteLayout>
+      <Frame
+        x:Name="FrameContainer"
+        Margin="15"
+        HorizontalOptions="Center"
+        BackgroundColor="White">
+        <StackLayout
+            IsClippedToBounds="True"
+            Padding="10, 5"
+            Spacing="3">
+            <Image
+              HorizontalOptions="Center"
+              x:Name="OctocatImage"
+              Margin="10"
+              HeightRequest="150"
+              WidthRequest="150">
+              <Image.Source>
+                <OnPlatform
+                  x:TypeArguments="ImageSource"
+                  Android="github_octocat.png"
+                  iOS="github_octocat.png"
+                  WinPhone="Assets/github_octocat.png"/>
+              </Image.Source>
+            </Image>
+            <Entry
+              HorizontalOptions="Center"
+              x:Name="UsernameEntry"
+              Style="{StaticResource EntryStyle}"
+              Placeholder="Username" />
+            <Entry
+              HorizontalOptions="Center"
+              x:Name="PasswordEntry"
+              Style="{StaticResource EntryStyle}"
+              Placeholder="Password"
+              IsPassword="True"/>
+          <Button
+            Margin="10, 5"
+            BackgroundColor="#7dbbe6"
+            HorizontalOptions="Fill"
+            Clicked="OnLogin"
+            x:Name="LoginButton"
+            Text="Login">
+            <Button.HeightRequest>
+              <OnPlatform x:TypeArguments="x:Double" Android="50" iOS="30" WinPhone="30"/>
+            </Button.HeightRequest>
+          </Button>
+          </StackLayout>
+      </Frame>
+      <ContentView
+          AbsoluteLayout.LayoutFlags="PositionProportional"
+          AbsoluteLayout.LayoutBounds="1, 0, -1, -1">
+        <ContentView.GestureRecognizers>
+          <TapGestureRecognizer Tapped="OnCloseButtonTapped"/>
+        </ContentView.GestureRecognizers>
+        <Image
+          x:Name="CloseImage"
+          HeightRequest="30"
+          WidthRequest="30">
+          <Image.Source>
+            <OnPlatform
+              x:TypeArguments="ImageSource"
+              Android="close_circle_button.png"
+              iOS="close_circle_button.png"
+              WinPhone="Assets/close_circle_button.png"/>
+          </Image.Source>
+        </Image>
+      </ContentView>
+    </AbsoluteLayout>
+  </ScrollView>
+</pages:PopupPage>

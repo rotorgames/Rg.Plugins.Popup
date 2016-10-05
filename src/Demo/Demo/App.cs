@@ -12,7 +12,11 @@ namespace Demo
         public App()
         {
             // The root page of your application
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new MainPage())
+            {
+                BarBackgroundColor = Color.FromHex("#7dbbe6"),
+                BarTextColor = Color.White
+            };
         }
 
         protected override void OnStart()
