@@ -74,7 +74,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             // Close all open pages the Popup, if the main page, on which opened PresentViewControllerAsync, destroyed.
             if (isNotRemoved)
             {
-                PopupNavigation.RemoveFromStack(_element);
+                RemoveThisPageFromStack();
             }
         }
 
@@ -92,6 +92,11 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             var screen = UIScreen.MainScreen.Bounds;
 
             SetElementSize(new Size(r.Width, screen.Height));
+        }
+
+        private async void RemoveThisPageFromStack()
+        {
+            await PopupNavigation.RemovePageAsync(_element, false);
         }
     }
 }
