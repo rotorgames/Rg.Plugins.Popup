@@ -142,16 +142,18 @@ public partial class MyPopupPage : PopupPage
             base.OnDisappearing();
         }
         
-        // When show animation end
-        protected override void OnAppearingAnimationEnd()
+		// Method for animation child in PopupPage
+		// Invoced after custom animation end
+        protected virtual Task OnAppearingAnimationEnd()
         {
-            base.OnAppearingAnimationEnd();
+            return Content.FadeTo(0.5);
         }
-        
-        // When hide animation end
-        protected override void OnDisappearingAnimationEnd()
+
+		// Method for animation child in PopupPage
+		// Invoked before custom animation begin
+        protected virtual Task OnDisappearingAnimationBegin()
         {
-            base.OnDisappearingAnimationEnd();
+            return Content.FadeTo(1);;
         }
 
         protected override bool OnBackButtonPressed()
