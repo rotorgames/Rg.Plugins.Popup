@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Platform.Renderers
 {
-    public static class Loader
+    internal static class Loader
     {
         public static void Load()
         {
@@ -23,5 +23,5 @@ namespace Rg.Plugins.Popup.Platform.Renderers
 #if !__PLATFORM_PCL__
     [RenderWith(typeof(PopupPageRenderer))]
 #endif
-    public class _PopupPageRenderer { }
+    internal class _PopupPageRenderer { }
 }
