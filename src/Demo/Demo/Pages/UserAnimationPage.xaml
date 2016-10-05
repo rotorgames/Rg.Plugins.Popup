@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
+             x:Class="Demo.Pages.UserAnimationPage">
+  <pages:PopupPage.Animation>
+    <animations:UserAnimation/>
+  </pages:PopupPage.Animation>
+  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <Frame BackgroundColor="Silver">
+      <StackLayout Spacing="20">
+        <Label HorizontalOptions="Center" Text="User Animation" FontSize="16"></Label>
+        <Button Text="Close" Clicked="OnClose"></Button>
+      </StackLayout>
+    </Frame>
+  </StackLayout>
+</pages:PopupPage>

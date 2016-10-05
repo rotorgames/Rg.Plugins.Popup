@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.Pages.MainPage"
+             Title="Popup Demo"
+             BackgroundColor="White">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#7dbbe6"/>
+        <Setter Property="TextColor" Value="White"/>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <StackLayout Spacing="20" Margin="10, 15">
+    <Button Text="Open Popup" Clicked="OnOpenPupup"></Button>
+    <Button Text="Open User Animation Popup" Clicked="OnUserAnimationPupup"></Button>
+    <Button Text="Open System Offset Page" Clicked="OnOpenSystemOffsetPage"></Button>
+    <Button Text="ListView Page" Clicked="OnOpenListViewPage"></Button>
+  </StackLayout>
+</ContentPage>

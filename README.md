@@ -3,93 +3,99 @@ The plugin allows you to open any page as a popup.
 
 Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
-![Android](gif/android.gif) ![iOS](gif/ios.gif)
+![Landing](img/popup-landing.png)
 
 ## Support platforms
 
 - [x] Android
 - [x] iOS
-- [ ] WinPhone (v1.0.0-pre5)
-- [ ] UWP (v1.0.0-pre5)
+- [x] Windows Phone
+- [x] UWP
 
-Prerelease supported WinPhone and UWP: https://www.nuget.org/packages/Rg.Plugins.Popup/1.0.0-pre5
-
-*[Documentation for 1.0.0-pre](https://github.com/rotorgames/Rg.Plugins.Popup/blob/v1.0.0/README.md)
-
-## Support Events
+## Override Methods PopupPage
 
 * OnAppearing
 * OnDisappearing
 * OnBackButtonPressed
-* BackgroundClicked: Called when clicked on background 
+* OnAppearingAnimationEnd
+* OnDisappearingAnimationEnd
+* OnBackgroundClicked
+
+## Events
+
+* BackgroundClicked: Called when clicked on background
 
 ## Animations
 
-#### Fade Animation
+#### FadeAnimation
 
-* Fade
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
 
-#### Scale Animation
+#### MoveAnimation
 
-* ScaleCenterUp
-* ScaleTopUp
-* ScaleTopBottomUp
-* ScaleBottomUp
-* ScaleBottomTopUp
-* ScaleLeftUp
-* ScaleLeftRightUp
-* ScaleRightUp
-* ScaleRightLeftUp
-* ScaleCenterDown
-* ScaleTopDown
-* ScaleTopBottomDown
-* ScaleBottomDown
-* ScaleBottomTopDown
-* ScaleLeftDown
-* ScaleLeftRightDown
-* ScaleRightDown
-* ScaleRightLeftDown
+* PositionIn (MoveAnimationOptions)
+* PositionOut (MoveAnimationOptions)
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
 
-#### Move Animation
+#### ScaleAnimation
 
-* MoveTop
-* MoveTopBottom
-* MoveBottom
-* MoveBottomTop
-* MoveLeft
-* MoveLeftRight
-* MoveRight
-* MoveRightLeft
+* ScaleIn (double)
+* ScaleOut (double)
+* PositionIn (MoveAnimationOptions)
+* PositionOut (MoveAnimationOptions)
+* DurationIn (uint)
+* DurationOut (uint)
+* EasingIn (Easing)
+* EasingOut (Easing)
+* HasBackgroundAnimation (bool)
+
 
 ## Initialize
 
-#### Android 
+Initialization is not required for Android, iOS, WP.
 
-Not required
+UWP required add assemblies in Xamarin.Forms.Forms.Init method if you use .NET Native compile:
 
-#### iOS
-
+#### UWP Example
 ```csharp
-public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+// In App.xaml.cs
+protected override void OnLaunched(LaunchActivatedEventArgs e)
 {
-    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    ...
+
+    // Initialization is required due to an error when compiling in release mode.
+    // Details: https://developer.xamarin.com/guides/xamarin-forms/platform-features/windows/installation/universal/#Troubleshooting
+    
+    Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies());
+
+	// or if you have other renderers and DependencyService implementations
+
+	var assemblies = new List<Assembly>
     {
-        Rg.Plugins.Popup.IOS.Popup.Init(); // Init Popup
-        
-        global::Xamarin.Forms.Forms.Init();
-        LoadApplication(new App());
-        return base.FinishedLaunching(app, options);
-    }
+	   typeof(YourRenderer).GetTypeInfo().Assembly
+	   typeof(YourServiceImplementation).GetTypeInfo().Assembly
+    };
+
+	Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies(assemblies));
+
+    ...
 }
 ```
 
 ## PopupPage Properties
 
-* BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
-* IsBackgroundAnimating
 * IsAnimating
+* Animation
+* BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
 * IsCloseOnBackgroundClick: Close pop-up when click on the background
-* AnimationName: In default animations
 * IsSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
 	
 	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
@@ -97,12 +103,42 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 
 ## How Use
 
+```csharp 
+
+// Use these methods in PopupNavigation globally or Navigation in your pages
+
+// Open new PopupPage
+Task PushAsync(PopupPage page, bool animate = true) // Navigation.PushPopupAsync
+
+// Hide last PopupPage
+Task PopAsync(bool animate = true) // Navigation.PopPopupAsync
+
+// Hide all PopupPage with animations
+Task PopAllAsync(bool animate = true) // Navigation.PopAllPopupAsync
+
+// Remove one popup page in stack
+Task RemovePageAsync(PopupPage page, bool animate = true) // Navigation.RemovePopupPageAsync
+```
+
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.MyPopupPage">
+  <!--Animations use example-->
+  <pages:PopupPage.Animation>
+    <animations:ScaleAnimation 
+      PositionIn="Center"
+      PositionOut="Center"
+      ScaleIn="1.2"
+      ScaleOut="0.8"
+      DurationIn="400"
+      DurationOut="300"
+      EasingIn="SinOut"
+      EasingOut="SinIn"
+      HasBackgroundAnimation="True"/>
+  </pages:PopupPage.Animation>
   <!-- Content -->
 </pages:PopupPage>
 ```
@@ -123,12 +159,33 @@ public partial class MyPopupPage : PopupPage
         {
             base.OnDisappearing();
         }
+        
+		// Method for animation child in PopupPage
+		// Invoced after custom animation end
+        protected virtual Task OnAppearingAnimationEnd()
+        {
+            return Content.FadeTo(0.5);
+        }
+
+		// Method for animation child in PopupPage
+		// Invoked before custom animation begin
+        protected virtual Task OnDisappearingAnimationBegin()
+        {
+            return Content.FadeTo(1);;
+        }
 
         protected override bool OnBackButtonPressed()
         {
             // Prevent hide popup
             //return base.OnBackButtonPressed();
             return true; 
+        }
+
+		// Invoced when background is clicked
+		protected override bool OnBackgroundClicked()
+        {
+			// Return default value - IsCloseOnBackgroundClick
+            return base.OnBackgroundClicked();
         }
     }
     
@@ -148,7 +205,7 @@ public partial class MyPopupPage : PopupPage
             
             await Navigation.PushPopupAsync(page);
             // or
-            PopupNavigation.PushAsync(page);
+            await PopupNavigation.PushAsync(page);
         }
     }
 ```
@@ -196,6 +253,22 @@ public partial class MyPopupPage : PopupPage
             Animation = new UserAnimation();
         }
     }
+```
+
+Or in xaml
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
+             x:Class="Demo.Pages.UserAnimationPage">
+  <pages:PopupPage.Animation>
+    <animations:UserAnimation/>
+  </pages:PopupPage.Animation>
+  ...
+</pages:PopupPage>
 ```
 
 ## Thanks
