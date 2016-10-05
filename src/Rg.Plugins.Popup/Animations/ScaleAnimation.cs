@@ -110,19 +110,19 @@ namespace Rg.Plugins.Popup.Animations
 
                 if (PositionOut == MoveAnimationOptions.Top)
                 {
-                    taskList.Add(content.TranslateTo(_defaultTranslationX, -topOffset, DurationOut, EasingIn));
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, -topOffset, DurationOut, EasingOut));
                 }
                 else if (PositionOut == MoveAnimationOptions.Bottom)
                 {
-                    taskList.Add(content.TranslateTo(_defaultTranslationX, topOffset, DurationOut, EasingIn));
+                    taskList.Add(content.TranslateTo(_defaultTranslationX, topOffset, DurationOut, EasingOut));
                 }
                 else if (PositionOut == MoveAnimationOptions.Left)
                 {
-                    taskList.Add(content.TranslateTo(-leftOffset, _defaultTranslationY, DurationOut, EasingIn));
+                    taskList.Add(content.TranslateTo(-leftOffset, _defaultTranslationY, DurationOut, EasingOut));
                 }
                 else if (PositionOut == MoveAnimationOptions.Right)
                 {
-                    taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingIn));
+                    taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingOut));
                 }
             }
 
