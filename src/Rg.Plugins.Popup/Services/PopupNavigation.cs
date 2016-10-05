@@ -79,20 +79,6 @@ namespace Rg.Plugins.Popup.Services
             return task.Task;
         }
 
-        // Internals 
-
-        internal static void RemoveFromStack(PopupPage page)
-        {
-            if (_popupStack.Any(popupPage => popupPage == page))
-            {
-                _popupStack.Remove(page);
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(page.GetType().Name, "There is not page in PopupStack");
-            }
-        }
-
         // Private
 
         private static void RemovePopup(PopupPage page)
