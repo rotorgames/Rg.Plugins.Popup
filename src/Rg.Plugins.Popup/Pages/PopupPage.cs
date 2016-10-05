@@ -187,13 +187,23 @@ namespace Rg.Plugins.Popup.Pages
 
         #endregion
 
+        #region Background Click
+
+        protected virtual bool OnBackgroundClicked()
+        {
+            return IsCloseOnBackgroundClick;
+        }
+
+        #endregion
+
         #region Send Methods
 
         internal async void SendBackgroundClick()
         {
             BackgroundClicked?.Invoke(this, EventArgs.Empty);
 
-            if (IsCloseOnBackgroundClick)
+            var isClose = OnBackgroundClicked();
+            if (isClose)
             {
                 await PopupNavigation.PopAsync();
             }
