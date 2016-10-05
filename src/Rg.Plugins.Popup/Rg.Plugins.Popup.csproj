@@ -40,6 +40,7 @@
     <Compile Include="Animations\Base\FadeBackgroundAnimation.cs" />
     <Compile Include="Converters\TypeConverters\EasingTypeConverter.cs" />
     <Compile Include="Converters\TypeConverters\UintTypeConverter.cs" />
+    <Compile Include="Properties\GlobalAssemblyInfo.cs" />
     <Compile Include="Interfaces\Animations\IPopupAnimation.cs" />
     <Compile Include="Animations\MoveAnimation.cs" />
     <Compile Include="Animations\ScaleAnimation.cs" />

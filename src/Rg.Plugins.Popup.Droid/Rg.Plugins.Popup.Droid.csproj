@@ -97,6 +97,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Rg.Plugins.Popup\Properties\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Extensions\PlatformExtension.cs" />
     <Compile Include="Helpers\PlatformHelper.cs" />
     <Compile Include="Impl\PopupNavigationDroid.cs" />

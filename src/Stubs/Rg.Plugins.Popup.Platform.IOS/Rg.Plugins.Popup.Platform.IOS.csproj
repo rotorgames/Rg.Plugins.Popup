@@ -63,6 +63,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Rg.Plugins.Popup\Properties\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Rg.Plugins.Popup.Platform.cs">
       <Link>Rg.Plugins.Popup.Platform.cs</Link>
     </Compile>
