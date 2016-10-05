@@ -3,7 +3,7 @@ The plugin allows you to open any page as a popup.
 
 Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
-![Android](gif/android.gif) ![iOS](gif/ios.gif)
+![Landing](img/popup-landing.png)
 
 ## Support platforms
 
