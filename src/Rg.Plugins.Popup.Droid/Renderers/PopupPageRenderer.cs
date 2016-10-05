@@ -48,6 +48,16 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             _element.SendBackgroundClick();
         }
 
+        public override bool OnTouchEvent(MotionEvent e)
+        {
+            var baseValue = base.OnTouchEvent(e);
+
+            if (!_element.InputTransparent)
+                return baseValue;
+
+            return false;
+        }
+
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
             Element.ForceLayout();
