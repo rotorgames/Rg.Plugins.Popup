@@ -34,33 +34,6 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
-        {
-            base.OnElementChanged(e);
-
-            if (e.NewElement != null)
-            {
-                Window.Current.SizeChanged += OnSizeChanged;
-                DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
-
-#if WINDOWS_PHONE_APP
-                HardwareButtons.BackPressed += OnBackPressed;
-#elif WINDOWS_UWP
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-#endif
-
-                InputPane inputPane = InputPane.GetForCurrentView();
-                inputPane.Showing += OnKeyboardShowing;
-                inputPane.Hiding += OnKeyboardHiding;
-
-                ContainerElement.PointerPressed += OnBackgroundClick;
-            }
-            else if(e.OldElement != null)
-            {
-                OnDispose();
-            }
-        }
-
         private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
         {
             Element?.ForceLayout();
@@ -71,13 +44,25 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             Element?.ForceLayout();
         }
 
-        protected override void Dispose(bool disposing)
+        internal void Prepare()
         {
-            base.Dispose(disposing);
-            OnDispose();
+            Window.Current.SizeChanged += OnSizeChanged;
+            DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
+
+#if WINDOWS_PHONE_APP
+            HardwareButtons.BackPressed += OnBackPressed;
+#elif WINDOWS_UWP
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+#endif
+
+            InputPane inputPane = InputPane.GetForCurrentView();
+            inputPane.Showing += OnKeyboardShowing;
+            inputPane.Hiding += OnKeyboardHiding;
+
+            ContainerElement.PointerPressed += OnBackgroundClick;
         }
 
-        private void OnDispose()
+        internal void Destroy()
         {
             Window.Current.SizeChanged -= OnSizeChanged;
             DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;

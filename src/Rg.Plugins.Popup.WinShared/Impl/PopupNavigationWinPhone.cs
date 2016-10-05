@@ -2,6 +2,7 @@
 using System.Linq;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -29,7 +30,9 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         public void AddPopup(PopupPage page)
         {
             var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
-            popup.Child = page.GetOrCreateRenderer().ContainerElement;
+            var renderer = (PopupPageRenderer) page.GetOrCreateRenderer();
+            renderer.Prepare();
+            popup.Child = renderer.ContainerElement;
             popup.IsOpen = true;
             page.ForceLayout();
             _popupPageList.Add(page, popup);
@@ -39,6 +42,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         {
             var popup = _popupPageList.First(pair => pair.Key == page).Value;
             //((PopupPageRenderer)popup.Child).Dispose();
+            ((PopupPageRenderer)popup.Child).Destroy();
             popup.Child = null;
             popup.IsOpen = false;
             _popupPageList.Remove(page);
