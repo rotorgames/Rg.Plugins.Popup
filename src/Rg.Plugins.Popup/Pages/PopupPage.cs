@@ -215,7 +215,7 @@ namespace Rg.Plugins.Popup.Pages
             var isClose = OnBackgroundClicked();
             if (isClose)
             {
-                await PopupNavigation.PopAsync();
+                await PopupNavigation.RemovePageAsync(this);
             }
         }
 
