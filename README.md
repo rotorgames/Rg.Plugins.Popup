@@ -147,6 +147,13 @@ public partial class MyPopupPage : PopupPage
             //return base.OnBackButtonPressed();
             return true; 
         }
+
+		// Invoced when background is clicked
+		protected override bool OnBackgroundClicked()
+        {
+			// Return default value - IsCloseOnBackgroundClick
+            return base.OnBackgroundClicked();
+        }
     }
     
     // Main Page
