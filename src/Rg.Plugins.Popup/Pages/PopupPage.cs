@@ -164,26 +164,36 @@ namespace Rg.Plugins.Popup.Pages
             if (IsAnimating && Animation != null)
                 await Animation.Appearing(Content, this);
 
-            IsAnimate = false;
+            await OnAppearingAnimationEnd();
 
-            OnAppearingAnimationEnd();
+            IsAnimate = false;
         }
 
         internal async Task DisappearingAnimation()
         {
             IsAnimate = true;
 
+            await OnDisappearingAnimationBegin();
+
             if (IsAnimating && Animation != null)
                 await Animation.Disappearing(Content, this);
 
             IsAnimate = false;
-
-            OnDisappearingAnimationEnd();
         }
 
-        protected virtual void OnAppearingAnimationEnd() { }
+        #endregion
 
-        protected virtual void OnDisappearingAnimationEnd() { }
+        #region Override Animation Methods
+
+        protected virtual Task OnAppearingAnimationEnd()
+        {
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task OnDisappearingAnimationBegin()
+        {
+            return Task.FromResult(0);
+        }
 
         #endregion
 
