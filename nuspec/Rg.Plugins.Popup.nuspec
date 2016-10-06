@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -18,6 +18,8 @@
         </description>
         <releaseNotes>
           -->
+          [1.0.1]
+          - Fix. Glitch in animation when popping
           [1.0.0]
           - Add support Windows Phone and UWP
           - Initialization is not required now (except UWP)
