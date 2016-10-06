@@ -37,10 +37,7 @@ namespace Rg.Plugins.Popup.Services
                     task.TrySetResult(true);
                 });
             }
-            BeginInvokeOnMainThreadIfNeed(() =>
-            {
-                DependencyService.Get<IPopupNavigation>().AddPopup(page);
-            });
+            DependencyService.Get<IPopupNavigation>().AddPopup(page);
             _popupStack.Add(page);
             if(!animate) task.TrySetResult(true);
             return task.Task;
@@ -61,28 +58,18 @@ namespace Rg.Plugins.Popup.Services
             await Task.WhenAll(popupTasks);
         }
 
-        public static Task RemovePageAsync(PopupPage page, bool animate = true)
+        public async static Task RemovePageAsync(PopupPage page, bool animate = true)
         {
             if(page == null)
                 throw new NullReferenceException("Page can not be null");
 
-            var task = new TaskCompletionSource<bool>();
             if (!page.IsAnimate)
             {
-                BeginInvokeOnMainThreadIfNeed(async () =>
-                {
-                    if (animate) await page.DisappearingAnimation();
-                    RemovePopup(page);
-                    page.DisposingAnimation();
-                    task.TrySetResult(true);
-                });
+                if (animate) await page.DisappearingAnimation();
+                RemovePopup(page);
+                await Task.Delay(50);
+                page.DisposingAnimation();
             }
-            else
-            {
-                task.TrySetResult(true);
-            }
-
-            return task.Task;
         }
 
         // Private

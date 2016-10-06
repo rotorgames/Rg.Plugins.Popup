@@ -26,8 +26,10 @@ namespace Demo.Animations
         public override void Preparing(View content, PopupPage page)
         {
             base.Preparing(content, page);
-            
-            if(content == null) return;
+
+            page.IsVisible = false;
+
+            if (content == null) return;
 
             _defaultTranslationY = content.TranslationY;
         }
@@ -36,7 +38,9 @@ namespace Demo.Animations
         {
             base.Disposing(content, page);
 
-            if(content == null) return;
+            page.IsVisible = true;
+
+            if (content == null) return;
 
             content.TranslationY = _defaultTranslationY;
         }
@@ -54,6 +58,8 @@ namespace Demo.Animations
 
                 taskList.Add(content.TranslateTo(content.TranslationX, _defaultTranslationY, DurationIn, EasingIn));
             };
+
+            page.IsVisible = true;
 
             await Task.WhenAll(taskList);
         }

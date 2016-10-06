@@ -36,6 +36,8 @@ namespace Rg.Plugins.Popup.Animations
         {
             if(HasBackgroundAnimation) base.Preparing(content, page);
 
+            page.IsVisible = false;
+
             if(content == null) return;
 
             UpdateDefaultProperties(content);
@@ -46,6 +48,8 @@ namespace Rg.Plugins.Popup.Animations
         public override void Disposing(View content, PopupPage page)
         {
             if (HasBackgroundAnimation) base.Disposing(content, page);
+
+            page.IsVisible = true;
 
             if(content == null) return;
 
@@ -89,6 +93,8 @@ namespace Rg.Plugins.Popup.Animations
                     taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
                 }
             }
+
+            page.IsVisible = true;
 
             await Task.WhenAll(taskList);
         }
