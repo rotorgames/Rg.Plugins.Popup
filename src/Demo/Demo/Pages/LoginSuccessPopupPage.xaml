@@ -6,8 +6,8 @@
              x:Class="Demo.Pages.LoginSuccessPopupPage"
              BackgroundColor="Transparent"
              InputTransparent="True"
-             IsSystemPadding="False"
-             IsCloseOnBackgroundClick="False">
+             HasSystemPadding="False"
+             CloseWhenBackgroundIsClicked="False">
   <pages:PopupPage.Animation>
     <animations:MoveAnimation
       PositionIn="Top"

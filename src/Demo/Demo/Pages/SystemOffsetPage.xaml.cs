@@ -34,7 +34,7 @@ namespace Demo.Pages
             });
             Device.StartTimer(TimeSpan.FromMilliseconds(8000), () =>
             {
-                IsSystemPadding = true;
+                HasSystemPadding = true;
                 return false;
             });
         }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.SystemOffsetPage" 
-             IsSystemPadding="{Binding IsSystemPadding}"
+             HasSystemPadding="{Binding IsSystemPadding}"
              Padding="{Binding Padding}">
   <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" BackgroundColor="Red">
     <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">

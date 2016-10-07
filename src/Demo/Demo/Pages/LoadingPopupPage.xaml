@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.LoadingPopupPage"
-             IsCloseOnBackgroundClick="False">
+             CloseWhenBackgroundIsClicked="False">
   <ActivityIndicator
     Color="White"
     IsRunning="True"

@@ -33,9 +33,9 @@ namespace Rg.Plugins.Popup.Pages
         #region Bindable Properties
 
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
-        public static readonly BindableProperty IsSystemPaddingProperty = BindableProperty.Create(nameof(IsSystemPadding), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty HasSystemPaddingProperty = BindableProperty.Create(nameof(HasSystemPadding), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
-        public static readonly BindableProperty IsCloseOnBackgroundClickProperty = BindableProperty.Create(nameof(IsCloseOnBackgroundClick), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
 
         #endregion
 
@@ -47,10 +47,10 @@ namespace Rg.Plugins.Popup.Pages
             set { SetValue(IsAnimatingProperty, value); }
         }
 
-        public bool IsSystemPadding
+        public bool HasSystemPadding
         {
-            get { return (bool)GetValue(IsSystemPaddingProperty); }
-            set { SetValue(IsSystemPaddingProperty, value); }
+            get { return (bool)GetValue(HasSystemPaddingProperty); }
+            set { SetValue(HasSystemPaddingProperty, value); }
         }
 
         public IPopupAnimation Animation
@@ -64,10 +64,10 @@ namespace Rg.Plugins.Popup.Pages
             get { return DependencyService.Get<IScreenHelper>().ScreenOffsets; }
         }
 
-        public bool IsCloseOnBackgroundClick
+        public bool CloseWhenBackgroundIsClicked
         {
-            get { return (bool)GetValue(IsCloseOnBackgroundClickProperty); }
-            set { SetValue(IsCloseOnBackgroundClickProperty, value); }
+            get { return (bool)GetValue(CloseWhenBackgroundIsClickedProperty); }
+            set { SetValue(CloseWhenBackgroundIsClickedProperty, value); }
         }
 
         #endregion
@@ -92,7 +92,7 @@ namespace Rg.Plugins.Popup.Pages
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(Padding) || propertyName == nameof(IsSystemPadding))
+            if (propertyName == nameof(Padding) || propertyName == nameof(HasSystemPadding))
             {
                 ForceLayout();
             }
@@ -127,7 +127,7 @@ namespace Rg.Plugins.Popup.Pages
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            if (!IsSystemPadding)
+            if (!HasSystemPadding)
             {
                 base.LayoutChildren(x, y, width, height);
                 return;
@@ -201,7 +201,7 @@ namespace Rg.Plugins.Popup.Pages
 
         protected virtual bool OnBackgroundClicked()
         {
-            return IsCloseOnBackgroundClick;
+            return CloseWhenBackgroundIsClicked;
         }
 
         #endregion
