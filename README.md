@@ -95,8 +95,8 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
 * IsAnimating
 * Animation
 * BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
-* IsCloseOnBackgroundClick: Close pop-up when click on the background
-* IsSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
+* CloseWhenBackgroundIsClicked: Close pop-up when click on the background
+* HasSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
 	
 	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
 * SystemPadding: (ReadOnly) Thickness
@@ -184,7 +184,7 @@ public partial class MyPopupPage : PopupPage
 		// Invoced when background is clicked
 		protected override bool OnBackgroundClicked()
         {
-			// Return default value - IsCloseOnBackgroundClick
+			// Return default value - CloseWhenBackgroundIsClicked
             return base.OnBackgroundClicked();
         }
     }
