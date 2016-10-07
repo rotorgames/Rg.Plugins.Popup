@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -18,9 +18,7 @@
         </description>
         <releaseNotes>
           -->
-          [1.0.1]
-          - Fix. Glitch in animation when popping
-          [1.0.0]
+          [1.0.2]
           - Add support Windows Phone and UWP
           - Initialization is not required now (except UWP)
           - Improved performance animation on Android
@@ -30,6 +28,7 @@
           - Add overridden method OnBackgroundClicked in PopupPage
           - Removed some reflection methods
           - Removed from Popup Page, properties that override the default properties Page
+          - Fix. Glitch in animation when popping
           - Fix. BackgroundImage is not visible in PopupPage
           - Fix. DisplayAlert and DisplayActionSheet did not shown in iOS
           - Fix. UWP project crashes in release mode.
