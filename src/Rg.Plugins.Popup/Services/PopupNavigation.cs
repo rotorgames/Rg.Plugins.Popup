@@ -20,7 +20,9 @@ namespace Rg.Plugins.Popup.Services
 
         static PopupNavigation()
         {
-            Loader.Load();
+            var t = false;
+            if(t.Equals(true))
+                Loader.Load();
         }
 
         public static Task PushAsync(PopupPage page, bool animate = true)

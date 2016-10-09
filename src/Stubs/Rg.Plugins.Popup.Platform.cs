@@ -14,8 +14,7 @@ namespace Rg.Plugins.Popup.Platform.Renderers
         public static void Load()
         {
 #if __IOS__
-            new PopupNavigationIOS();
-            new ScreenHelperIos();
+            new PopupPageRenderer();
 #endif
         }
     }
