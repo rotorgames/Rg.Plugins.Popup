@@ -125,7 +125,7 @@ Task RemovePageAsync(PopupPage page, bool animate = true) // Navigation.RemovePo
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-	     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.MyPopupPage">
   <!--Animations use example-->
   <pages:PopupPage.Animation>
