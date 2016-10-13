@@ -85,8 +85,10 @@
       <!--wpa81-->
       <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\wpa81" />
       <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Publish\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\wpa81" />
       <!--uwp-->
       <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Publish\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\uap10.0" />
     </files>
 </package>
