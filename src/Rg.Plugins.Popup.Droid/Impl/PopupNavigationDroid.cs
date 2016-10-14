@@ -17,6 +17,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using XApplication = Xamarin.Forms.Application;
 
 [assembly: Dependency(typeof(PopupNavigationDroid))]
 namespace Rg.Plugins.Popup.Droid.Impl
@@ -33,6 +34,8 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var decoreView = _decoreView;
 
             var renderer = page.GetOrCreateRenderer();
+
+	        page.Parent = XApplication.Current.MainPage;
 
             page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
 

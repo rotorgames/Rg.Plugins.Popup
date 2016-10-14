@@ -28,8 +28,6 @@ namespace Rg.Plugins.Popup.Services
         public static Task PushAsync(PopupPage page, bool animate = true)
         {
             var task = new TaskCompletionSource<bool>();
-            var parent = GetParentPage();
-            page.Parent = parent;
             if (animate)
             {
                 page.PreparingAnimation();
@@ -83,28 +81,6 @@ namespace Rg.Plugins.Popup.Services
             {
                 DependencyService.Get<IPopupNavigation>().RemovePopup(page);
             });
-        }
-
-        private static Page GetParentPage()
-        {
-            Page lastPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault();
-
-            if (lastPage == null)
-                lastPage = Application.Current.MainPage;
-
-            return lastPage;
-        }
-
-        private static void BeginInvokeOnMainThreadIfNeed(Action action)
-        {
-            if (Device.OS != TargetPlatform.iOS)
-            {
-                Device.BeginInvokeOnMainThread(action);
-            }
-            else
-            {
-                action?.Invoke();
-            }
         }
     }
 }

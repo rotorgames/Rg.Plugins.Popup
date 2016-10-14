@@ -53,6 +53,9 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         {
             var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
+
+	        page.Parent = Application.Current.MainPage;
+
             renderer.Prepare(popup);
             popup.Child = renderer.ContainerElement;
             popup.IsOpen = true;

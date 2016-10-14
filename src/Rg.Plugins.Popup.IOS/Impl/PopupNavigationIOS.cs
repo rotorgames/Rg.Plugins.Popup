@@ -24,8 +24,16 @@ namespace Rg.Plugins.Popup.IOS.Impl
         public void AddPopup(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
-            GetTopViewController().View.AddSubview(renderer.NativeView);
-        }
+	        var topViewController = GetTopViewController();
+	        var topRenderer = topViewController.ChildViewControllers.LastOrDefault() as IVisualElementRenderer;
+
+	        if (topRenderer != null)
+		        page.Parent = topRenderer.Element;
+	        else
+		        page.Parent = Application.Current.MainPage;
+
+			topViewController.View.AddSubview(renderer.NativeView);
+		}
 
         public void RemovePopup(PopupPage page)
         {
@@ -39,12 +47,14 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         private UIViewController GetTopViewController()
         {
-            var navigation = Application.Current.MainPage.Navigation;
+	        var topViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
 
-            if (navigation.ModalStack.Count > 0)
-                return navigation.ModalStack.First().GetOrCreateRenderer().ViewController;
+	        while (topViewController.PresentedViewController != null)
+	        {
+		        topViewController = topViewController.PresentedViewController;
+	        }
 
-            return UIApplication.SharedApplication.KeyWindow.RootViewController;
+	        return topViewController;
         }
     }
 }
