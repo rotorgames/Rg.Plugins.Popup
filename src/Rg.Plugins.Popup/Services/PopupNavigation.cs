@@ -21,7 +21,7 @@ namespace Rg.Plugins.Popup.Services
         static PopupNavigation()
         {
             var t = false;
-            if(t.Equals(true))
+            if (t.Equals(true))
                 Loader.Load();
         }
 
@@ -39,13 +39,13 @@ namespace Rg.Plugins.Popup.Services
             }
             DependencyService.Get<IPopupNavigation>().AddPopup(page);
             _popupStack.Add(page);
-            if(!animate) task.TrySetResult(true);
+            if (!animate) task.TrySetResult(true);
             return task.Task;
         }
 
         public static Task PopAsync(bool animate = true)
         {
-            if (PopupStack.Count == 0) 
+            if (PopupStack.Count == 0)
                 throw new IndexOutOfRangeException("There is not page in PopupStack");
 
             return RemovePageAsync(PopupStack.Last(), animate);
@@ -60,7 +60,7 @@ namespace Rg.Plugins.Popup.Services
 
         public async static Task RemovePageAsync(PopupPage page, bool animate = true)
         {
-            if(page == null)
+            if (page == null)
                 throw new NullReferenceException("Page can not be null");
 
             if (!page.IsAnimate)

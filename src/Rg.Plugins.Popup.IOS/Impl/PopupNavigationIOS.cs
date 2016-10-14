@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CoreFoundation;
-using CoreGraphics;
+﻿using System.Linq;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -24,16 +17,16 @@ namespace Rg.Plugins.Popup.IOS.Impl
         public void AddPopup(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
-	        var topViewController = GetTopViewController();
-	        var topRenderer = topViewController.ChildViewControllers.LastOrDefault() as IVisualElementRenderer;
+            var topViewController = GetTopViewController();
+            var topRenderer = topViewController.ChildViewControllers.LastOrDefault() as IVisualElementRenderer;
 
-	        if (topRenderer != null)
-		        page.Parent = topRenderer.Element;
-	        else
-		        page.Parent = Application.Current.MainPage;
+            if (topRenderer != null)
+                page.Parent = topRenderer.Element;
+            else
+                page.Parent = Application.Current.MainPage;
 
-			topViewController.View.AddSubview(renderer.NativeView);
-		}
+            topViewController.View.AddSubview(renderer.NativeView);
+        }
 
         public void RemovePopup(PopupPage page)
         {
@@ -47,14 +40,14 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         private UIViewController GetTopViewController()
         {
-	        var topViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            var topViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
 
-	        while (topViewController.PresentedViewController != null)
-	        {
-		        topViewController = topViewController.PresentedViewController;
-	        }
+            while (topViewController.PresentedViewController != null)
+            {
+                topViewController = topViewController.PresentedViewController;
+            }
 
-	        return topViewController;
+            return topViewController;
         }
     }
 }

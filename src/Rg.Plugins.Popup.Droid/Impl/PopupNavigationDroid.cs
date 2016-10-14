@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
-using Android.OS;
 using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Droid.Extensions;
@@ -27,7 +21,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
     {
         private FrameLayout _decoreView
         {
-            get { return (FrameLayout)((Activity) Forms.Context).Window.DecorView; }
+            get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
         public void AddPopup(PopupPage page)
         {
@@ -35,7 +29,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-	        page.Parent = XApplication.Current.MainPage;
+            page.Parent = XApplication.Current.MainPage;
 
             page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
 

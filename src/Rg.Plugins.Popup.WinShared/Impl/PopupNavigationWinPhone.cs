@@ -13,9 +13,8 @@ using Windows.UI.Core;
 using Windows.Phone.UI.Input;
 using Xamarin.Forms.Platform.WinRT;
 #endif
-using Page = Xamarin.Forms.Page;
 
-[assembly:Dependency(typeof(PopupNavigationWinPhone))]
+[assembly: Dependency(typeof(PopupNavigationWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl
 {
     [Preserve(AllMembers = true)]
@@ -45,7 +44,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
                 var isPrevent = lastPopupPage.SendBackButtonPressed();
 
                 if (!isPrevent)
-                   await PopupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
             }
         }
 
@@ -54,7 +53,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
             var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
 
-	        page.Parent = Application.Current.MainPage;
+            page.Parent = Application.Current.MainPage;
 
             renderer.Prepare(popup);
             popup.Child = renderer.ContainerElement;
