@@ -16,7 +16,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
     {
         public void AddPopup(PopupPage page)
         {
-            var renderer = page.GetOrCreateRenderer();
             var topViewController = GetTopViewController();
             var topRenderer = topViewController.ChildViewControllers.LastOrDefault() as IVisualElementRenderer;
 
@@ -24,6 +23,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 page.Parent = topRenderer.Element;
             else
                 page.Parent = Application.Current.MainPage;
+
+            var renderer = page.GetOrCreateRenderer();
 
             topViewController.View.AddSubview(renderer.NativeView);
         }

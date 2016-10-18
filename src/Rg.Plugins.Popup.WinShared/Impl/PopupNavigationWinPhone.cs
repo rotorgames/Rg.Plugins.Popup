@@ -50,10 +50,10 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
 
         public void AddPopup(PopupPage page)
         {
+            page.Parent = Application.Current.MainPage;
+
             var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
-
-            page.Parent = Application.Current.MainPage;
 
             renderer.Prepare(popup);
             popup.Child = renderer.ContainerElement;

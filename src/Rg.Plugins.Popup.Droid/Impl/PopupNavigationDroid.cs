@@ -23,13 +23,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
+
         public void AddPopup(PopupPage page)
         {
             var decoreView = _decoreView;
 
-            var renderer = page.GetOrCreateRenderer();
-
             page.Parent = XApplication.Current.MainPage;
+
+            var renderer = page.GetOrCreateRenderer();
 
             page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
 
