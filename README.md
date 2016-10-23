@@ -18,7 +18,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 * OnDisappearing
 * OnBackButtonPressed
 * OnAppearingAnimationEnd
-* OnDisappearingAnimationEnd
+* OnDisappearingAnimationBegin
 * OnBackgroundClicked
 
 ## Events
