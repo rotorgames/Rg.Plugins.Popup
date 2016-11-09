@@ -101,7 +101,7 @@ protected override void OnLaunched(LaunchActivatedEventArgs e)
 	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
 * SystemPadding: (ReadOnly) Thickness
 
-## How Use
+## How To Use
 
 ```csharp 
 
