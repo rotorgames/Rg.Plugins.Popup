@@ -82,5 +82,13 @@ namespace Rg.Plugins.Popup.Services
                 DependencyService.Get<IPopupNavigation>().RemovePopup(page);
             });
         }
+
+        // Internal 
+
+        internal static void RemovePopupFromStack(PopupPage page)
+        {
+            if (_popupStack.Contains(page))
+                _popupStack.Remove(page);
+        }
     }
 }

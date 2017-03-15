@@ -26,7 +26,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
+            topViewController.AddChildViewController(renderer.ViewController);
             topViewController.View.AddSubview(renderer.NativeView);
+            renderer.ViewController.DidMoveToParentViewController(topViewController);
         }
 
         public void RemovePopup(PopupPage page)
@@ -35,7 +37,11 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var viewController = renderer?.ViewController;
 
             if (viewController != null && !viewController.IsBeingDismissed)
+            {
+                viewController.WillMoveToParentViewController(null);
+                viewController.RemoveFromParentViewController();
                 renderer.NativeView.RemoveFromSuperview();
+            }
 
         }
 

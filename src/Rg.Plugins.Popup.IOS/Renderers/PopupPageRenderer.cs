@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Foundation;
+﻿using Foundation;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -14,29 +13,31 @@ namespace Rg.Plugins.Popup.IOS.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
+        private readonly UIGestureRecognizer _tapGestureRecognizer;
+        private NSObject _willChangeFrameNotificationObserver;
+        private NSObject _willHideNotificationObserver;
+
         private PopupPage _element
         {
             get { return (PopupPage) Element; }
         }
-        protected override void OnElementChanged(VisualElementChangedEventArgs e)
-        {
-            base.OnElementChanged(e);
 
-            var tapGesture = new UITapGestureRecognizer(OnTap)
+        public PopupPageRenderer()
+        {
+            _tapGestureRecognizer = new UITapGestureRecognizer(OnTap)
             {
                 CancelsTouchesInView = false
             };
+        }
+
+        protected override void OnElementChanged(VisualElementChangedEventArgs e)
+        {
+            base.OnElementChanged(e);
 
             if (e.NewElement != null)
             {
                 ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
                 ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-
-                View.AddGestureRecognizer(tapGesture);
-            }
-            if (e.OldElement != null)
-            {
-                View.RemoveGestureRecognizer(tapGesture);
             }
         }
 
@@ -51,31 +52,68 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             }
         }
 
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            View?.AddGestureRecognizer(_tapGestureRecognizer);
+        }
+
+        public override void ViewDidUnload()
+        {
+            base.ViewDidUnload();
+
+            View?.RemoveGestureRecognizer(_tapGestureRecognizer);
+        }
+
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
+
             SetElementSize(new Size(View.Bounds.Width, View.Bounds.Height));
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillChangeFrameNotification, KeyBoardUpNotification);
-            NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification,KeyBoardDownNotification);
+
+            UnregisterAllObservers();
+
+            _willChangeFrameNotificationObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillShowNotification, KeyBoardUpNotification);
+            _willHideNotificationObserver = NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, KeyBoardDownNotification);
         }
 
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
-            NSNotificationCenter.DefaultCenter.RemoveObserver(this);
 
-            var isNotRemoved = PopupNavigation.PopupStack.Any(e => e == _element);
+            UnregisterAllObservers();
+        }
 
-            // Close all open pages the Popup, if the main page, on which opened PresentViewControllerAsync, destroyed.
-            if (isNotRemoved)
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            if(ParentViewController == null)
+                return;
+
+            if (!IsAttachedToCurrentApplication() ||
+                (ParentViewController.IsBeingDismissed && ParentViewController.IsViewLoaded))
             {
-                RemoveThisPageFromStack();
+                PopupNavigation.RemovePopupFromStack(_element);
             }
+        }
+
+        private void UnregisterAllObservers()
+        {
+            if (_willChangeFrameNotificationObserver != null)
+                NSNotificationCenter.DefaultCenter.RemoveObserver(_willChangeFrameNotificationObserver);
+
+            if(_willHideNotificationObserver != null)
+                NSNotificationCenter.DefaultCenter.RemoveObserver(_willHideNotificationObserver);
+
+            _willChangeFrameNotificationObserver = null;
+            _willHideNotificationObserver = null;
         }
 
         private void KeyBoardUpNotification(NSNotification notifi)
@@ -94,9 +132,22 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             SetElementSize(new Size(r.Width, screen.Height));
         }
 
-        private async void RemoveThisPageFromStack()
+        private bool IsAttachedToCurrentApplication()
         {
-            await PopupNavigation.RemovePageAsync(_element, false);
+            if (_element == null)
+                return false;
+
+            var parent = _element.Parent;
+
+            while (parent != null)
+            {
+                if (parent == Application.Current)
+                    return true;
+
+                parent = parent.Parent;
+            }
+
+            return false;
         }
     }
 }
