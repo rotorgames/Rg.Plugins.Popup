@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using CoreGraphics;
+using Foundation;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -16,6 +17,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private readonly UIGestureRecognizer _tapGestureRecognizer;
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
+        private CGRect _keyboardBounds;
 
         private PopupPage _element
         {
@@ -69,8 +71,8 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-
-            SetElementSize(new Size(View.Bounds.Width, View.Bounds.Height));
+            
+            UpdateElementSize();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -118,18 +120,16 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         private void KeyBoardUpNotification(NSNotification notifi)
         {
-            var r = UIKeyboard.BoundsFromNotification(notifi);
-            var screen = UIScreen.MainScreen.Bounds;
+            _keyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
 
-            SetElementSize(new Size(r.Width, screen.Height - r.Height));
+            UpdateElementSize();
         }
 
         private void KeyBoardDownNotification(NSNotification notifi)
         {
-            var r = UIKeyboard.BoundsFromNotification(notifi);
-            var screen = UIScreen.MainScreen.Bounds;
+            _keyboardBounds = CGRect.Empty;
 
-            SetElementSize(new Size(r.Width, screen.Height));
+            UpdateElementSize();
         }
 
         private bool IsAttachedToCurrentApplication()
@@ -148,6 +148,16 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             }
 
             return false;
+        }
+
+        private void UpdateElementSize()
+        {
+            if (View?.Superview == null)
+                return;
+
+            var bound = View.Superview.Bounds;
+
+            SetElementSize(new Size(bound.Width, bound.Height - _keyboardBounds.Height));
         }
     }
 }
