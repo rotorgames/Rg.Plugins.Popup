@@ -1,13 +1,16 @@
 ﻿using Windows.Foundation;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Thickness = Xamarin.Forms.Thickness;
 
-[assembly:Dependency(typeof(ScreenHelperWinPhone))]
+#if WINDOWS_PHONE_APP || WINDOWS_UWP
+using Windows.UI.Xaml;
+#endif
+
+[assembly: Dependency(typeof(ScreenHelperWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl
 {
     [Preserve(AllMembers = true)]
@@ -16,14 +19,17 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         [Preserve]
         public ScreenHelperWinPhone()
         {
-            
         }
 
         public Rectangle ScreenSize
         {
             get
             {
+#if WINDOWS_PHONE_APP || WINDOWS_UWP
                 var windowBound = Window.Current.Bounds;
+#elif WINDOWS_PHONE
+                var windowBound = System.Windows.Application.Current.RootVisual.RenderSize;
+#endif
                 var inputPane = InputPane.GetForCurrentView();
                 var keyboardBounds = inputPane.OccludedRect;
 
@@ -41,8 +47,9 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         {
             get
             {
+#if WINDOWS_PHONE_APP || WINDOWS_UWP
                 var windowBound = Window.Current.Bounds;
-                var visibleBounds =  ApplicationView.GetForCurrentView().VisibleBounds;
+                var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
 
                 var top = visibleBounds.Top - windowBound.Top;
                 var bottom = windowBound.Bottom - visibleBounds.Bottom;
@@ -50,6 +57,9 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
                 var right = windowBound.Right - visibleBounds.Right;
 
                 return new Thickness(left, top, right, bottom);
+#elif WINDOWS_PHONE
+                return new Thickness(0, 35, 0, 0);
+#endif
             }
         }
     }

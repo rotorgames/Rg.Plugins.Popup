@@ -39,11 +39,15 @@ namespace Rg.Plugins.Popup.Windows
         }
 
         [Obsolete("Use GetExtraAssemblies for UWP project", true)]
+#elif WINDOWS_PHONE
 #else
-        [Obsolete("Initialization is not required in UWP and WP projects")]
+        [Obsolete("Initialization is not required in UWP and WP 8.1 projects")]
 #endif
         public static void Init()
         {
+#if WINDOWS_PHONE
+            DependencyService.Register<PopupNavigationWinPhone>();
+#endif
         }
     }
 }
