@@ -54,13 +54,15 @@
     <Compile Include="Interfaces\Animations\IPopupAnimation.cs" />
     <Compile Include="Animations\MoveAnimation.cs" />
     <Compile Include="Animations\ScaleAnimation.cs" />
-    <Compile Include="Contracts\IPopupNavigation.cs" />
+    <Compile Include="Contracts\IPopupPlatform.cs" />
     <Compile Include="Enums\AnimationsName.cs" />
     <Compile Include="Enums\MoveAnimationOptions.cs" />
     <Compile Include="Extensions\NavigationExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\PopupPage.cs" />
+    <Compile Include="Contracts\IPopupNavigation.cs" />
     <Compile Include="Services\PopupNavigation.cs" />
+    <Compile Include="Services\PopupNavigationImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Stubs\Rg.Plugins.Popup.Platform\Rg.Plugins.Popup.Platform.csproj">

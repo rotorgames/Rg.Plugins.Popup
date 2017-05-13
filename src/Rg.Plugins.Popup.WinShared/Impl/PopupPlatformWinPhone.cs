@@ -16,14 +16,14 @@ using Windows.Phone.UI.Input;
 using Xamarin.Forms.Platform.WinRT;
 #endif
 
-[assembly: Dependency(typeof(PopupNavigationWinPhone))]
+[assembly: Dependency(typeof(PopupPlatformWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl
 {
     [Preserve(AllMembers = true)]
-    class PopupNavigationWinPhone : IPopupNavigation
+    class PopupPlatformWinPhone : IPopupPlatform
     {
         [Preserve]
-        public PopupNavigationWinPhone()
+        public PopupPlatformWinPhone()
         {
 #if WINDOWS_PHONE_APP
             HardwareButtons.BackPressed += OnBackPressed;

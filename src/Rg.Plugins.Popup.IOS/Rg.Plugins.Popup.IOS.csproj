@@ -72,8 +72,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Extensions\PlatformExtension.cs" />
-    <Compile Include="Impl\PopupNavigationIOS.cs" />
-    <Compile Include="Impl\ScreenHelperIos.cs" />
+    <Compile Include="Impl\PopupPlatformIos.cs" />
     <Compile Include="Platform\PopupPlatformRenderer.cs" />
     <Compile Include="Popup.cs" />
     <Compile Include="Renderers\PopupPageRenderer.cs" />

@@ -9,22 +9,22 @@ namespace Rg.Plugins.Popup.Extensions
     {
         public static Task PushPopupAsync(this INavigation sender, PopupPage page, bool animate = true)
         {
-            return PopupNavigation.PushAsync(page, animate);
+            return PopupNavigation.Instance.PushAsync(page, animate);
         }
 
         public static Task PopPopupAsync(this INavigation sender, bool animate = true)
         {
-            return PopupNavigation.PopAsync(animate);
+            return PopupNavigation.Instance.PopAsync(animate);
         }
 
         public static Task PopAllPopupAsync(this INavigation sender, bool animate = true)
         {
-            return PopupNavigation.PopAllAsync(animate);
+            return PopupNavigation.Instance.PopAllAsync(animate);
         }
 
         public static Task RemovePopupPageAsync(this INavigation sender, PopupPage page, bool animate = true)
         {
-            return PopupNavigation.RemovePageAsync(page, animate);
+            return PopupNavigation.Instance.RemovePageAsync(page, animate);
         }
     }
 }

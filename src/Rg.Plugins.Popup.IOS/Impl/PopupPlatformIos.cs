@@ -10,11 +10,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using XFPlatform = Xamarin.Forms.Platform.iOS.Platform;
 
-[assembly: Dependency(typeof(PopupNavigationIOS))]
+[assembly: Dependency(typeof(PopupPlatformIos))]
 namespace Rg.Plugins.Popup.IOS.Impl
 {
     [Preserve(AllMembers = true)]
-    internal class PopupNavigationIOS : IPopupNavigation
+    internal class PopupPlatformIos : IPopupPlatform
     {
         public void AddPopup(PopupPage page)
         {

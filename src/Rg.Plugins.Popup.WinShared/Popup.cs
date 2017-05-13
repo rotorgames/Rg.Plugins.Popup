@@ -20,7 +20,7 @@ namespace Rg.Plugins.Popup.Windows
         {
             var assemblies = new List<Assembly>
             {
-                GetAssembly<PopupNavigationWinPhone>(),
+                GetAssembly<PopupPlatformWinPhone>(),
                 GetAssembly<PopupPageRenderer>()
             };
 

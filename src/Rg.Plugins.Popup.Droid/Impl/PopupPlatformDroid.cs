@@ -13,11 +13,11 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using XApplication = Xamarin.Forms.Application;
 
-[assembly: Dependency(typeof(PopupNavigationDroid))]
+[assembly: Dependency(typeof(PopupPlatformDroid))]
 namespace Rg.Plugins.Popup.Droid.Impl
 {
     [Preserve(AllMembers = true)]
-    class PopupNavigationDroid : IPopupNavigation
+    class PopupPlatformDroid : IPopupPlatform
     {
         private FrameLayout DecoreView
         {
