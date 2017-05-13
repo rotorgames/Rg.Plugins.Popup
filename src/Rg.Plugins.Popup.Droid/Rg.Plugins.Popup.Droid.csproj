@@ -113,7 +113,6 @@
     <Compile Include="Extensions\PlatformExtension.cs" />
     <Compile Include="Helpers\PlatformHelper.cs" />
     <Compile Include="Impl\PopupNavigationDroid.cs" />
-    <Compile Include="Impl\ScreenHelperDroid.cs" />
     <Compile Include="Renderers\PopupPageRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

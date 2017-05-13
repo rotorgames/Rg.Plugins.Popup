@@ -55,7 +55,6 @@
     <Compile Include="Animations\MoveAnimation.cs" />
     <Compile Include="Animations\ScaleAnimation.cs" />
     <Compile Include="Contracts\IPopupNavigation.cs" />
-    <Compile Include="Contracts\IScreenHelper.cs" />
     <Compile Include="Enums\AnimationsName.cs" />
     <Compile Include="Enums\MoveAnimationOptions.cs" />
     <Compile Include="Extensions\NavigationExtension.cs" />

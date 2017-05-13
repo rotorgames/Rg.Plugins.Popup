@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Foundation;
+﻿using Foundation;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Platform;
@@ -58,7 +57,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
         private void DisposeModelAndChildrenRenderers(VisualElement view)
         {
             IVisualElementRenderer renderer;
-            foreach (VisualElement child in GetElementDescendants(view))
+            foreach (VisualElement child in view.RgDescendants())
             {
                 renderer = XFPlatform.GetRenderer(child);
                 XFPlatform.SetRenderer(child, null);
@@ -77,23 +76,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 renderer.Dispose();
             }
             XFPlatform.SetRenderer(view, null);
-        }
-
-        private IEnumerable<Element> GetElementDescendants(Element element)
-        {
-            var queue = new Queue<Element>(16);
-            queue.Enqueue(element);
-
-            while (queue.Count > 0)
-            {
-                ReadOnlyCollection<Element> children = ((IElementController)queue.Dequeue()).LogicalChildren;
-                for (var i = 0; i < children.Count; i++)
-                {
-                    Element child = children[i];
-                    yield return child;
-                    queue.Enqueue(child);
-                }
-            }
         }
     }
 }

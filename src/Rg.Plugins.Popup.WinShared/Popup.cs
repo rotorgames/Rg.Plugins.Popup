@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
-using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace Rg.Plugins.Popup.Windows
@@ -23,7 +21,6 @@ namespace Rg.Plugins.Popup.Windows
             var assemblies = new List<Assembly>
             {
                 GetAssembly<PopupNavigationWinPhone>(),
-                GetAssembly<ScreenHelperWinPhone>(),
                 GetAssembly<PopupPageRenderer>()
             };
 

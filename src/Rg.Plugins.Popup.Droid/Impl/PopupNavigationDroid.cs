@@ -32,8 +32,6 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
-
             decoreView.AddView(renderer.ViewGroup);
             UpdateListeners(true);
         }
