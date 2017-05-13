@@ -54,10 +54,14 @@ namespace Rg.Plugins.Popup.Services
 
             if (!page.IsAnimate)
             {
-                if (animate) await page.DisappearingAnimation();
+                if (animate)
+                    await page.DisappearingAnimation();
+
                 RemovePopup(page);
                 await Task.Delay(50);
-                page.DisposingAnimation();
+
+                if(animate)
+                    page.DisposingAnimation();
             }
         }
 
