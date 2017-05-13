@@ -36,6 +36,7 @@ namespace Rg.Plugins.Popup.Pages
         public static readonly BindableProperty HasSystemPaddingProperty = BindableProperty.Create(nameof(HasSystemPadding), typeof(bool), typeof(PopupPage), true);
         public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
         public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
+        public static readonly BindableProperty SystemPaddingProperty = BindableProperty.Create(nameof(SystemPadding), typeof(Thickness), typeof(PopupPage), default(Thickness), BindingMode.OneWayToSource);
 
         #endregion
 
@@ -61,7 +62,8 @@ namespace Rg.Plugins.Popup.Pages
 
         public Thickness SystemPadding
         {
-            get { return DependencyService.Get<IScreenHelper>().ScreenOffsets; }
+            get { return (Thickness)GetValue(SystemPaddingProperty); }
+            private set { SetValue(SystemPaddingProperty, value); }
         }
 
         public bool CloseWhenBackgroundIsClicked
@@ -92,9 +94,11 @@ namespace Rg.Plugins.Popup.Pages
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(Padding) || propertyName == nameof(HasSystemPadding))
+            switch (propertyName)
             {
-                ForceLayout();
+                case nameof(HasSystemPadding):
+                    ForceLayout();
+                    break;
             }
         }
 
@@ -206,7 +210,7 @@ namespace Rg.Plugins.Popup.Pages
 
         #endregion
 
-        #region Send Methods
+        #region Internal Methods
 
         internal async void SendBackgroundClick()
         {
@@ -217,6 +221,12 @@ namespace Rg.Plugins.Popup.Pages
             {
                 await PopupNavigation.RemovePageAsync(this);
             }
+        }
+
+        internal void SetSystemPadding(Thickness systemPadding)
+        {
+            SystemPadding = systemPadding;
+            ForceLayout();
         }
 
         #endregion

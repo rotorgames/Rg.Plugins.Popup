@@ -1,7 +1,8 @@
-﻿using Foundation;
+﻿using System.Threading.Tasks;
+using CoreGraphics;
+using Foundation;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -16,11 +17,9 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private readonly UIGestureRecognizer _tapGestureRecognizer;
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
+        private CGRect _keyboardBounds;
 
-        private PopupPage _element
-        {
-            get { return (PopupPage) Element; }
-        }
+        private PopupPage CurrentElement => (PopupPage) Element;
 
         public PopupPageRenderer()
         {
@@ -38,7 +37,19 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             {
                 ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
                 ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+
+                CurrentElement.Layout(new Rectangle(0, 0, 320, 560));
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                View?.RemoveGestureRecognizer(_tapGestureRecognizer);
+            }
+
+            base.Dispose(disposing);
         }
 
         private void OnTap(UITapGestureRecognizer e)
@@ -48,7 +59,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             var subview = view.HitTest(location, null);
             if (subview == view)
             {
-                _element.SendBackgroundClick();
+                CurrentElement.SendBackgroundClick();
             }
         }
 
@@ -70,7 +81,25 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             base.ViewDidLayoutSubviews();
 
-            SetElementSize(new Size(View.Bounds.Width, View.Bounds.Height));
+            if(View?.Superview == null)
+                return;
+
+            var superviewFrame = View.Superview.Frame;
+            var applactionFrame = UIScreen.MainScreen.ApplicationFrame;
+            var systemPadding = new Thickness
+            {
+                Left = applactionFrame.Left,
+                Top = applactionFrame.Top,
+                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
+                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
+            };
+
+            CurrentElement.BatchBegin();
+
+            CurrentElement.SetSystemPadding(systemPadding);
+            SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
+
+            CurrentElement.BatchCommit();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -90,20 +119,6 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             UnregisterAllObservers();
         }
 
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-
-            if(ParentViewController == null)
-                return;
-
-            if (!IsAttachedToCurrentApplication() ||
-                (ParentViewController.IsBeingDismissed && ParentViewController.IsViewLoaded))
-            {
-                PopupNavigation.RemovePopupFromStack(_element);
-            }
-        }
-
         private void UnregisterAllObservers()
         {
             if (_willChangeFrameNotificationObserver != null)
@@ -118,36 +133,29 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         private void KeyBoardUpNotification(NSNotification notifi)
         {
-            var r = UIKeyboard.BoundsFromNotification(notifi);
-            var screen = UIScreen.MainScreen.Bounds;
+            _keyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
 
-            SetElementSize(new Size(r.Width, screen.Height - r.Height));
+            ViewDidLayoutSubviews();
         }
 
-        private void KeyBoardDownNotification(NSNotification notifi)
+        private async void KeyBoardDownNotification(NSNotification notifi)
         {
-            var r = UIKeyboard.BoundsFromNotification(notifi);
-            var screen = UIScreen.MainScreen.Bounds;
+            NSObject duration;
+            var canAnimated = notifi.UserInfo.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out duration);
 
-            SetElementSize(new Size(r.Width, screen.Height));
-        }
+            _keyboardBounds = CGRect.Empty;
 
-        private bool IsAttachedToCurrentApplication()
-        {
-            if (_element == null)
-                return false;
-
-            var parent = _element.Parent;
-
-            while (parent != null)
+            if(canAnimated)
             {
-                if (parent == Application.Current)
-                    return true;
+                //It is needed that buttons are working when keyboard is opened. See #11
+                await Task.Delay(70);
 
-                parent = parent.Parent;
+                await UIView.AnimateAsync((double)(NSNumber)duration, ViewDidLayoutSubviews);
             }
-
-            return false;
+            else
+            {
+                ViewDidLayoutSubviews();
+            }
         }
     }
 }
