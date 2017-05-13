@@ -19,14 +19,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
     [Preserve(AllMembers = true)]
     class PopupNavigationDroid : IPopupNavigation
     {
-        private FrameLayout _decoreView
+        private FrameLayout DecoreView
         {
             get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
 
         public void AddPopup(PopupPage page)
         {
-            var decoreView = _decoreView;
+            var decoreView = DecoreView;
 
             page.Parent = XApplication.Current.MainPage;
 
@@ -43,9 +43,15 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
-                _decoreView.RemoveView(renderer.ViewGroup);
+                var element = renderer.Element;
+
+                DecoreView.RemoveView(renderer.ViewGroup);
+                renderer.Dispose();
+
+                if(element != null)
+                    element.Parent = null;
+
                 UpdateListeners(false);
-                //renderer.Dispose();
             }
         }
 

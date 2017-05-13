@@ -123,7 +123,7 @@ namespace Rg.Plugins.Popup.Pages
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
-            if (Device.OS == TargetPlatform.Android || Device.OS == TargetPlatform.Windows)
+            if (Device.OS == TargetPlatform.Windows)
             {
                 Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
             }
