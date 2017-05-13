@@ -120,15 +120,6 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Size Methods
 
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(width, height);
-            if (Device.OS == TargetPlatform.Windows)
-            {
-                Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
-            }
-        }
-
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
             if (!HasSystemPadding)

@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
@@ -65,13 +67,42 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         {
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
             var popup = renderer.Container;
-            //((PopupPageRenderer)popup.Child).Dispose();
+
             if (popup == null)
                 return;
 
             renderer.Destroy();
+
+            Cleanup(page);
+            page.Parent = null;
             popup.Child = null;
             popup.IsOpen = false;
+        }
+
+        internal static void Cleanup(VisualElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var elementRenderer = Platform.GetRenderer(element);
+            foreach (Element descendant in element.RgDescendants())
+            {
+                var child = descendant as VisualElement;
+                if (child != null)
+                {
+                    var childRenderer = Platform.GetRenderer(child);
+                    if (childRenderer != null)
+                    {
+                        childRenderer.Dispose();
+                        Platform.SetRenderer(child, null);
+                    }
+                }
+            }
+            if (elementRenderer == null)
+                return;
+
+            elementRenderer.Dispose();
+            Platform.SetRenderer(element, null);
         }
     }
 }
