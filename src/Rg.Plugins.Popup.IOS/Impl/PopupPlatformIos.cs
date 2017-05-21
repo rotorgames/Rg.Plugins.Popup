@@ -25,21 +25,21 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            var windows = new UIWindow
+            var window = new UIWindow
             {
                 BackgroundColor = Color.Transparent.ToUIColor()
             };
-            windows.RootViewController = new PopupPlatformRenderer(renderer);
-            windows.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
-            windows.WindowLevel = UIWindowLevel.Normal;
-            windows.MakeKeyAndVisible();
+            window.RootViewController = new PopupPlatformRenderer(renderer);
+            window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
+            window.WindowLevel = UIWindowLevel.Normal;
+            window.MakeKeyAndVisible();
 
             if (!IsiOS9OrNewer)
             {
-                windows.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+                window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
             }
 
-            windows.RootViewController.PresentViewController(renderer.ViewController, false, null);
+            window.RootViewController.PresentViewController(renderer.ViewController, false, null);
         }
 
         public void RemovePopup(PopupPage page)
