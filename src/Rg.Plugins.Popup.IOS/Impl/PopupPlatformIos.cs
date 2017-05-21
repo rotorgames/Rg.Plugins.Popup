@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using CoreGraphics;
+using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.IOS.Extensions;
@@ -16,6 +17,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformIos : IPopupPlatform
     {
+        private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+
         public void AddPopup(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
@@ -30,6 +33,11 @@ namespace Rg.Plugins.Popup.IOS.Impl
             windows.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
             windows.WindowLevel = UIWindowLevel.Normal;
             windows.MakeKeyAndVisible();
+
+            if (!IsiOS9OrNewer)
+            {
+                windows.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+            }
 
             windows.RootViewController.PresentViewController(renderer.ViewController, false, null);
         }
