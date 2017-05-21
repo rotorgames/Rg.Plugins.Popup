@@ -1,4 +1,5 @@
-﻿using CoreGraphics;
+﻿using System.Threading.Tasks;
+using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Extensions;
@@ -19,7 +20,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
     {
         private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
 
-        public void AddPopup(PopupPage page)
+        public async Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
 
@@ -39,27 +40,27 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
             }
 
-            window.RootViewController.PresentViewController(renderer.ViewController, false, null);
+            await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
+            await Task.Delay(5);
         }
 
-        public void RemovePopup(PopupPage page)
+        public async Task RemoveAsync(PopupPage page)
         {
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 
-            if(renderer == null)
-                return;
-
-            if (viewController != null && !viewController.IsBeingDismissed)
+            if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
                 var window = viewController.View.Window;
+                await window.RootViewController.DismissViewControllerAsync(false);
                 DisposeModelAndChildrenRenderers(page);
-                window.RootViewController.DismissViewController(false, null);
                 window.RootViewController.Dispose();
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
             }
+
+            await Task.Delay(5);
         }
 
         private void DisposeModelAndChildrenRenderers(VisualElement view)

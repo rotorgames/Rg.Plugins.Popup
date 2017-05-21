@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
@@ -22,6 +23,8 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
     [Preserve(AllMembers = true)]
     class PopupPlatformWinPhone : IPopupPlatform
     {
+        private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
+
         [Preserve]
         public PopupPlatformWinPhone()
         {
@@ -38,19 +41,21 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         private async void OnBackPressed(object sender, BackPressedEventArgs e)
 #endif
         {
-            var lastPopupPage = PopupNavigation.PopupStack.LastOrDefault();
+            var lastPopupPage = PopupNavigationInstance.PopupStack.LastOrDefault();
 
             if (lastPopupPage != null)
             {
-                e.Handled = true;
-                var isPrevent = lastPopupPage.SendBackButtonPressed();
+                var isPrevent = lastPopupPage.IsBeingDismissed || lastPopupPage.SendBackButtonPressed();
 
                 if (!isPrevent)
-                    await PopupNavigation.PopAsync();
+                {
+                    e.Handled = true;
+                    await PopupNavigationInstance.PopAsync();
+                }
             }
         }
 
-        public void AddPopup(PopupPage page)
+        public async Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
 
@@ -61,22 +66,26 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
             popup.Child = renderer.ContainerElement;
             popup.IsOpen = true;
             page.ForceLayout();
+
+            await Task.Delay(5);
         }
 
-        public void RemovePopup(PopupPage page)
+        public async Task RemoveAsync(PopupPage page)
         {
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
             var popup = renderer.Container;
 
-            if (popup == null)
-                return;
+            if (popup != null)
+            {
+                renderer.Destroy();
 
-            renderer.Destroy();
+                Cleanup(page);
+                page.Parent = null;
+                popup.Child = null;
+                popup.IsOpen = false;
+            }
 
-            Cleanup(page);
-            page.Parent = null;
-            popup.Child = null;
-            popup.IsOpen = false;
+            await Task.Delay(5);
         }
 
         internal static void Cleanup(VisualElement element)

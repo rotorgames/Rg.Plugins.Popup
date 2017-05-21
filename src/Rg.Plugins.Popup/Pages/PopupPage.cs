@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Platform.Renderers;
 using Rg.Plugins.Popup.Services;
@@ -12,15 +11,9 @@ namespace Rg.Plugins.Popup.Pages
     [RenderWith(typeof(_PopupPageRenderer))]
     public class PopupPage : ContentPage
     {
-        #region Private Fields
+        #region Internal Properties
 
-        private Action _appearingAction;
-
-        #endregion
-
-        #region Internal Fields
-
-        internal bool IsAnimate;
+        internal bool IsBeingDismissed { get; set; }
 
         #endregion
 
@@ -82,14 +75,6 @@ namespace Rg.Plugins.Popup.Pages
             Animation = new ScaleAnimation();
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            _appearingAction?.Invoke();
-            _appearingAction = null;
-        }
-
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -105,15 +90,6 @@ namespace Rg.Plugins.Popup.Pages
         protected override bool OnBackButtonPressed()
         {
             return false;
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        internal void ExecuteWhenAppearingOnce(Action action)
-        {
-            _appearingAction = action;
         }
 
         #endregion
@@ -154,26 +130,18 @@ namespace Rg.Plugins.Popup.Pages
 
         internal async Task AppearingAnimation()
         {
-            IsAnimate = true;
-
             if (IsAnimating && Animation != null)
                 await Animation.Appearing(Content, this);
 
             await OnAppearingAnimationEnd();
-
-            IsAnimate = false;
         }
 
         internal async Task DisappearingAnimation()
         {
-            IsAnimate = true;
-
             await OnDisappearingAnimationBegin();
 
             if (IsAnimating && Animation != null)
                 await Animation.Disappearing(Content, this);
-
-            IsAnimate = false;
         }
 
         #endregion

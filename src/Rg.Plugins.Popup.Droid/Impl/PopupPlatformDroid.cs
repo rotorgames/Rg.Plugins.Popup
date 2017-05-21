@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Runtime;
 using Android.Widget;
@@ -19,12 +20,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
     [Preserve(AllMembers = true)]
     class PopupPlatformDroid : IPopupPlatform
     {
+        private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
+
         private FrameLayout DecoreView
         {
             get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
 
-        public void AddPopup(PopupPage page)
+        public async Task AddAsync(PopupPage page)
         {
             var decoreView = DecoreView;
 
@@ -34,9 +37,11 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             decoreView.AddView(renderer.ViewGroup);
             UpdateListeners(true);
+
+            await Task.Delay(5);
         }
 
-        public void RemovePopup(PopupPage page)
+        public async Task RemoveAsync(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
@@ -51,13 +56,15 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
                 UpdateListeners(false);
             }
+
+            await Task.Delay(5);
         }
 
         #region Listeners
 
         private void UpdateListeners(bool isAdd)
         {
-            var isPrevent = PopupNavigation.PopupStack.Count > 0 || isAdd;
+            var isPrevent = PopupNavigationInstance.PopupStack.Count > 0 || isAdd;
 
             if (Forms.Context is FormsApplicationActivity)
             {
@@ -92,14 +99,17 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         private bool OnBackPressed(object sender, EventArgs e)
         {
-            if (PopupNavigation.PopupStack.Count > 0)
+            if (PopupNavigationInstance.PopupStack.Count > 0)
             {
-                var isPreventClose = PopupNavigation.PopupStack.Last().SendBackButtonPressed();
+                var lastPage = PopupNavigationInstance.PopupStack.Last();
+
+                var isPreventClose = lastPage.IsBeingDismissed || lastPage.SendBackButtonPressed();
+
                 if (!isPreventClose)
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await PopupNavigation.PopAsync();
+                        await PopupNavigationInstance.PopAsync();
                     });
                 }
             }

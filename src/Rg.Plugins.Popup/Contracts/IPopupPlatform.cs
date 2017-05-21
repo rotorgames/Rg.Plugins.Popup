@@ -1,11 +1,12 @@
-﻿using Rg.Plugins.Popup.Pages;
+﻿using System.Threading.Tasks;
+using Rg.Plugins.Popup.Pages;
 
 namespace Rg.Plugins.Popup.Contracts
 {
     internal interface IPopupPlatform
     {
-        void AddPopup(PopupPage page);
+        Task AddAsync(PopupPage page);
 
-        void RemovePopup(PopupPage page);
+        Task RemoveAsync(PopupPage page);
     }
 }

@@ -10,26 +10,25 @@ namespace Rg.Plugins.Popup.Services
 {
     internal class PopupNavigationImpl : IPopupNavigation
     {
-        private static readonly List<PopupPage> _popupStack = new List<PopupPage>();
+        private readonly List<PopupPage> _popupStack = new List<PopupPage>();
+
+        private IPopupPlatform PopupPlatform => DependencyService.Get<IPopupPlatform>();
 
         public IReadOnlyList<PopupPage> PopupStack => _popupStack;
 
-        public Task PushAsync(PopupPage page, bool animate = true)
+        public async Task PushAsync(PopupPage page, bool animate = true)
         {
-            var task = new TaskCompletionSource<bool>();
             if (animate)
             {
                 page.PreparingAnimation();
-                page.ExecuteWhenAppearingOnce(async () =>
-                {
-                    await page.AppearingAnimation();
-                    task.TrySetResult(true);
-                });
+                await AddAsync(page);
+                await Task.Delay(10);
+                await page.AppearingAnimation();
             }
-            DependencyService.Get<IPopupPlatform>().AddPopup(page);
-            _popupStack.Add(page);
-            if (!animate) task.TrySetResult(true);
-            return task.Task;
+            else
+            {
+                await AddAsync(page);
+            }
         }
 
         public Task PopAsync(bool animate = true)
@@ -52,25 +51,37 @@ namespace Rg.Plugins.Popup.Services
             if (page == null)
                 throw new NullReferenceException("Page can not be null");
 
-            if (!page.IsAnimate)
-            {
-                if (animate)
-                    await page.DisappearingAnimation();
+            if(page.IsBeingDismissed)
+                return;
 
-                RemovePopup(page);
-                await Task.Delay(50);
+            page.IsBeingDismissed = true;
 
-                if(animate)
-                    page.DisposingAnimation();
-            }
+            if (animate)
+                await page.DisappearingAnimation();
+
+            await RemoveAsync(page);
+            await Task.Delay(50);
+
+            if (animate)
+                page.DisposingAnimation();
+
+            page.IsBeingDismissed = false;
+
+            await Task.Delay(5);
         }
 
         // Private
 
-        private void RemovePopup(PopupPage page)
+        private async Task AddAsync(PopupPage page)
+        {
+            _popupStack.Add(page);
+            await PopupPlatform.AddAsync(page);
+        }
+
+        private async Task RemoveAsync(PopupPage page)
         {
             _popupStack.Remove(page);
-            DependencyService.Get<IPopupPlatform>().RemovePopup(page);
+            await PopupPlatform.RemoveAsync(page);
         }
 
         // Internal 
