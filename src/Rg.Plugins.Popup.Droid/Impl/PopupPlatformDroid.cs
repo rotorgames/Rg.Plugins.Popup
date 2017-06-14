@@ -29,16 +29,15 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public async Task AddAsync(PopupPage page)
         {
-            var decoreView = DecoreView;
-
-            page.Parent = XApplication.Current.MainPage;
-
-            var renderer = page.GetOrCreateRenderer();
-
-            decoreView.AddView(renderer.ViewGroup);
-            UpdateListeners(true);
-
-            await Task.Delay(5);
+           if (page.Parent==null)
+            {
+				var decoreView = DecoreView;
+				page.Parent = XApplication.Current.MainPage;
+				var renderer = page.GetOrCreateRenderer();
+				decoreView.AddView(renderer.ViewGroup);
+				UpdateListeners(true);
+				await Task.Delay(5);
+			}
         }
 
         public async Task RemoveAsync(PopupPage page)
