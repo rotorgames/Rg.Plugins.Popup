@@ -146,7 +146,7 @@ Task RemovePageAsync(PopupPage page, bool animate = true) // Navigation.RemovePo
 ```csharp
 public partial class MyPopupPage : PopupPage
     {
-        public SecondPopupPage()
+        public MyPopupPage()
         {
             InitializeComponent();
         }
@@ -163,16 +163,16 @@ public partial class MyPopupPage : PopupPage
         
 		// Method for animation child in PopupPage
 		// Invoced after custom animation end
-        protected virtual Task OnAppearingAnimationEnd()
+        protected override Task OnAppearingAnimationEnd()
         {
             return Content.FadeTo(0.5);
         }
 
 		// Method for animation child in PopupPage
 		// Invoked before custom animation begin
-        protected virtual Task OnDisappearingAnimationBegin()
+        protected override Task OnDisappearingAnimationBegin()
         {
-            return Content.FadeTo(1);;
+            return Content.FadeTo(1);
         }
 
         protected override bool OnBackButtonPressed()
