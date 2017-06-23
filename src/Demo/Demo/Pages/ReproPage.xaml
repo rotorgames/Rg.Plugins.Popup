@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Demo.Pages.ReproPage">
+
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="TitleContainer" TargetType="ContentView">
+        <Setter Property="HeightRequest">
+          <OnPlatform x:TypeArguments="x:Double" iOS="43.5" Android="65" WinPhone="20" />
+        </Setter>
+        <Setter Property="Padding">
+          <OnPlatform x:TypeArguments="Thickness" iOS="0" Android="25,0,25,0" WinPhone="0" />
+        </Setter>
+      </Style>
+      <Style x:Key="PopupTitle" TargetType="Label">
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize">
+          <OnPlatform x:TypeArguments="x:Double" iOS="17" Android="20" WinPhone="20" />
+        </Setter>
+        <Setter Property="BackgroundColor">
+          <OnPlatform x:TypeArguments="Color" iOS="#F6F6F6" Android="White" WinPhone="White" />
+        </Setter>
+        <Setter Property="HorizontalTextAlignment">
+          <OnPlatform x:TypeArguments="TextAlignment" iOS="Center" Android="Start" WinPhone="Start" />
+        </Setter>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="LineBreakMode" Value="TailTruncation" />
+      </Style>
+      <Style x:Key="HeaderSeperator" TargetType="BoxView">
+        <Setter Property="HeightRequest">
+          <OnPlatform x:TypeArguments="x:Double" iOS="0.5" Android="0" WinPhone="0" />
+        </Setter>
+        <Setter Property="BackgroundColor">
+          <OnPlatform x:TypeArguments="Color" iOS="#7E7E7E" Android="White" WinPhone="White" />
+        </Setter>
+      </Style>
+      <Style x:Key="PopupContentContainer" TargetType="StackLayout">
+        <Setter Property="Spacing">
+          <OnPlatform x:TypeArguments="x:Double" iOS="20" Android="10" WinPhone="20" />
+        </Setter>
+        <Setter Property="Padding">
+          <OnPlatform x:TypeArguments="Thickness" iOS="20" Android="25,0,25,25" WinPhone="20" />
+        </Setter>
+        <Setter Property="VerticalOptions" Value="Center" />
+      </Style>
+      <Style x:Key="BodyText" TargetType="Label">
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontSize">
+          <OnPlatform x:TypeArguments="x:Double" iOS="17" Android="17" WinPhone="20" />
+        </Setter>
+        <Setter Property="HorizontalTextAlignment">
+          <OnPlatform x:TypeArguments="TextAlignment" iOS="Center" Android="Start" WinPhone="Start" />
+        </Setter>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="ListText" TargetType="Label">
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="FontSize">
+          <OnPlatform x:TypeArguments="x:Double" iOS="17" Android="17" WinPhone="20" />
+        </Setter>
+      </Style>
+      <Style x:Key="iOSPopupButton" TargetType="Label">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ScrollView
+		x:Name="PopupContainer"
+		BackgroundColor="White"
+		WidthRequest="380"
+		VerticalOptions="Center"
+		HorizontalOptions="Center">
+
+    <StackLayout Spacing="0">
+
+      <ContentView Style="{StaticResource TitleContainer}">
+        <Label Text="Title" Style="{StaticResource PopupTitle}" />
+      </ContentView>
+
+      <BoxView Style="{StaticResource HeaderSeperator}" />
+
+      <ContentView x:Name="ContentContainer">
+        <StackLayout Style="{StaticResource PopupContentContainer}">
+
+          <Label Text="Please enter this documents password.
+'Remember password' saves it for re-use for this and other documents." Style="{DynamicResource BodyText}" />
+
+          <Entry Placeholder="Password" IsPassword="True" />
+
+          <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="Show Password" HorizontalOptions="StartAndExpand" Style="{DynamicResource ListText}" />
+            <Switch HorizontalOptions="EndAndExpand" />
+          </StackLayout>
+
+          <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="Remember Password" HorizontalOptions="StartAndExpand" Style="{DynamicResource ListText}" />
+            <Switch HorizontalOptions="EndAndExpand" />
+          </StackLayout>
+
+        </StackLayout>
+
+      </ContentView>
+
+      <RelativeLayout x:Name="iOSButtonContainer" HeightRequest="44.5" BackgroundColor="#D2D2D2">
+        <Label Text="Cancel" Style="{StaticResource iOSPopupButton}"
+
+					RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=0}"
+					RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=0.5}"
+					RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5}"
+					RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=44}">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnCancelTapped" />
+          </Label.GestureRecognizers>
+        </Label>
+
+        <Label Text="OK" Style="{StaticResource iOSPopupButton}"
+
+					RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=0.5}"
+					RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=0.5}"
+					RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=-0.5}"
+					RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=44}">
+          <Label.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnOKTapped" />
+          </Label.GestureRecognizers>
+        </Label>
+      </RelativeLayout>
+    </StackLayout>
+
+  </ScrollView>
+
+</pages:PopupPage>
