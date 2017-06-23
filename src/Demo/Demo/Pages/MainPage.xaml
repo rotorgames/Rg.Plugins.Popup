@@ -17,5 +17,6 @@
     <Button Text="Open User Animation Popup" Clicked="OnUserAnimationPupup"></Button>
     <Button Text="Open System Offset Page" Clicked="OnOpenSystemOffsetPage"></Button>
     <Button Text="ListView Page" Clicked="OnOpenListViewPage"></Button>
+    <Button Text="Repro" Clicked="OnOpenReproPage"></Button>
   </StackLayout>
 </ContentPage>
