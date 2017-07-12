@@ -2,6 +2,7 @@
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
+using System;
 
 namespace Rg.Plugins.Popup.Extensions
 {
@@ -9,6 +10,10 @@ namespace Rg.Plugins.Popup.Extensions
     {
         public static Task PushPopupAsync(this INavigation sender, PopupPage page, bool animate = true)
         {
+			if (page.Parent != null)
+			{
+				throw new ArgumentException("Page must not already have a parent.");
+			}
             return PopupNavigation.PushAsync(page, animate);
         }
 
