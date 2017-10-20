@@ -4,6 +4,7 @@ using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Rg.Plugins.Popup.Droid.Gestures;
 using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
@@ -17,10 +18,37 @@ namespace Rg.Plugins.Popup.Droid.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
+        private readonly RgGestureDetectorListener _gestureDetectorListener;
+        private readonly GestureDetector _gestureDetector;
         private DateTime _downTime;
         private Point _downPosition;
 
         private PopupPage CurrentElement => (PopupPage) Element;
+
+        #region Main Methods
+
+        public PopupPageRenderer()
+        {
+            _gestureDetectorListener = new RgGestureDetectorListener();
+
+            _gestureDetectorListener.Clicked += OnBackgroundClick;
+
+            _gestureDetector = new GestureDetector(_gestureDetectorListener);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _gestureDetectorListener.Clicked -= OnBackgroundClick;
+                _gestureDetectorListener.Dispose();
+                _gestureDetector.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
 
         #region Layout Methods
 
@@ -68,16 +96,12 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Click += OnBackgroundClick;
-
             Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
             base.OnAttachedToWindow();
         }
 
         protected override void OnDetachedFromWindow()
         {
-            Click -= OnBackgroundClick;
-
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
                 Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
@@ -124,6 +148,8 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         public override bool OnTouchEvent(MotionEvent e)
         {
             var baseValue = base.OnTouchEvent(e);
+
+            _gestureDetector.OnTouchEvent(e);
 
             if (!CurrentElement.InputTransparent)
                 return baseValue;
