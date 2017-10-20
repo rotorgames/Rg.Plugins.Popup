@@ -19,6 +19,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
         private CGRect _keyboardBounds;
+        private bool _isDisposed;
 
         private PopupPage CurrentElement => (PopupPage) Element;
 
@@ -43,6 +44,8 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             }
 
             base.Dispose(disposing);
+
+            _isDisposed = true;
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
@@ -194,12 +197,25 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 //It is needed that buttons are working when keyboard is opened. See #11
                 await Task.Delay(70);
 
-                await UIView.AnimateAsync((double)(NSNumber)duration, ViewDidLayoutSubviews);
+                if(!_isDisposed)
+                    await UIView.AnimateAsync((double)(NSNumber)duration, OnKeyboardAnimated);
             }
             else
             {
                 ViewDidLayoutSubviews();
             }
+        }
+
+        #endregion
+
+        #region Animation Methods
+
+        private void OnKeyboardAnimated()
+        {
+            if (_isDisposed)
+                return;
+
+            ViewDidLayoutSubviews();
         }
 
         #endregion
