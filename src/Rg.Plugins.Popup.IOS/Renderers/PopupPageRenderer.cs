@@ -141,7 +141,9 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             base.ViewDidLayoutSubviews();
 
-            if (View?.Superview == null)
+            var currentElement = CurrentElement;
+
+            if (View?.Superview?.Frame == null || currentElement == null)
                 return;
 
             var superviewFrame = View.Superview.Frame;
@@ -154,12 +156,12 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
             };
 
-            CurrentElement.BatchBegin();
+            currentElement.BatchBegin();
 
-            CurrentElement.SetSystemPadding(systemPadding);
+            currentElement.SetSystemPadding(systemPadding);
             SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
 
-            CurrentElement.BatchCommit();
+            currentElement.BatchCommit();
         }
 
         #endregion
