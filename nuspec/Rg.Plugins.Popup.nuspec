@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.1.0-pre3</version>
+        <version>1.1.0-pre4</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -17,6 +17,9 @@
           Attention. This version is not compatible with 0.0.17 and 1.0.0
         </description>
         <releaseNotes>
+            -->
+            [1.1.0-pre4]
+            - Fixed iOS. ViewDidLayoutSubviews thrown an exception because it was invoked even when a popup was popped. See #134
             -->
             [1.1.0-pre3]
             - Fixed Android. BackgroundClick and CloseWhenBackgroundIsClicked didn't work with Xamarin.Forms 2.4.x. See #173
