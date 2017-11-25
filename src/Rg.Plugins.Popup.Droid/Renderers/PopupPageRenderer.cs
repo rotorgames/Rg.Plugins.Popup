@@ -22,6 +22,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         private readonly GestureDetector _gestureDetector;
         private DateTime _downTime;
         private Point _downPosition;
+        private bool _disposed;
 
         private PopupPage CurrentElement => (PopupPage) Element;
 
@@ -33,13 +34,15 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetectorListener.Clicked += OnBackgroundClick;
 
-            _gestureDetector = new GestureDetector(_gestureDetectorListener);
+            _gestureDetector = new GestureDetector(Context, _gestureDetectorListener);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
+                _disposed = true;
+
                 _gestureDetectorListener.Clicked -= OnBackgroundClick;
                 _gestureDetectorListener.Dispose();
                 _gestureDetector.Dispose();
@@ -147,19 +150,40 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         public override bool OnTouchEvent(MotionEvent e)
         {
+            if (_disposed)
+                return false;
+
             var baseValue = base.OnTouchEvent(e);
 
             _gestureDetector.OnTouchEvent(e);
 
-            if (!CurrentElement.InputTransparent)
+            if (CurrentElement != null && !CurrentElement.InputTransparent)
                 return baseValue;
 
             return false;
         }
 
-        private void OnBackgroundClick(object sender, EventArgs e)
+        private void OnBackgroundClick(object sender, MotionEvent e)
         {
-            CurrentElement.SendBackgroundClick();
+            if (ChildCount == 0)
+                return;
+
+            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0));
+
+            if (!isInRegion)
+                CurrentElement.SendBackgroundClick();
+        }
+
+        // Fix for "CloseWhenBackgroundIsClicked not works on Android with Xamarin.Forms 2.4.0.280" #173
+        private bool IsInRegion(float x, float y, View v)
+        {
+            var mCoordBuffer = new int[2];
+
+            v.GetLocationOnScreen(mCoordBuffer);
+            return mCoordBuffer[0] + v.Width > x &&    // right edge
+                   mCoordBuffer[1] + v.Height > y &&   // bottom edge
+                   mCoordBuffer[0] < x &&              // left edge
+                   mCoordBuffer[1] < y;                // top edge
         }
 
         #endregion
