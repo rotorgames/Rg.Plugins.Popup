@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.1.0-pre4</version>
+        <version>1.1.0-pre5</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -18,9 +18,11 @@
         </description>
         <releaseNotes>
             -->
+            [1.1.0-pre5]
+            - Fixed Android. PopupPageRenderer thrown an exception when an user clicked on background if an animation was disabled and BackgroundClick could be invoked even if a touch was on Content. See [#173]
+            - Fixed iOS. Сhildren of PopupPage was not released from memory if them was removed before page was popped.
             [1.1.0-pre4]
             - Fixed iOS. ViewDidLayoutSubviews thrown an exception because it was invoked even when a popup was popped. See #134
-            -->
             [1.1.0-pre3]
             - Fixed Android. BackgroundClick and CloseWhenBackgroundIsClicked didn't work with Xamarin.Forms 2.4.x. See #173
             - Fixed iOS. The app could throw an exception when a popup is closed with an opened keyboard. See #122
