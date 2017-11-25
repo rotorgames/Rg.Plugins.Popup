@@ -50,6 +50,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 
+            await Task.Delay(50);
+
             page.DescendantRemoved -= HandleChildRemoved;
 
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
