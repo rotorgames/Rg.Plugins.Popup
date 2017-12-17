@@ -9,7 +9,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 - [x] Android
 - [x] iOS
-- [x] Windows Phone
+- [ ] Windows Phone (Obsolete. Use v1.1.0-pre5 if WP is needed)
 - [x] UWP
 
 ## Override Methods PopupPage
