@@ -158,18 +158,18 @@
     <EmbeddedResource Include="Properties\Rg.Plugins.Popup.UWP.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj">
-      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
-      <Name>Rg.Plugins.Popup</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.0.0</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
       <Version>2.5.0.121934</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>Rg.Plugins.Popup</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

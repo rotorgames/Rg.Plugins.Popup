@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
@@ -94,7 +93,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
                 throw new ArgumentNullException(nameof(element));
 
             var elementRenderer = Platform.GetRenderer(element);
-            foreach (Element descendant in element.RgDescendants())
+            foreach (Element descendant in element.Descendants())
             {
                 var child = descendant as VisualElement;
                 if (child != null)
