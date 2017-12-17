@@ -1,18 +1,21 @@
-﻿using Windows.Graphics.Display;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Windows.Renderers;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Size = Windows.Foundation.Size;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 #elif WINDOWS_PHONE_APP
 using Xamarin.Forms.Platform.WinRT;
-using Windows.Phone.UI.Input;
 #endif
-using Page = Xamarin.Forms.Page;
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 
 [assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
@@ -21,12 +24,11 @@ namespace Rg.Plugins.Popup.Windows.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
+        private Rect _keyboardBounds;
+
         internal WinPopup Container { get; private set; }
 
-        private PopupPage _element
-        {
-            get { return (PopupPage) Element; }
-        }
+        private PopupPage CurrentElement => (PopupPage)Element;
 
         [Preserve]
         public PopupPageRenderer()
@@ -36,12 +38,21 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
         {
-            Element?.ForceLayout();
+            _keyboardBounds = Rect.Empty;
+            UpdateElementSize();
         }
 
         private void OnKeyboardShowing(InputPane sender, InputPaneVisibilityEventArgs args)
         {
-            Element?.ForceLayout();
+            _keyboardBounds = sender.OccludedRect;
+            UpdateElementSize();
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            UpdateElementSize();
+
+            return base.ArrangeOverride(finalSize);
         }
 
         internal void Prepare(WinPopup container)
@@ -74,20 +85,50 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         private void OnOrientationChanged(DisplayInformation sender, object args)
         {
-            Element?.ForceLayout();
+            UpdateElementSize();
         }
 
         private void OnSizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            Element?.ForceLayout();
+            UpdateElementSize();
         }
 
         private void OnBackgroundClick(object sender, PointerRoutedEventArgs e)
         {
             if (e.OriginalSource == this)
             {
-                _element.SendBackgroundClick();
+                CurrentElement.SendBackgroundClick();
             }
+        }
+
+        private async void UpdateElementSize()
+        {
+            await Task.Delay(50);
+
+            var windowBound = Window.Current.Bounds;
+            var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+
+            var top = visibleBounds.Top - windowBound.Top;
+            var bottom = windowBound.Bottom - visibleBounds.Bottom;
+            var left = visibleBounds.Left - windowBound.Left;
+            var right = windowBound.Right - visibleBounds.Right;
+
+            top = Math.Max(0, top);
+            bottom = Math.Max(0, bottom);
+            left = Math.Max(0, left);
+            right = Math.Max(0, right);
+
+            if(_keyboardBounds != Rect.Empty)
+                bottom += _keyboardBounds.Height;
+
+            var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
+
+            CurrentElement.BatchBegin();
+
+            CurrentElement.SetSystemPadding(systemPadding);
+            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+
+            CurrentElement.BatchCommit();
         }
     }
 }

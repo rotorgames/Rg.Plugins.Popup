@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Platform.Renderers;
-using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Services
 {
     public static class PopupNavigation
     {
-        private static readonly List<PopupPage> _popupStack = new List<PopupPage>();
+        private const string DepractedMethodsText = "You should use "+nameof(IPopupNavigation)+" instance from "+nameof(PopupNavigation)+"."+nameof(Instance);
+        private static IPopupNavigation _popupNavigation;
 
-        public static IReadOnlyList<PopupPage> PopupStack
+        public static IPopupNavigation Instance
         {
-            get { return _popupStack; }
+            get
+            {
+                if(_popupNavigation == null)
+                    _popupNavigation = new PopupNavigationImpl();
+
+                return _popupNavigation;
+            }
         }
+
+        [Obsolete(DepractedMethodsText)]
+        public static IReadOnlyList<PopupPage> PopupStack => Instance.PopupStack;
 
         static PopupNavigation()
         {
@@ -25,70 +33,28 @@ namespace Rg.Plugins.Popup.Services
                 Loader.Load();
         }
 
+        [Obsolete(DepractedMethodsText)]
         public static Task PushAsync(PopupPage page, bool animate = true)
         {
-            var task = new TaskCompletionSource<bool>();
-            if (animate)
-            {
-                page.PreparingAnimation();
-                page.ExecuteWhenAppearingOnce(async () =>
-                {
-                    await page.AppearingAnimation();
-                    task.TrySetResult(true);
-                });
-            }
-            DependencyService.Get<IPopupNavigation>().AddPopup(page);
-            _popupStack.Add(page);
-            if (!animate) task.TrySetResult(true);
-            return task.Task;
+            return Instance.PushAsync(page, animate);
         }
 
+        [Obsolete(DepractedMethodsText)]
         public static Task PopAsync(bool animate = true)
         {
-            if (PopupStack.Count == 0)
-                throw new IndexOutOfRangeException("There is not page in PopupStack");
-
-            return RemovePageAsync(PopupStack.Last(), animate);
+            return Instance.PopAsync(animate);
         }
 
-        public async static Task PopAllAsync(bool animate = true)
+        [Obsolete(DepractedMethodsText)]
+        public static Task PopAllAsync(bool animate = true)
         {
-            var popupTasks = _popupStack.ToList().Select(page => RemovePageAsync(page, animate));
-
-            await Task.WhenAll(popupTasks);
+            return Instance.PopAllAsync(animate);
         }
 
-        public async static Task RemovePageAsync(PopupPage page, bool animate = true)
+        [Obsolete(DepractedMethodsText)]
+        public static Task RemovePageAsync(PopupPage page, bool animate = true)
         {
-            if (page == null)
-                throw new NullReferenceException("Page can not be null");
-
-            if (!page.IsAnimate)
-            {
-                if (animate) await page.DisappearingAnimation();
-                RemovePopup(page);
-                await Task.Delay(50);
-                page.DisposingAnimation();
-            }
-        }
-
-        // Private
-
-        private static void RemovePopup(PopupPage page)
-        {
-            _popupStack.Remove(page);
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                DependencyService.Get<IPopupNavigation>().RemovePopup(page);
-            });
-        }
-
-        // Internal 
-
-        internal static void RemovePopupFromStack(PopupPage page)
-        {
-            if (_popupStack.Contains(page))
-                _popupStack.Remove(page);
+            return Instance.RemovePageAsync(page, animate);
         }
     }
 }

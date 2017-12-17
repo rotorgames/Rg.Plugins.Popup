@@ -9,8 +9,7 @@
     <Import_RootNamespace>Rg.Plugins.Popup.WinShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\PopupNavigationWinPhone.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Impl\ScreenHelperWinPhone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Impl\PopupPlatformWinPhone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Renderers\PopupPageRenderer.cs" />
   </ItemGroup>

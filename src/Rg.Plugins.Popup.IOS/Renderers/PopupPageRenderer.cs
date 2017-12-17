@@ -1,8 +1,9 @@
-﻿using CoreGraphics;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -18,11 +19,11 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
         private CGRect _keyboardBounds;
+        private bool _isDisposed;
 
-        private PopupPage _element
-        {
-            get { return (PopupPage) Element; }
-        }
+        private PopupPage CurrentElement => (PopupPage) Element;
+
+        #region Main Methods
 
         public PopupPageRenderer()
         {
@@ -32,16 +33,49 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             };
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (CurrentElement != null)
+                    CurrentElement.PropertyChanged -= OnElementPropertyChanged;
+
+                View?.RemoveGestureRecognizer(_tapGestureRecognizer);
+            }
+
+            base.Dispose(disposing);
+
+            _isDisposed = true;
+        }
+
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
         {
             base.OnElementChanged(e);
 
+            if (e.OldElement != null)
+            {
+                e.OldElement.PropertyChanged -= OnElementPropertyChanged;
+            }
+
             if (e.NewElement != null)
             {
-                ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-                ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+                e.NewElement.PropertyChanged += OnElementPropertyChanged;
             }
         }
+
+        private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(CurrentElement.InputTransparent):
+                    UpdateInputTransparent();
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Gestures Methods
 
         private void OnTap(UITapGestureRecognizer e)
         {
@@ -50,13 +84,20 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             var subview = view.HitTest(location, null);
             if (subview == view)
             {
-                _element.SendBackgroundClick();
+                CurrentElement.SendBackgroundClick();
             }
         }
+
+        #endregion
+
+        #region Life Cycle Methods
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            ModalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
+            ModalTransitionStyle = UIModalTransitionStyle.CoverVertical;
 
             View?.AddGestureRecognizer(_tapGestureRecognizer);
         }
@@ -68,11 +109,11 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             View?.RemoveGestureRecognizer(_tapGestureRecognizer);
         }
 
-        public override void ViewDidLayoutSubviews()
+        public override void ViewDidAppear(bool animated)
         {
-            base.ViewDidLayoutSubviews();
-            
-            UpdateElementSize();
+            base.ViewDidAppear(animated);
+
+            UpdateInputTransparent();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -92,26 +133,47 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             UnregisterAllObservers();
         }
 
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
+        #endregion
 
-            if(ParentViewController == null)
+        #region Layout Methods
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+
+            var currentElement = CurrentElement;
+
+            if (View?.Superview?.Frame == null || currentElement == null)
                 return;
 
-            if (!IsAttachedToCurrentApplication() ||
-                (ParentViewController.IsBeingDismissed && ParentViewController.IsViewLoaded))
+            var superviewFrame = View.Superview.Frame;
+            var applactionFrame = UIScreen.MainScreen.ApplicationFrame;
+            var systemPadding = new Thickness
             {
-                PopupNavigation.RemovePopupFromStack(_element);
-            }
+                Left = applactionFrame.Left,
+                Top = applactionFrame.Top,
+                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
+                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
+            };
+
+            currentElement.BatchBegin();
+
+            currentElement.SetSystemPadding(systemPadding);
+            SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
+
+            currentElement.BatchCommit();
         }
+
+        #endregion
+
+        #region Notifications Methods
 
         private void UnregisterAllObservers()
         {
             if (_willChangeFrameNotificationObserver != null)
                 NSNotificationCenter.DefaultCenter.RemoveObserver(_willChangeFrameNotificationObserver);
 
-            if(_willHideNotificationObserver != null)
+            if (_willHideNotificationObserver != null)
                 NSNotificationCenter.DefaultCenter.RemoveObserver(_willHideNotificationObserver);
 
             _willChangeFrameNotificationObserver = null;
@@ -122,42 +184,54 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             _keyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
 
-            UpdateElementSize();
+            ViewDidLayoutSubviews();
         }
 
-        private void KeyBoardDownNotification(NSNotification notifi)
+        private async void KeyBoardDownNotification(NSNotification notifi)
         {
+            NSObject duration;
+            var canAnimated = notifi.UserInfo.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out duration);
+
             _keyboardBounds = CGRect.Empty;
 
-            UpdateElementSize();
-        }
-
-        private bool IsAttachedToCurrentApplication()
-        {
-            if (_element == null)
-                return false;
-
-            var parent = _element.Parent;
-
-            while (parent != null)
+            if (canAnimated)
             {
-                if (parent == Application.Current)
-                    return true;
+                //It is needed that buttons are working when keyboard is opened. See #11
+                await Task.Delay(70);
 
-                parent = parent.Parent;
+                if(!_isDisposed)
+                    await UIView.AnimateAsync((double)(NSNumber)duration, OnKeyboardAnimated);
             }
-
-            return false;
+            else
+            {
+                ViewDidLayoutSubviews();
+            }
         }
 
-        private void UpdateElementSize()
+        #endregion
+
+        #region Animation Methods
+
+        private void OnKeyboardAnimated()
         {
-            if (View?.Superview == null)
+            if (_isDisposed)
                 return;
 
-            var bound = View.Superview.Bounds;
-
-            SetElementSize(new Size(bound.Width, bound.Height - _keyboardBounds.Height));
+            ViewDidLayoutSubviews();
         }
+
+        #endregion
+
+        #region Style Methods
+
+        private void UpdateInputTransparent()
+        {
+            if (View?.Window != null)
+            {
+                View.Window.UserInteractionEnabled = !CurrentElement.InputTransparent;
+            }
+        }
+
+        #endregion
     }
 }

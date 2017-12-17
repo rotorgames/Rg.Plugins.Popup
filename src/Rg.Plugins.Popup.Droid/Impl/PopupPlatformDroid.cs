@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Runtime;
 using Android.Widget;
@@ -13,47 +14,57 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using XApplication = Xamarin.Forms.Application;
 
-[assembly: Dependency(typeof(PopupNavigationDroid))]
+[assembly: Dependency(typeof(PopupPlatformDroid))]
 namespace Rg.Plugins.Popup.Droid.Impl
 {
     [Preserve(AllMembers = true)]
-    class PopupNavigationDroid : IPopupNavigation
+    class PopupPlatformDroid : IPopupPlatform
     {
-        private FrameLayout _decoreView
+        private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
+
+        private FrameLayout DecoreView
         {
             get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
 
-        public void AddPopup(PopupPage page)
+        public async Task AddAsync(PopupPage page)
         {
-            var decoreView = _decoreView;
+            var decoreView = DecoreView;
 
             page.Parent = XApplication.Current.MainPage;
 
             var renderer = page.GetOrCreateRenderer();
 
-            page.Layout(DependencyService.Get<IScreenHelper>().ScreenSize);
-
             decoreView.AddView(renderer.ViewGroup);
             UpdateListeners(true);
+
+            await Task.Delay(5);
         }
 
-        public void RemovePopup(PopupPage page)
+        public async Task RemoveAsync(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
-                _decoreView.RemoveView(renderer.ViewGroup);
+                var element = renderer.Element;
+
+                DecoreView.RemoveView(renderer.ViewGroup);
+                renderer.Dispose();
+
+                if(element != null)
+                    element.Parent = null;
+
                 UpdateListeners(false);
-                //renderer.Dispose();
             }
+
+            await Task.Delay(5);
         }
 
         #region Listeners
 
         private void UpdateListeners(bool isAdd)
         {
-            var isPrevent = PopupNavigation.PopupStack.Count > 0 || isAdd;
+            var isPrevent = PopupNavigationInstance.PopupStack.Count > 0 || isAdd;
 
             if (Forms.Context is FormsApplicationActivity)
             {
@@ -88,14 +99,17 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         private bool OnBackPressed(object sender, EventArgs e)
         {
-            if (PopupNavigation.PopupStack.Count > 0)
+            if (PopupNavigationInstance.PopupStack.Count > 0)
             {
-                var isPreventClose = PopupNavigation.PopupStack.Last().SendBackButtonPressed();
+                var lastPage = PopupNavigationInstance.PopupStack.Last();
+
+                var isPreventClose = lastPage.IsBeingDismissed || lastPage.SendBackButtonPressed();
+
                 if (!isPreventClose)
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await PopupNavigation.PopAsync();
+                        await PopupNavigationInstance.PopAsync();
                     });
                 }
             }

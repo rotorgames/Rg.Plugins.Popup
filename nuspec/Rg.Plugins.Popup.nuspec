@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.0.4</version>
+        <version>1.1.0-pre6</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -17,82 +17,115 @@
           Attention. This version is not compatible with 0.0.17 and 1.0.0
         </description>
         <releaseNotes>
-          -->
-          [1.0.4]
-          - Fix. Popup page won't open on a modal inside a navigation page in iOS #49
-          [1.0.3]
-          - Plugin didn't work on UWP.
-          [1.0.2]
-          - Add support Windows Phone and UWP
-          - Initialization is not required now (except UWP)
-          - Improved performance animation on Android
-          - Now, new animation system
-          - Now it is possible to use one copy of the page a few times
-          - Add overridden methods OnAppearingAnimationEnd and OnDisappearingAnimationEnd
-          - Add overridden method OnBackgroundClicked in PopupPage
-          - Removed some reflection methods
-          - Removed from Popup Page, properties that override the default properties Page
-          - Fix. Glitch in animation when popping
-          - Fix. BackgroundImage is not visible in PopupPage
-          - Fix. DisplayAlert and DisplayActionSheet did not shown in iOS
-          - Fix. UWP project crashes in release mode.
-          - Fix. When you compile in the console does not display warnings.
-          - Fix. The application no longer crashes if during the animation, press the back button
-          [0.0.16]
-          - Add support Xamarin.Forms v2.2.0.31
-          [0.0.15]
-          - Add support Link All in android
-          [0.0.14]
-          - Fix the app crash on ios in release mode and add support Link All in iOS
-          [0.0.13]
-          - Fix ItemSelected did not work in ListView on ios
-          [0.0.12]
-          - Fix Popup not working if there was an open modal page.
-          - Renamed PopAllAsync in PopAll, since this method is not async
-          [0.0.11]
-          - Fix It does not throw an exception if an error occurred in the Popup Navigation.Pop Async
-          - Fix Renamed class names and methods that have been misspelled.
-          [0.0.10]
-          - Fix Demo not open after clone in git
-          - Add PopupPage close on backgroind click
-          - Make PopupPageRendere public modifier
-          [0.0.9]
-          - Fix Android Keyboard not hided when entry unfocused
-          [0.0.8]
-          - Fix Android Hide keyboard when popup open or close
-          - Fix iOS Moved popup when keyboard showed
-          [0.0.6]
-          - Add SystemPadding
-          [0.0.5]
-          - Fix Android PopupPage do not update layout in AppCompat
+            -->
+            [1.1.0-pre5]
+            - Added NET.Standard 2.0 support
+            [1.1.0-pre5]
+            - Fixed Android. PopupPageRenderer thrown an exception when an user clicked on background if an animation was disabled and BackgroundClick could be invoked even if a touch was on Content. See [#173]
+            - Fixed iOS. Сhildren of PopupPage was not released from memory if them was removed before page was popped.
+            [1.1.0-pre4]
+            - Fixed iOS. ViewDidLayoutSubviews thrown an exception because it was invoked even when a popup was popped. See #134
+            [1.1.0-pre3]
+            - Fixed Android. BackgroundClick and CloseWhenBackgroundIsClicked didn't work with Xamarin.Forms 2.4.x. See #173
+            - Fixed iOS. The app could throw an exception when a popup is closed with an opened keyboard. See #122
+            [1.1.0-pre2]
+            - Fixed. Popups was not opened on iOS 8.x
+            - Fixed. Click on back button can throw exception
+            [1.1.0-pre1]
+            - Added instance for IPopupNavigation for MVVM and DI
+            - Added new opening system with UIWindow witch gives us to open some popups under native dialogs and action sheet
+            - Made PopupPage.SystemPadding as BindableProperty
+            - Fixed memory leaks on iOS, Android, UWP, WP
+            - Fixed clicking on buttons on all platforms. Buttons were not clicked when keyboard was opened.
+            [1.0.4]
+            - Fix. Popup page won't open on a modal inside a navigation page in iOS #49
+            [1.0.3]
+            - Plugin didn't work on UWP.
+            [1.0.2]
+            - Add support Windows Phone and UWP
+            - Initialization is not required now (except UWP)
+            - Improved performance animation on Android
+            - Now, new animation system
+            - Now it is possible to use one copy of the page a few times
+            - Add overridden methods OnAppearingAnimationEnd and OnDisappearingAnimationEnd
+            - Add overridden method OnBackgroundClicked in PopupPage
+            - Removed some reflection methods
+            - Removed from Popup Page, properties that override the default properties Page
+            - Fix. Glitch in animation when popping
+            - Fix. BackgroundImage is not visible in PopupPage
+            - Fix. DisplayAlert and DisplayActionSheet did not shown in iOS
+            - Fix. UWP project crashes in release mode.
+            - Fix. When you compile in the console does not display warnings.
+            - Fix. The application no longer crashes if during the animation, press the back button
+            [0.0.16]
+            - Add support Xamarin.Forms v2.2.0.31
+            [0.0.15]
+            - Add support Link All in android
+            [0.0.14]
+            - Fix the app crash on ios in release mode and add support Link All in iOS
+            [0.0.13]
+            - Fix ItemSelected did not work in ListView on ios
+            [0.0.12]
+            - Fix Popup not working if there was an open modal page.
+            - Renamed PopAllAsync in PopAll, since this method is not async
+            [0.0.11]
+            - Fix It does not throw an exception if an error occurred in the Popup Navigation.Pop Async
+            - Fix Renamed class names and methods that have been misspelled.
+            [0.0.10]
+            - Fix Demo not open after clone in git
+            - Add PopupPage close on backgroind click
+            - Make PopupPageRendere public modifier
+            [0.0.9]
+            - Fix Android Keyboard not hided when entry unfocused
+            [0.0.8]
+            - Fix Android Hide keyboard when popup open or close
+            - Fix iOS Moved popup when keyboard showed
+            [0.0.6]
+            - Add SystemPadding
+            [0.0.5]
+            - Fix Android PopupPage do not update layout in AppCompat
         </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.3.0.49" />
+            <dependency id="Xamarin.Forms" version="2.3.4.224" />
         </dependencies>
     </metadata>
     <files>
       <!--PCL-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\portable-win+net45+wp8+win8+wpa81" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\portable-win+net45+wp8+win8+wpa81" />
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard2.0\Rg.Plugins.Popup.dll" target="lib\netstandard2.0" />
+      <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard2.0\Rg.Plugins.Popup.pdb" target="lib\netstandard2.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard2.0\Rg.Plugins.Popup.Platform.dll" target="lib\netstandard2.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard2.0\Rg.Plugins.Popup.Platform.pdb" target="lib\netstandard2.0" />
       <!--Android-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\MonoAndroid" />
-      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Publish\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.Droid\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.pdb" target="lib\MonoAndroid" />
+      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.pdb" target="lib\MonoAndroid" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.Droid\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.Droid\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoAndroid" />
       <!--IOS-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\MonoTouch" />
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\Xamarin.IOS" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Publish\Rg.Plugins.Popup.IOS.dll" target="lib\MonoTouch" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Publish\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\MonoTouch" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.pdb" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.pdb" target="lib\Xamarin.IOS" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\MonoTouch" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\Xamarin.IOS" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoTouch" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoTouch" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\Xamarin.IOS" />
       <!--wpa81-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\wpa81" />
-      <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Publish\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\wpa81" />
+      <!--<file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\wpa81" />
+      <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Release\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard2.0\Rg.Plugins.Popup.Platform.dll" target="lib\wpa81" />-->
       <!--uwp-->
-      <file src="..\src\Rg.Plugins.Popup\bin\Publish\Rg.Plugins.Popup.dll" target="lib\uap10.0" />
-      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Publish\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
-      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Publish\Rg.Plugins.Popup.Platform.dll" target="lib\uap10.0" />
+      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.dll" target="lib\uap10.0" />
+      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
+      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
+      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.pdb" target="lib\uap10.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard2.0\Rg.Plugins.Popup.Platform.dll" target="lib\uap10.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard2.0\Rg.Plugins.Popup.Platform.pdb" target="lib\uap10.0" />
     </files>
 </package>
