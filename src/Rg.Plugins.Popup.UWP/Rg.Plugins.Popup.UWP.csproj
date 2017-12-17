@@ -123,6 +123,10 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Stubs\Rg.Plugins.Popup.Platform\Rg.Plugins.Popup.Platform.csproj">
+      <Project>{a83c0abf-b713-4d6d-bd26-06106f26c122}</Project>
+      <Name>Rg.Plugins.Popup.Platform</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
