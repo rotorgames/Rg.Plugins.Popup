@@ -18,8 +18,8 @@
         </description>
         <releaseNotes>
             -->
-            [1.1.0-pre5]
-            - Added NET.Standard 2.0 support
+            [1.1.0-pre7]
+            - Added NET.Standard support
             [1.1.0-pre5]
             - Fixed Android. PopupPageRenderer thrown an exception when an user clicked on background if an animation was disabled and BackgroundClick could be invoked even if a touch was on Content. See [#173]
             - Fixed iOS. Сhildren of PopupPage was not released from memory if them was removed before page was popped.
