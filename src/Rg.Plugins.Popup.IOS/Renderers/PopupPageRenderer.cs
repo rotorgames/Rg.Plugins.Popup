@@ -123,10 +123,10 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             _keyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
             // With this piece of code we make sure if user uses a external
             // keyboard the space is not left blank
-			//// get the frame end user info key
-			var kbEndFrame = (notifi.UserInfo.ObjectForKey(UIKeyboard.FrameEndUserInfoKey) as NSValue).CGRectValue;
-			//// calculate the visible portion of the keyboard on the screen
-			_keyboardBounds.Height = UIScreen.MainScreen.Bounds.Height - kbEndFrame.Y;
+            //// get the frame end user info key
+            var kbEndFrame = (notifi.UserInfo.ObjectForKey(UIKeyboard.FrameEndUserInfoKey) as NSValue).CGRectValue;
+            //// calculate the visible portion of the keyboard on the screen
+            _keyboardBounds.Height = UIScreen.MainScreen.Bounds.Height - kbEndFrame.Y;
 
             UpdateElementSize();
         }
