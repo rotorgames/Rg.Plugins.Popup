@@ -101,8 +101,8 @@
       <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.pdb" target="lib\MonoAndroid" />
       <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.dll" target="lib\MonoAndroid" />
       <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Droid.pdb" target="lib\MonoAndroid" />
-      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoAndroid" />
-      <file src="..\src\Rg.Plugins.Popup.Droid\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoAndroid" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.Droid\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoAndroid" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.Droid\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoAndroid" />
       <!--IOS-->
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.dll" target="lib\MonoTouch" />
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.pdb" target="lib\MonoTouch" />
@@ -112,10 +112,10 @@
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\MonoTouch" />
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS" />
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\Xamarin.IOS" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoTouch" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoTouch" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\Xamarin.IOS" />
-      <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\Xamarin.IOS" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\MonoTouch" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\MonoTouch" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\Xamarin.IOS" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform.IOS\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\Xamarin.IOS" />
       <!--wpa81-->
       <!--<file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\wpa81" />
       <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Release\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />
@@ -125,7 +125,7 @@
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.pdb" target="lib\uap10.0" />
-      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.Platform.dll" target="lib\uap10.0" />
-      <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.Platform.pdb" target="lib\uap10.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard1.0\Rg.Plugins.Popup.Platform.dll" target="lib\uap10.0" />
+      <file src="..\src\Stubs\Rg.Plugins.Popup.Platform\bin\Release\netstandard1.0\Rg.Plugins.Popup.Platform.pdb" target="lib\uap10.0" />
     </files>
 </package>
