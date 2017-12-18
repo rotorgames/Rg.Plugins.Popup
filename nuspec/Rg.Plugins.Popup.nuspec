@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Rg.Plugins.Popup</id>
-        <version>1.1.0-pre8</version>
+        <version>1.1.0-pre9</version>
         <title>Popup Page Plugin for Xamarin Forms</title>
         <authors>Kirill Lyubimov</authors>
         <owners>rotorgames</owners>
@@ -18,6 +18,8 @@
         </description>
         <releaseNotes>
             -->
+            [1.1.0-pre9]
+            - Set min Xamarin.Forms version 2.4.0.280 because only then Xamarin.Forms opened internal methods witch needed for this plugin
             [1.1.0-pre8]
             - Fixed iOS. The Linker removed library in release mode
             [1.1.0-pre7]
@@ -89,7 +91,7 @@
         </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.3.4.224" />
+            <dependency id="Xamarin.Forms" version="2.4.0.280" />
         </dependencies>
     </metadata>
     <files>
