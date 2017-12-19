@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 #if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 using Windows.UI.Core;
@@ -93,17 +93,17 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            var elementRenderer = Platform.GetRenderer(element);
-            foreach (Element descendant in element.RgDescendants())
+            var elementRenderer = XPlatform.GetRenderer(element);
+            foreach (Element descendant in element.Descendants())
             {
                 var child = descendant as VisualElement;
                 if (child != null)
                 {
-                    var childRenderer = Platform.GetRenderer(child);
+                    var childRenderer = XPlatform.GetRenderer(child);
                     if (childRenderer != null)
                     {
                         childRenderer.Dispose();
-                        Platform.SetRenderer(child, null);
+                        XPlatform.SetRenderer(child, null);
                     }
                 }
             }
@@ -111,7 +111,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
                 return;
 
             elementRenderer.Dispose();
-            Platform.SetRenderer(element, null);
+            XPlatform.SetRenderer(element, null);
         }
     }
 }

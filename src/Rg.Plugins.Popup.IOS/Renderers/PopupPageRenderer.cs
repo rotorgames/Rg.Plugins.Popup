@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
@@ -19,6 +19,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
         private CGRect _keyboardBounds;
+        private bool _isDisposed;
 
         private PopupPage CurrentElement => (PopupPage) Element;
 
@@ -43,6 +44,8 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             }
 
             base.Dispose(disposing);
+
+            _isDisposed = true;
         }
 
         protected override void OnElementChanged(VisualElementChangedEventArgs e)
@@ -138,7 +141,9 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             base.ViewDidLayoutSubviews();
 
-            if (View?.Superview == null)
+            var currentElement = CurrentElement;
+
+            if (View?.Superview?.Frame == null || currentElement == null)
                 return;
 
             var superviewFrame = View.Superview.Frame;
@@ -151,12 +156,12 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
             };
 
-            CurrentElement.BatchBegin();
+            currentElement.BatchBegin();
 
-            CurrentElement.SetSystemPadding(systemPadding);
+            currentElement.SetSystemPadding(systemPadding);
             SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
 
-            CurrentElement.BatchCommit();
+            currentElement.BatchCommit();
         }
 
         #endregion
@@ -194,12 +199,25 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 //It is needed that buttons are working when keyboard is opened. See #11
                 await Task.Delay(70);
 
-                await UIView.AnimateAsync((double)(NSNumber)duration, ViewDidLayoutSubviews);
+                if(!_isDisposed)
+                    await UIView.AnimateAsync((double)(NSNumber)duration, OnKeyboardAnimated);
             }
             else
             {
                 ViewDidLayoutSubviews();
             }
+        }
+
+        #endregion
+
+        #region Animation Methods
+
+        private void OnKeyboardAnimated()
+        {
+            if (_isDisposed)
+                return;
+
+            ViewDidLayoutSubviews();
         }
 
         #endregion

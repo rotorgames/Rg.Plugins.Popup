@@ -2,7 +2,6 @@
 using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Platform;
@@ -23,6 +22,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
         public async Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
+
+            page.DescendantRemoved += HandleChildRemoved;
 
             var renderer = page.GetOrCreateRenderer();
 
@@ -49,6 +50,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 
+            await Task.Delay(50);
+
+            page.DescendantRemoved -= HandleChildRemoved;
+
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
                 var window = viewController.View.Window;
@@ -66,7 +71,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
         private void DisposeModelAndChildrenRenderers(VisualElement view)
         {
             IVisualElementRenderer renderer;
-            foreach (VisualElement child in view.RgDescendants())
+            foreach (VisualElement child in view.Descendants())
             {
                 renderer = XFPlatform.GetRenderer(child);
                 XFPlatform.SetRenderer(child, null);
@@ -85,6 +90,12 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 renderer.Dispose();
             }
             XFPlatform.SetRenderer(view, null);
+        }
+
+        private void HandleChildRemoved(object sender, ElementEventArgs e)
+        {
+            var view = e.Element;
+            DisposeModelAndChildrenRenderers((VisualElement) view);
         }
     }
 }

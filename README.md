@@ -1,4 +1,4 @@
-# Popup Page Plugin for Xamarin Forms
+# Popup Page Plugin for Xamarin Forms [![Build status](https://ci.appveyor.com/api/projects/status/faktrrb31efbqq3x/branch/master?svg=true)](https://ci.appveyor.com/project/Kirill/rg-plugins-popup/branch/master)
 The plugin allows you to open any page as a popup.
 
 Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
@@ -9,7 +9,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
 
 - [x] Android
 - [x] iOS
-- [x] Windows Phone
+- [ ] Windows Phone (Obsolete. Use v1.1.0-pre5 if WP is needed)
 - [x] UWP
 
 ## Override Methods PopupPage
@@ -146,7 +146,7 @@ Task RemovePageAsync(PopupPage page, bool animate = true) // Navigation.RemovePo
 ```csharp
 public partial class MyPopupPage : PopupPage
     {
-        public SecondPopupPage()
+        public MyPopupPage()
         {
             InitializeComponent();
         }
@@ -163,16 +163,16 @@ public partial class MyPopupPage : PopupPage
         
 		// Method for animation child in PopupPage
 		// Invoced after custom animation end
-        protected virtual Task OnAppearingAnimationEnd()
+        protected override Task OnAppearingAnimationEnd()
         {
             return Content.FadeTo(0.5);
         }
 
 		// Method for animation child in PopupPage
 		// Invoked before custom animation begin
-        protected virtual Task OnDisappearingAnimationBegin()
+        protected override Task OnDisappearingAnimationBegin()
         {
-            return Content.FadeTo(1);;
+            return Content.FadeTo(1);
         }
 
         protected override bool OnBackButtonPressed()

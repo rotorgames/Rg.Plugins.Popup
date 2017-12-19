@@ -4,6 +4,7 @@ using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Rg.Plugins.Popup.Droid.Gestures;
 using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
@@ -17,10 +18,40 @@ namespace Rg.Plugins.Popup.Droid.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
+        private readonly RgGestureDetectorListener _gestureDetectorListener;
+        private readonly GestureDetector _gestureDetector;
         private DateTime _downTime;
         private Point _downPosition;
+        private bool _disposed;
 
         private PopupPage CurrentElement => (PopupPage) Element;
+
+        #region Main Methods
+
+        public PopupPageRenderer()
+        {
+            _gestureDetectorListener = new RgGestureDetectorListener();
+
+            _gestureDetectorListener.Clicked += OnBackgroundClick;
+
+            _gestureDetector = new GestureDetector(Context, _gestureDetectorListener);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _disposed = true;
+
+                _gestureDetectorListener.Clicked -= OnBackgroundClick;
+                _gestureDetectorListener.Dispose();
+                _gestureDetector.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
 
         #region Layout Methods
 
@@ -68,16 +99,12 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Click += OnBackgroundClick;
-
             Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
             base.OnAttachedToWindow();
         }
 
         protected override void OnDetachedFromWindow()
         {
-            Click -= OnBackgroundClick;
-
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
                 Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
@@ -123,17 +150,40 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         public override bool OnTouchEvent(MotionEvent e)
         {
+            if (_disposed)
+                return false;
+
             var baseValue = base.OnTouchEvent(e);
 
-            if (!CurrentElement.InputTransparent)
+            _gestureDetector.OnTouchEvent(e);
+
+            if (CurrentElement != null && !CurrentElement.InputTransparent)
                 return baseValue;
 
             return false;
         }
 
-        private void OnBackgroundClick(object sender, EventArgs e)
+        private void OnBackgroundClick(object sender, MotionEvent e)
         {
-            CurrentElement.SendBackgroundClick();
+            if (ChildCount == 0)
+                return;
+
+            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0));
+
+            if (!isInRegion)
+                CurrentElement.SendBackgroundClick();
+        }
+
+        // Fix for "CloseWhenBackgroundIsClicked not works on Android with Xamarin.Forms 2.4.0.280" #173
+        private bool IsInRegion(float x, float y, View v)
+        {
+            var mCoordBuffer = new int[2];
+
+            v.GetLocationOnScreen(mCoordBuffer);
+            return mCoordBuffer[0] + v.Width > x &&    // right edge
+                   mCoordBuffer[1] + v.Height > y &&   // bottom edge
+                   mCoordBuffer[0] < x &&              // left edge
+                   mCoordBuffer[1] < y;                // top edge
         }
 
         #endregion
