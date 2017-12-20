@@ -1,7 +1,7 @@
 # Popup Page Plugin for Xamarin Forms [![Build status](https://ci.appveyor.com/api/projects/status/faktrrb31efbqq3x/branch/master?svg=true)](https://ci.appveyor.com/project/Kirill/rg-plugins-popup/branch/master)
 The plugin allows you to open any page as a popup.
 
-Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/
+Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/ [![NuGet](https://img.shields.io/nuget/v/Rg.Plugins.Popup.svg)](https://www.nuget.org/packages/Rg.Plugins.Popup/) [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Rg.Plugins.Popup.svg)](https://www.nuget.org/packages/Rg.Plugins.Popup/)
 
 ![Landing](img/popup-landing.png)
 
