@@ -25,6 +25,8 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
 
+        public bool IsInitialized => true;
+
         [Preserve]
         public PopupPlatformWinPhone()
         {

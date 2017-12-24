@@ -12,7 +12,21 @@ namespace Rg.Plugins.Popup.Services
     {
         private readonly List<PopupPage> _popupStack = new List<PopupPage>();
 
-        private IPopupPlatform PopupPlatform => DependencyService.Get<IPopupPlatform>();
+        private IPopupPlatform PopupPlatform
+        {
+            get
+            {
+                var popupPlatform = DependencyService.Get<IPopupPlatform>();
+
+                if(popupPlatform == null)
+                    throw new InvalidOperationException("You MUST install Rg.Plugins.Popup to each project and call Rg.Plugins.Popup.Popup.Init(); prior to using it.");
+
+                if(!popupPlatform.IsInitialized)
+                    throw new InvalidOperationException("You MUST call Rg.Plugins.Popup.Popup.Init(); prior to using it.");
+
+                return popupPlatform;
+            }
+        }
 
         public IReadOnlyList<PopupPage> PopupStack => _popupStack;
 

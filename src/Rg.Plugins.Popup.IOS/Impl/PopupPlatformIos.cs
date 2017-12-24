@@ -19,6 +19,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
     {
         private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
 
+        public bool IsInitialized => Popup.IsInitialized;
+
         public async Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
