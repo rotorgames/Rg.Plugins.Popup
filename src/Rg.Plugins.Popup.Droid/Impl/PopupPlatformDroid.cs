@@ -27,6 +27,8 @@ namespace Rg.Plugins.Popup.Droid.Impl
             get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
         }
 
+        public bool IsInitialized => Popup.IsInitialized;
+
         public async Task AddAsync(PopupPage page)
         {
             var decoreView = DecoreView;

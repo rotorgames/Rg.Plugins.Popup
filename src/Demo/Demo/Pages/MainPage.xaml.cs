@@ -43,5 +43,11 @@ namespace Demo.Pages
             var page = new ListViewPage();
             await Navigation.PushPopupAsync(page);
         }
-    }
+
+		private async void OnOpenReproPage(object sender, EventArgs e)
+		{
+			var page = new ReproPage();
+			await Navigation.PushPopupAsync(page);
+		}
+	}
 }

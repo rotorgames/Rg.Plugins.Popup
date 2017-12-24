@@ -148,10 +148,6 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Stubs\Rg.Plugins.Popup.Platform.Droid\Rg.Plugins.Popup.Platform.Droid.csproj">
-      <Project>{d38c9131-027d-40ac-b431-e32823caa99c}</Project>
-      <Name>Rg.Plugins.Popup.Platform.Droid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Demo\Demo.csproj">
       <Project>{e7c8d327-b800-4f8f-9cad-6b90fb220d7c}</Project>
       <Name>Demo</Name>

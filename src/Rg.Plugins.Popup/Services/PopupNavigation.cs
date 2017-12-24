@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Platform.Renderers;
 
 namespace Rg.Plugins.Popup.Services
 {
@@ -25,13 +24,6 @@ namespace Rg.Plugins.Popup.Services
 
         [Obsolete(DepractedMethodsText)]
         public static IReadOnlyList<PopupPage> PopupStack => Instance.PopupStack;
-
-        static PopupNavigation()
-        {
-            var t = false;
-            if (t.Equals(true))
-                Loader.Load();
-        }
 
         [Obsolete(DepractedMethodsText)]
         public static Task PushAsync(PopupPage page, bool animate = true)
