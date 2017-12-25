@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace Rg.Plugins.Popup
@@ -42,8 +43,20 @@ namespace Rg.Plugins.Popup
 #endif
         public static void Init()
         {
+            LinkAssemblies();
+
             IsInitialized = true;
             OnInitialized?.Invoke(null, EventArgs.Empty);
+        }
+
+        private static void LinkAssemblies()
+        {
+            DependencyService.Register<PopupPlatformWinPhone>();
+
+            if (false.Equals(true))
+            {
+                var r = new PopupPageRenderer();
+            }
         }
     }
 }
