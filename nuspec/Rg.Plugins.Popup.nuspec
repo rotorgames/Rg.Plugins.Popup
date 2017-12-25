@@ -8,6 +8,7 @@
         <owners>rotorgames</owners>
         <projectUrl>https://github.com/rotorgames/Rg.Plugins.Popup</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/rotorgames/Rg.Plugins.Popup/master/icons/icon.png</iconUrl>
+        <licenseUrl>https://github.com/rotorgames/Rg.Plugins.Popup/blob/master/LICENSE.md</licenseUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
           Plugin for Xamarin forms. Allows you to open any page as a popup.
