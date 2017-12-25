@@ -94,7 +94,7 @@
         </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.5.0.77107" />
+            <dependency id="Xamarin.Forms" version="2.5.0.121934" />
         </dependencies>
     </metadata>
     <files>
