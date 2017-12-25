@@ -30,7 +30,7 @@ deploy_script:
 
     nuget pack "Rg.Plugins.Popup.nuspec" -Version $env:APPVEYOR_BUILD_VERSION
 
-    if($env:APPVEYOR_REPO_BRANCH -eq "master" -and $end:APPVEYOR_REPO_TAG)
+    if($env:APPVEYOR_REPO_BRANCH -eq "master" -and $env:APPVEYOR_REPO_TAG)
     {
       nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
     }
