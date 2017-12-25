@@ -19,6 +19,8 @@
         </description>
         <releaseNotes>
             -->
+            [1.1.3.x-pre]
+            - Fix Android. Back button didn't work
             [1.1.2-pre]
             - Updated a min xamarin forms version to 2.5.0.121934
             - Fix Android. PopupStack was not cleared after an application resume
