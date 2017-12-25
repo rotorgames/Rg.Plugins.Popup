@@ -19,6 +19,10 @@
         </description>
         <releaseNotes>
             -->
+            [1.1.2-pre]
+            - Updated a min xamarin forms version to 2.5.0.121934
+            - Fix Android. PopupStack was not cleared after an application resume
+            - Removed Stubs project and added Init methods
             [1.1.1-pre]
             - Doesn't have any changes
             [1.1.0-pre9]
