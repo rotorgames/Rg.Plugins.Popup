@@ -24,8 +24,6 @@ build_script:
     nuget restore
 
     msbuild Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
-artifacts:
-  - path: 'nuspec\*.nupkg'
 deploy_script:
 - ps: >-
     cd ../nuspec
@@ -37,7 +35,7 @@ deploy_script:
       nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
     }
 
-    #if($env:APPVEYOR_REPO_BRANCH -eq "develop")
-    #{
-    #  Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-    #}
+    if($env:APPVEYOR_REPO_BRANCH -eq "develop")
+    {
+      Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    }
