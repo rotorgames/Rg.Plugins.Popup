@@ -41,7 +41,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
 
             decoreView.AddView(renderer.View);
-            //UpdateListeners(true);
+            UpdateListeners(true);
 
             await Task.Delay(5);
         }
@@ -59,7 +59,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 if(element != null)
                     element.Parent = null;
 
-                //UpdateListeners(false);
+                UpdateListeners(false);
             }
 
             await Task.Delay(5);
