@@ -33,6 +33,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{DDABBA
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C18A37DD-B8F1-4C8F-AC24-EC18BBC80F07}"
+	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{2b1508fe-0298-4740-b5d3-6b2bc0f0e08d}*SharedItemsImports = 4
