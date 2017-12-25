@@ -1,5 +1,6 @@
 using System;
 using Android.App;
+using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
@@ -28,7 +29,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         #region Main Methods
 
-        public PopupPageRenderer()
+        public PopupPageRenderer(Context context):base(context)
         {
             _gestureDetectorListener = new RgGestureDetectorListener();
 

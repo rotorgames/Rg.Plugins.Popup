@@ -30,6 +30,17 @@ namespace Rg.Plugins.Popup.Services
 
         public IReadOnlyList<PopupPage> PopupStack => _popupStack;
 
+        public PopupNavigationImpl()
+        {
+            PopupPlatform.OnInitialized += OnInitialized;
+        }
+
+        private async void OnInitialized(object sender, EventArgs e)
+        {
+            if (PopupStack.Any())
+                await PopAllAsync(false);
+        }
+
         public async Task PushAsync(PopupPage page, bool animate = true)
         {
             if (animate)

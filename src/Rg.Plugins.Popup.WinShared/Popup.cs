@@ -5,11 +5,15 @@ using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms.Internals;
 
-namespace Rg.Plugins.Popup.Windows
+namespace Rg.Plugins.Popup
 {
     [Preserve(AllMembers = true)]
     public static class Popup
     {
+        internal static event EventHandler OnInitialized;
+
+        internal static bool IsInitialized { get; private set; }
+
 #if WINDOWS_UWP
         /// <summary>
         /// Use this method for UWP project .NET Native compilation and add result to <see cref="T:Xamarin.Forms.Forms.Init"/>
@@ -35,12 +39,11 @@ namespace Rg.Plugins.Popup.Windows
             return typeof (T).GetTypeInfo().Assembly;
         }
 
-        [Obsolete("Use GetExtraAssemblies for UWP project", true)]
-#else
-        [Obsolete("Initialization is not required in UWP and WP projects")]
 #endif
         public static void Init()
         {
+            IsInitialized = true;
+            OnInitialized?.Invoke(null, EventArgs.Empty);
         }
     }
 }

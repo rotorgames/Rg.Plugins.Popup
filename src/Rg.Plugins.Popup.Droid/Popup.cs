@@ -29,7 +29,7 @@ namespace Rg.Plugins.Popup
             if (false.Equals(true))
             {
                 var i = new PopupPlatformDroid();
-                var r = new PopupPageRenderer();
+                var r = new PopupPageRenderer(null);
             }
         }
     }
