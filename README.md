@@ -58,36 +58,65 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/ [![NuGet](https://img.sh
 * HasBackgroundAnimation (bool)
 
 
-## Initialize
+## Initialization
 
-Initialization is not required for Android, iOS, WP.
+To use a PopupPage inside an application, each platform application must initialize the Rg.Plugins.Popup. 
+This initialization step varies from platform to platform and is discussed in the following sections.
 
-UWP required add assemblies in Xamarin.Forms.Forms.Init method if you use .NET Native compile:
-
-#### UWP Example
+#### iOS
 ```csharp
-// In App.xaml.cs
-protected override void OnLaunched(LaunchActivatedEventArgs e)
+[Register("AppDelegate")]
+public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 {
-    ...
-
-    // Initialization is required due to an error when compiling in release mode.
-    // Details: https://developer.xamarin.com/guides/xamarin-forms/platform-features/windows/installation/universal/#Troubleshooting
-    
-    Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies());
-
-	// or if you have other renderers and DependencyService implementations
-
-	var assemblies = new List<Assembly>
+    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
     {
-	   typeof(YourRenderer).GetTypeInfo().Assembly
-	   typeof(YourServiceImplementation).GetTypeInfo().Assembly
-    };
-
-	Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Windows.Popup.GetExtraAssemblies(assemblies));
-
-    ...
+      Rg.Plugins.Popup.Popup.Init();
+      
+      global::Xamarin.Forms.Forms.Init ();
+      LoadApplication (new App ());
+      return base.FinishedLaunching (app, options);
+    }
 }
+```
+#### Android
+```csharp
+namespace HelloXamarinFormsWorld.Android
+{
+    [Activity(Label = "HelloXamarinFormsWorld", MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+    {
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
+
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
+	    
+            Xamarin.Forms.Forms.Init(this, bundle);
+            LoadApplication (new App ());
+        }
+    }
+}
+```
+#### Universal Windows Platform
+In Universal Windows Platform (UWP) applications, the Init method that initializes the Rg.Plugins.Popup is invoked from the App class:
+```csharp
+Rg.Plugins.Popup.Popup.Init();
+Xamarin.Forms.Forms.Init (e);
+
+if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+{
+  ...
+}
+```
+##### UWP Troubleshooting
+"Target Invocation Exception" when using "Compile with .NET Native tool chain":
+This might occur when using the Compile with .NET Native tool chain which is an option for UWP apps in the Properties > Build > General window for the project.
+
+You can fix this by using a UWP-specific overload of the Forms.Init call in App.xaml.cs as shown in the code below
+```csharp
+Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Popup.GetExtraAssemblies());
+// replaces Xamarin.Forms.Forms.Init(e);
 ```
 
 ## PopupPage Properties

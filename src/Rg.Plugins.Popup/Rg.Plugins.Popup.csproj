@@ -6,7 +6,4 @@
     <ItemGroup>
       <PackageReference Include="Xamarin.Forms" Version="2.5.0.121934" />
     </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\Stubs\Rg.Plugins.Popup.Platform\Rg.Plugins.Popup.Platform.csproj" />
-    </ItemGroup>
 </Project>

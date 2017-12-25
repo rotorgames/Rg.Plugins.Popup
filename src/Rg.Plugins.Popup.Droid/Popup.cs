@@ -1,7 +1,8 @@
-﻿
-using System;
-using Rg.Plugins.Popup.IOS.Impl;
-using Rg.Plugins.Popup.IOS.Renderers;
+﻿using System;
+using Android.Content;
+using Android.OS;
+using Rg.Plugins.Popup.Droid.Impl;
+using Rg.Plugins.Popup.Droid.Renderers;
 
 namespace Rg.Plugins.Popup
 {
@@ -11,9 +12,13 @@ namespace Rg.Plugins.Popup
 
         internal static bool IsInitialized { get; private set; }
 
-        public static void Init()
+        internal static Context Context { get; private set; }
+
+        public static void Init(Context context, Bundle bundle)
         {
             LinkAssemblies();
+
+            Context = context;
 
             IsInitialized = true;
             OnInitialized?.Invoke(null, EventArgs.Empty);
@@ -23,8 +28,8 @@ namespace Rg.Plugins.Popup
         {
             if (false.Equals(true))
             {
-                var i = new PopupPlatformIos();
-                var r = new PopupPageRenderer();
+                var i = new PopupPlatformDroid();
+                var r = new PopupPageRenderer(null);
             }
         }
     }

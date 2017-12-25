@@ -1,0 +1,41 @@
+version: 1.1.2.{build}-pre
+branches:
+  only:
+  - master
+  - develop
+image: Visual Studio 2017
+configuration: Publish
+platform: Any CPU
+environment:
+  nuget_api_key:
+    secure: L7CA8R31O28Mlv6Bw82r9nwZWnnRJzuHvdOLrNckp47kfsipZBiCYlF0fiwb3jXr
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+build_script:
+- cmd: >-
+    cd src
+
+    nuget update -self
+
+    nuget restore
+
+    msbuild Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
+deploy_script:
+- ps: >-
+    cd ../nuspec
+
+    nuget pack "Rg.Plugins.Popup.nuspec" -Version $env:APPVEYOR_BUILD_VERSION
+
+    if($env:APPVEYOR_REPO_BRANCH -eq "master" -and $end:APPVEYOR_REPO_TAG)
+    {
+      nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
+    }
+
+    if($env:APPVEYOR_REPO_BRANCH -eq "develop")
+    {
+      Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    }

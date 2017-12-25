@@ -22,10 +22,15 @@ namespace Rg.Plugins.Popup.Droid.Impl
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
 
-        private FrameLayout DecoreView
+        private FrameLayout DecoreView => (FrameLayout)((Activity)Popup.Context).Window.DecorView;
+
+        public event EventHandler OnInitialized
         {
-            get { return (FrameLayout)((Activity)Forms.Context).Window.DecorView; }
+            add => Popup.OnInitialized += value;
+            remove => Popup.OnInitialized -= value;
         }
+
+        public bool IsInitialized => Popup.IsInitialized;
 
         public async Task AddAsync(PopupPage page)
         {
@@ -35,8 +40,8 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            decoreView.AddView(renderer.ViewGroup);
-            UpdateListeners(true);
+            decoreView.AddView(renderer.View);
+            //UpdateListeners(true);
 
             await Task.Delay(5);
         }
@@ -48,13 +53,13 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 var element = renderer.Element;
 
-                DecoreView.RemoveView(renderer.ViewGroup);
+                DecoreView.RemoveView(renderer.View);
                 renderer.Dispose();
 
                 if(element != null)
                     element.Parent = null;
 
-                UpdateListeners(false);
+                //UpdateListeners(false);
             }
 
             await Task.Delay(5);
@@ -66,7 +71,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             var isPrevent = PopupNavigationInstance.PopupStack.Count > 0 || isAdd;
 
-            if (Forms.Context is FormsApplicationActivity)
+            if (Popup.Context is FormsApplicationActivity)
             {
                 var handleBackPressed = (FormsApplicationActivity.BackButtonPressedEventHandler)PlatformHelper.GetHandleBackPressed<FormsApplicationActivity.BackButtonPressedEventHandler>();
                 FormsApplicationActivity.BackPressed -= handleBackPressed;
@@ -81,7 +86,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 }
 
             }
-            else if (Forms.Context is FormsAppCompatActivity)
+            else if (Popup.Context is FormsAppCompatActivity)
             {
                 var handleBackPressed = (FormsAppCompatActivity.BackButtonPressedEventHandler)PlatformHelper.GetHandleBackPressed<FormsAppCompatActivity.BackButtonPressedEventHandler>();
                 FormsAppCompatActivity.BackPressed -= handleBackPressed;

@@ -158,12 +158,6 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Rg.Plugins.Popup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Stubs\Rg.Plugins.Popup.Platform.IOS\Rg.Plugins.Popup.Platform.IOS.csproj">
-      <Project>{f2f3498b-be5f-4794-aff7-1fd3c85af130}</Project>
-      <Name>Rg.Plugins.Popup.Platform.IOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
     <ProjectReference Include="..\Demo\Demo.csproj">
       <Project>{e7c8d327-b800-4f8f-9cad-6b90fb220d7c}</Project>
       <Name>Demo</Name>

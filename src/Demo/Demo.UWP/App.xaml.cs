@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Popup = Rg.Plugins.Popup.Windows.Popup;
+using Popup = Rg.Plugins.Popup.Popup;
 
 namespace Demo.UWP
 {
@@ -60,6 +60,7 @@ namespace Demo.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                Popup.Init();
                 // Need that .NET Native has worked
                 Xamarin.Forms.Forms.Init(e, Popup.GetExtraAssemblies());
 

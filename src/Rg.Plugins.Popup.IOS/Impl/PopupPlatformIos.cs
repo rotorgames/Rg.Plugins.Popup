@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
@@ -18,6 +19,14 @@ namespace Rg.Plugins.Popup.IOS.Impl
     internal class PopupPlatformIos : IPopupPlatform
     {
         private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+
+        public event EventHandler OnInitialized
+        {
+            add => Popup.OnInitialized += value;
+            remove => Popup.OnInitialized -= value;
+        }
+
+        public bool IsInitialized => Popup.IsInitialized;
 
         public async Task AddAsync(PopupPage page)
         {
