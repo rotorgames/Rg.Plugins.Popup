@@ -109,6 +109,15 @@ if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
   ...
 }
 ```
+##### UWP Troubleshooting
+"Target Invocation Exception" when using "Compile with .NET Native tool chain":
+This might occur when using the Compile with .NET Native tool chain which is an option for UWP apps in the Properties > Build > General window for the project.
+
+You can fix this by using a UWP-specific overload of the Forms.Init call in App.xaml.cs as shown in the code below
+```csharp
+Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Popup.GetExtraAssemblies());
+// replaces Xamarin.Forms.Forms.Init(e);
+```
 
 ## PopupPage Properties
 
