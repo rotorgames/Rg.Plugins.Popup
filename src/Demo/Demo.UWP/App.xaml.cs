@@ -60,6 +60,7 @@ namespace Demo.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                Popup.Init();
                 // Need that .NET Native has worked
                 Xamarin.Forms.Forms.Init(e, Popup.GetExtraAssemblies());
 
