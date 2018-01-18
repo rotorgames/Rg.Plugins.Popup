@@ -76,7 +76,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         private Thickness GetSystemPadding()
         {
-            var decoreView = (FrameLayout)((Activity)Forms.Context).Window.DecorView;
+            var decoreView = (FrameLayout)((Activity)Context).Window.DecorView;
             Rect visibleRect = new Rect();
             decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
