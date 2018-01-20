@@ -4,24 +4,21 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Rg.Plugins.Popup.Windows.Renderers;
-using Rg.Plugins.Popup.WinPhone.Impl;
+using Rg.Plugins.Popup.UWP.Impl;
+using Rg.Plugins.Popup.UWP.Renderers;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
-#if WINDOWS_UWP
+
 using Xamarin.Forms.Platform.UWP;
 using Windows.UI.Core;
-#elif WINDOWS_PHONE_APP
-using Windows.Phone.UI.Input;
-using Xamarin.Forms.Platform.WinRT;
-#endif
 
-[assembly: Dependency(typeof(PopupPlatformWinPhone))]
-namespace Rg.Plugins.Popup.WinPhone.Impl
+[assembly: Dependency(typeof(PopupPlatformWin))]
+namespace Rg.Plugins.Popup.UWP.Impl
 {
     [Preserve(AllMembers = true)]
-    class PopupPlatformWinPhone : IPopupPlatform
+    class PopupPlatformWin : IPopupPlatform
     {
         private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
 
@@ -34,20 +31,12 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         public bool IsInitialized => Popup.IsInitialized;
 
         [Preserve]
-        public PopupPlatformWinPhone()
+        public PopupPlatformWin()
         {
-#if WINDOWS_PHONE_APP
-            HardwareButtons.BackPressed += OnBackPressed;
-#elif WINDOWS_UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-#endif
         }
 
-#if WINDOWS_UWP
         private async void OnBackRequested(object sender, BackRequestedEventArgs e)
-#elif WINDOWS_PHONE_APP
-        private async void OnBackPressed(object sender, BackPressedEventArgs e)
-#endif
         {
             var lastPopupPage = PopupNavigationInstance.PopupStack.LastOrDefault();
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rg.Plugins.Popup", "Rg.Plugins.Popup\Rg.Plugins.Popup.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.UWP", "Demo\Demo.UWP\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rg.Plugins.Popup.UWP", "Rg.Plugins.Popup.UWP\Rg.Plugins.Popup.UWP.csproj", "{2B1508FE-0298-4740-B5D3-6B2BC0F0E08D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Rg.Plugins.Popup.WinShared", "Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.shproj", "{32FF6384-D2DC-4033-B52D-0833A1E69D04}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{513DF223-8613-44A0-A67E-2C05601D5A62}"
 	ProjectSection(SolutionItems) = preProject
 		..\nuspec\Rg.Plugins.Popup.nuspec = ..\nuspec\Rg.Plugins.Popup.nuspec
@@ -39,10 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C18A37DD
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{2b1508fe-0298-4740-b5d3-6b2bc0f0e08d}*SharedItemsImports = 4
-		Rg.Plugins.Popup.WinShared\Rg.Plugins.Popup.WinShared.projitems*{32ff6384-d2dc-4033-b52d-0833a1e69d04}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM
