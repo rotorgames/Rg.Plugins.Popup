@@ -24,6 +24,6 @@ using Xamarin.Forms.Internals;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: InternalsVisibleTo("Rg.Plugins.Popup.Droid")]
 [assembly: InternalsVisibleTo("Rg.Plugins.Popup.IOS")]
+[assembly: InternalsVisibleTo("Rg.Plugins.Popup.Mac")]
 [assembly: InternalsVisibleTo("Rg.Plugins.Popup.UWP")]
-[assembly: InternalsVisibleTo("Rg.Plugins.Popup.WinPhone")]
 [assembly: Preserve]

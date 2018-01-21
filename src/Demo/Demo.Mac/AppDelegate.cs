@@ -22,10 +22,11 @@ namespace Demo.Mac
             NSApplication.SharedApplication.MainMenu = new NSMenu();
         }
 
-        public override NSWindow MainWindow { get; }
+        public sealed override NSWindow MainWindow { get; }
 
         public override void DidFinishLaunching(NSNotification notification)
         {
+            Rg.Plugins.Popup.Popup.Init();
             Forms.Init();
             LoadApplication(new App());
             base.DidFinishLaunching(notification);
