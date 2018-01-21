@@ -9,6 +9,7 @@ Nuget: https://www.nuget.org/packages/Rg.Plugins.Popup/ [![NuGet](https://img.sh
 
 - [x] Android
 - [x] iOS
+- [x] macOS
 - [ ] Windows Phone (Obsolete. Use v1.1.0-pre5 if WP is needed)
 - [x] UWP
 
@@ -75,6 +76,21 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
       global::Xamarin.Forms.Forms.Init ();
       LoadApplication (new App ());
       return base.FinishedLaunching (app, options);
+    }
+}
+```
+#### macOS
+```csharp
+[Register("AppDelegate")]
+public class AppDelegate : global::Xamarin.Forms.Platform.MacOS.FormsApplicationDelegate
+{
+    public override void DidFinishLaunching(NSNotification notification)
+    {
+        Rg.Plugins.Popup.Popup.Init();
+
+        global::Xamarin.Forms.Forms.Init();
+        LoadApplication(new App());
+        base.DidFinishLaunching(notification);
     }
 }
 ```
