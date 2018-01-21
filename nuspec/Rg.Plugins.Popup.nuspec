@@ -13,7 +13,7 @@
         <description>
           Plugin for Xamarin forms. Allows you to open any page as a popup.
 
-          Support Android, iOS, UWP
+          Support Android, iOS, UWP, macOS
 
           Attention. This version is not compatible with 0.0.17 and 1.0.0
         </description>
@@ -100,7 +100,7 @@
         </releaseNotes>
         <tags>xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.5.0.121934" />
+            <dependency id="Xamarin.Forms" version="2.5.0.122203" />
         </dependencies>
     </metadata>
     <files>
@@ -121,9 +121,11 @@
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\MonoTouch" />
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.dll" target="lib\Xamarin.IOS" />
       <file src="..\src\Rg.Plugins.Popup.IOS\bin\Release\Rg.Plugins.Popup.IOS.pdb" target="lib\Xamarin.IOS" />
-      <!--wpa81-->
-      <!--<file src="..\src\Rg.Plugins.Popup\bin\Release\Rg.Plugins.Popup.dll" target="lib\wpa81" />
-      <file src="..\src\Rg.Plugins.Popup.WinPhone\bin\Release\Rg.Plugins.Popup.WinPhone.dll" target="lib\wpa81" />-->
+      <!--Mac-->
+      <file src="..\src\Rg.Plugins.Popup.Mac\bin\Release\Rg.Plugins.Popup.dll" target="lib\Xamarin.Mac20" />
+      <file src="..\src\Rg.Plugins.Popup.Mac\bin\Release\Rg.Plugins.Popup.pdb" target="lib\Xamarin.Mac20" />
+      <file src="..\src\Rg.Plugins.Popup.Mac\bin\Release\Rg.Plugins.Popup.Mac.dll" target="lib\Xamarin.Mac20" />
+      <file src="..\src\Rg.Plugins.Popup.Mac\bin\Release\Rg.Plugins.Popup.Mac.pdb" target="lib\Xamarin.Mac20" />
       <!--uwp-->
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
