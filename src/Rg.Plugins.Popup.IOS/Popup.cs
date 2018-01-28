@@ -1,11 +1,11 @@
 ﻿using System;
 
 #if __IOS__
-using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Renderers;
+using PopupPlatform = Rg.Plugins.Popup.IOS.Impl.PopupPlatformIos;
 #elif __MACOS__
-using Rg.Plugins.Popup.Mac.Impl;
 using Rg.Plugins.Popup.Mac.Renderers;
+using PopupPlatform = Rg.Plugins.Popup.Mac.Impl.PopupPlatformMac;
 #endif
 
 namespace Rg.Plugins.Popup
@@ -28,11 +28,7 @@ namespace Rg.Plugins.Popup
         {
             if (false.Equals(true))
             {
-#if __IOS__
-                var i = new PopupPlatformIos();
-#elif __MACOS__
-                var i = new PopupPlatformMac();
-#endif
+                var i = new PopupPlatform();
                 var r = new PopupPageRenderer();
             }
         }
