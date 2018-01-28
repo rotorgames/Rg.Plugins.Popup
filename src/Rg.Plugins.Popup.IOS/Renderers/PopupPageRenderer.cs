@@ -1,13 +1,16 @@
+using UIKit;
+using Foundation;
+using CoreGraphics;
+
 using System.ComponentModel;
 using System.Threading.Tasks;
-using CoreGraphics;
-using Foundation;
-using Rg.Plugins.Popup.IOS.Renderers;
-using Rg.Plugins.Popup.Pages;
-using UIKit;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Size = Xamarin.Forms.Size;
+
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.IOS.Renderers;
+using Rg.Plugins.Popup.IOS.Extensions;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.IOS.Renderers
@@ -18,10 +21,11 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private readonly UIGestureRecognizer _tapGestureRecognizer;
         private NSObject _willChangeFrameNotificationObserver;
         private NSObject _willHideNotificationObserver;
-        private CGRect _keyboardBounds;
+        
         private bool _isDisposed;
 
-        private PopupPage CurrentElement => (PopupPage) Element;
+        internal CGRect KeyboardBounds { get; private set; } = CGRect.Empty;
+        internal PopupPage CurrentElement => (PopupPage) Element;
 
         #region Main Methods
 
@@ -82,7 +86,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             var view = e.View;
             var location = e.LocationInView(view);
             var subview = view.HitTest(location, null);
-            if (subview == view)
+            if (Equals(subview, view))
             {
                 CurrentElement.SendBackgroundClick();
             }
@@ -140,28 +144,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-
-            var currentElement = CurrentElement;
-
-            if (View?.Superview?.Frame == null || currentElement == null)
-                return;
-
-            var superviewFrame = View.Superview.Frame;
-            var applactionFrame = UIScreen.MainScreen.ApplicationFrame;
-            var systemPadding = new Thickness
-            {
-                Left = applactionFrame.Left,
-                Top = applactionFrame.Top,
-                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
-                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
-            };
-
-            currentElement.BatchBegin();
-
-            currentElement.SetSystemPadding(systemPadding);
-            SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-
-            currentElement.BatchCommit();
+            this.UpdateSize();
         }
 
         #endregion
@@ -182,17 +165,16 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         private void KeyBoardUpNotification(NSNotification notifi)
         {
-            _keyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
+            KeyboardBounds = UIKeyboard.BoundsFromNotification(notifi);
 
             ViewDidLayoutSubviews();
         }
 
         private async void KeyBoardDownNotification(NSNotification notifi)
         {
-            NSObject duration;
-            var canAnimated = notifi.UserInfo.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out duration);
+            var canAnimated = notifi.UserInfo.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out var duration);
 
-            _keyboardBounds = CGRect.Empty;
+            KeyboardBounds = CGRect.Empty;
 
             if (canAnimated)
             {

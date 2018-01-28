@@ -67,7 +67,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             {
                 var window = viewController.View.Window;
                 await window.RootViewController.DismissViewControllerAsync(false);
-                DisposeModelAndChildrenRenderers(page);
+                page.DisposeModelAndChildrenRenderers();
                 window.RootViewController.Dispose();
                 window.RootViewController = null;
                 page.Parent = null;
@@ -77,34 +77,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
             await Task.Delay(5);
         }
 
-        private void DisposeModelAndChildrenRenderers(VisualElement view)
-        {
-            IVisualElementRenderer renderer;
-            foreach (VisualElement child in view.Descendants())
-            {
-                renderer = XFPlatform.GetRenderer(child);
-                XFPlatform.SetRenderer(child, null);
-
-                if (renderer != null)
-                {
-                    renderer.NativeView.RemoveFromSuperview();
-                    renderer.Dispose();
-                }
-            }
-
-            renderer = XFPlatform.GetRenderer(view);
-            if (renderer != null)
-            {
-                renderer.NativeView.RemoveFromSuperview();
-                renderer.Dispose();
-            }
-            XFPlatform.SetRenderer(view, null);
-        }
-
         private void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
-            DisposeModelAndChildrenRenderers((VisualElement) view);
+            (view as VisualElement)?.DisposeModelAndChildrenRenderers();
         }
     }
 }

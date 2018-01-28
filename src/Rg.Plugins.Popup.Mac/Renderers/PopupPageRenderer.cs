@@ -1,11 +1,12 @@
 ﻿using AppKit;
 using Foundation;
 
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Mac.Renderers;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
+
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Mac.Extensions;
+using Rg.Plugins.Popup.Mac.Renderers;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Mac.Renderers
@@ -15,7 +16,7 @@ namespace Rg.Plugins.Popup.Mac.Renderers
     {
         private readonly NSGestureRecognizer _tapGestureRecognizer;
 
-        private PopupPage CurrentElement => (PopupPage)Element;
+        internal PopupPage CurrentElement => (PopupPage)Element;
 
         #region Main Methods
 
@@ -66,28 +67,7 @@ namespace Rg.Plugins.Popup.Mac.Renderers
         public override void ViewDidLayout()
         {
             base.ViewDidLayout();
-
-            var currentElement = CurrentElement;
-
-            if (View?.Superview?.Frame == null || currentElement == null)
-                return;
-
-            var superviewFrame = View.Superview.Frame;
-            var applactionFrame = NSScreen.MainScreen.Frame;
-            var systemPadding = new Thickness
-            {
-                Left = applactionFrame.Left,
-                Top = applactionFrame.Top,
-                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
-                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top
-            };
-
-            currentElement.BatchBegin();
-
-            currentElement.SetSystemPadding(systemPadding);
-            SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-
-            currentElement.BatchCommit();
+            this.UpdateSize();
         }
 
         #endregion
