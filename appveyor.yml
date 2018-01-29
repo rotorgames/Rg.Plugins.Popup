@@ -38,8 +38,8 @@ build_script:
     msbuild Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
 deploy_script:
 - ps: >-
-	$isRelease = $env:APPVEYOR_REPO_TAG -eq "true" -And $env:APPVEYOR_REPO_TAG_NAME.StartsWith("v", "CurrentCultureIgnoreCase")
-	$isForceBuild = $env:APPVEYOR_FORCED_BUILD -or $env:APPVEYOR_RE_BUILD
+    $isRelease = $env:APPVEYOR_REPO_TAG -eq "true" -And $env:APPVEYOR_REPO_TAG_NAME.StartsWith("v", "CurrentCultureIgnoreCase")
+    $isForceBuild = $env:APPVEYOR_FORCED_BUILD -or $env:APPVEYOR_RE_BUILD
 
     cd ../nuspec
 
@@ -47,10 +47,10 @@ deploy_script:
 
     if($env:APPVEYOR_REPO_BRANCH -eq "master" -and ($isRelease -or $isForceBuild))
     {
-      nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
+        nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
     }
 
     if($env:APPVEYOR_REPO_BRANCH -eq "develop")
     {
-      Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+        Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
     }
