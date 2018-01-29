@@ -3,55 +3,26 @@ branches:
   only:
     - master
     - develop
+skip_tags: true
 image: Visual Studio 2017
 configuration: Publish
 platform: Any CPU
-environment:
-    nuget_api_key:
-      secure: L7CA8R31O28Mlv6Bw82r9nwZWnnRJzuHvdOLrNckp47kfsipZBiCYlF0fiwb3jXr
-    github_api_key:
-      secure: c6q7KD53/7bdsiAyFFFKLvQih4V5PHnqG2/R+pEBuoxtHSctp3RMKzB5HScez8aM
 assembly_info:
     patch: true
     file: '**\AssemblyInfo.*'
     assembly_version: '{version}'
     assembly_file_version: '{version}'
     assembly_informational_version: '{version}'
-deploy:
-  - provider: GitHub
-    auth_token: $(github_api_key)
-    tag: $(appveyor_repo_tag_name)
-    artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
-    draft: false
-    prerelease: false
-    on:
-      branch: master                # release from master branch only
-      appveyor_repo_tag: true       # deploy on tag push only
+environment:
+    solution_dir: "src"
+    nuspec_dir: "nuspec"
+init:
+    - nuget update -self
+before_build:
+    - nuget restore %solution_dir%
 build_script:
-- cmd: >-
-    cd src
-
-    nuget update -self
-
-    nuget restore
-
-    msbuild Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
-deploy_script:
-- ps: >-
-    $isRelease = $env:APPVEYOR_REPO_TAG -eq "true" -And $env:APPVEYOR_REPO_TAG_NAME.StartsWith("v", "CurrentCultureIgnoreCase")
-
-    $isForceBuild = $env:APPVEYOR_FORCED_BUILD -or $env:APPVEYOR_RE_BUILD
-
-    cd ../nuspec
-
-    nuget pack "Rg.Plugins.Popup.nuspec" -Version $env:APPVEYOR_BUILD_VERSION
-
-    if($env:APPVEYOR_REPO_BRANCH -eq "master" -and ($isRelease -or $isForceBuild))
-    {
-        nuget push *.nupkg -Source "https://www.nuget.org" -ApiKey $env:NUGET_API_KEY
-    }
-
-    if($env:APPVEYOR_REPO_BRANCH -eq "develop")
-    {
-        Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-    }
+    - msbuild %solution_dir%/Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
+after_build:
+    - nuget pack %nuspec_dir%/Rg.Plugins.Popup.nuspec -Version %APPVEYOR_BUILD_VERSION%
+artifacts:
+    - path: "*.nupkg"
