@@ -39,6 +39,7 @@ build_script:
 deploy_script:
 - ps: >-
     $isRelease = $env:APPVEYOR_REPO_TAG -eq "true" -And $env:APPVEYOR_REPO_TAG_NAME.StartsWith("v", "CurrentCultureIgnoreCase")
+
     $isForceBuild = $env:APPVEYOR_FORCED_BUILD -or $env:APPVEYOR_RE_BUILD
 
     cd ../nuspec
