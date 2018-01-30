@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
@@ -16,9 +13,9 @@ namespace Demo.Pages
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected override void OnAppearingAnimationBegin()
         {
-            base.OnAppearing();
+            base.OnAppearingAnimationBegin();
 
             FrameContainer.HeightRequest = -1;
 
@@ -33,7 +30,7 @@ namespace Demo.Pages
             UsernameEntry.Opacity = PasswordEntry.Opacity = 0;
         }
 
-        protected async override Task OnAppearingAnimationEnd()
+        protected override async Task OnAppearingAnimationEndAsync()
         {
             var translateLength = 400u;
 
@@ -57,7 +54,7 @@ namespace Demo.Pages
                 LoginButton.FadeTo(1));
         }
 
-        protected async override Task OnDisappearingAnimationBegin()
+        protected override async Task OnDisappearingAnimationBeginAsync()
         {
             var taskSource = new TaskCompletionSource<bool>();
 
