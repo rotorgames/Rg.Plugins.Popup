@@ -94,7 +94,7 @@ namespace HelloXamarinFormsWorld.Android
             base.OnCreate(bundle);
 
             Rg.Plugins.Popup.Popup.Init(this, bundle);
-	    
+        
             Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication (new App ());
         }
@@ -129,8 +129,8 @@ Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Popup.GetExtraAssemblies());
 * BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
 * CloseWhenBackgroundIsClicked: Close pop-up when click on the background
 * HasSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
-	
-	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
+    
+    ![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
 * SystemPadding: (ReadOnly) Thickness
 
 ## How To Use
@@ -192,19 +192,51 @@ public partial class MyPopupPage : PopupPage
         {
             base.OnDisappearing();
         }
-        
-		// Method for animation child in PopupPage
-		// Invoced after custom animation end
-        protected override Task OnAppearingAnimationEnd()
+
+        // Methods for support animations of views in your popup page
+
+        // Invoked before an appearing animation
+        protected override void OnAppearingAnimationBegin()
         {
-            return Content.FadeTo(0.5);
+            base.OnAppearingAnimationBegin();
         }
 
-		// Method for animation child in PopupPage
-		// Invoked before custom animation begin
-        protected override Task OnDisappearingAnimationBegin()
+        // Invoked after an appearing animation
+        protected override void OnAppearingAnimationEnd()
         {
-            return Content.FadeTo(1);
+            base.OnAppearingAnimationEnd();
+        }
+
+        // Invoked before an disappearing animation
+        protected override void OnDisappearingAnimationBegin()
+        {
+            base.OnDisappearingAnimationBegin();
+        }
+
+        // Invoked after an disappearing animation
+        protected override void OnDisappearingAnimationEnd()
+        {
+            base.OnDisappearingAnimationEnd();
+        }
+
+        protected override Task OnAppearingAnimationBeginAsync()
+        {
+            return base.OnAppearingAnimationBeginAsync();
+        }
+
+        protected override Task OnAppearingAnimationEndAsync()
+        {
+            return base.OnAppearingAnimationEndAsync();
+        }
+
+        protected override Task OnDisappearingAnimationBeginAsync()
+        {
+            return base.OnDisappearingAnimationBeginAsync();
+        }
+
+        protected override Task OnDisappearingAnimationEndAsync()
+        {
+            return base.OnDisappearingAnimationEndAsync();
         }
 
         protected override bool OnBackButtonPressed()
@@ -214,10 +246,10 @@ public partial class MyPopupPage : PopupPage
             return true; 
         }
 
-		// Invoced when background is clicked
-		protected override bool OnBackgroundClicked()
+        // Invoced when background is clicked
+        protected override bool OnBackgroundClicked()
         {
-			// Return default value - CloseWhenBackgroundIsClicked
+            // Return default value - CloseWhenBackgroundIsClicked
             return base.OnBackgroundClicked();
         }
     }
@@ -256,10 +288,10 @@ public partial class MyPopupPage : PopupPage
             content.Opacity = 0;
         }
 
-		// Call After OnDisappering
+        // Call After OnDisappering
         public void Disposing(View content, PopupPage page)
         {
-			// Dispose Unmanaged Code
+            // Dispose Unmanaged Code
         }
         
         // Call After OnAppering
