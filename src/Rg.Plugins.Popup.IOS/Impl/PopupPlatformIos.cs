@@ -28,6 +28,8 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public bool IsInitialized => Popup.IsInitialized;
 
+        public bool IsSystemAnimationEnabled => true;
+
         public async Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;

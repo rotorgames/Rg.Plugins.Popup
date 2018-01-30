@@ -43,6 +43,8 @@ namespace Rg.Plugins.Popup.Services
 
         public async Task PushAsync(PopupPage page, bool animate = true)
         {
+            animate = CanBeAnimated(animate);
+
             if (animate)
             {
                 page.PreparingAnimation();
@@ -58,6 +60,8 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAsync(bool animate = true)
         {
+            animate = CanBeAnimated(animate);
+
             if (PopupStack.Count == 0)
                 throw new IndexOutOfRangeException("There is not page in PopupStack");
 
@@ -66,6 +70,8 @@ namespace Rg.Plugins.Popup.Services
 
         public async Task PopAllAsync(bool animate = true)
         {
+            animate = CanBeAnimated(animate);
+
             var popupTasks = _popupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
             await Task.WhenAll(popupTasks);
@@ -78,6 +84,8 @@ namespace Rg.Plugins.Popup.Services
 
             if(page.IsBeingDismissed)
                 return;
+
+            animate = CanBeAnimated(animate);
 
             page.IsBeingDismissed = true;
 
@@ -116,5 +124,14 @@ namespace Rg.Plugins.Popup.Services
             if (_popupStack.Contains(page))
                 _popupStack.Remove(page);
         }
+
+        #region Animation
+
+        private bool CanBeAnimated(bool animate)
+        {
+            return animate && PopupPlatform.IsSystemAnimationEnabled;
+        }
+
+        #endregion
     }
 }

@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
+using Android.OS;
+using Android.Provider;
 using Android.Runtime;
 using Android.Widget;
 using Rg.Plugins.Popup.Contracts;
@@ -31,6 +33,8 @@ namespace Rg.Plugins.Popup.Droid.Impl
         }
 
         public bool IsInitialized => Popup.IsInitialized;
+
+        public bool IsSystemAnimationEnabled => GetIsSystemAnimationEnabled();
 
         public async Task AddAsync(PopupPage page)
         {
@@ -119,6 +123,36 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 }
             }
             return true;
+        }
+
+        #endregion
+
+        #region System Animation
+
+        private bool GetIsSystemAnimationEnabled()
+        {
+            float animationScale;
+            var context = Popup.Context;
+
+            if (context == null)
+                return false;
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1)
+            {
+                animationScale = Settings.Global.GetFloat(
+                    context.ContentResolver,
+                    Settings.Global.AnimatorDurationScale,
+                    0);
+            }
+            else
+            {
+                animationScale = Settings.System.GetFloat(
+                    context.ContentResolver,
+                    Settings.System.AnimatorDurationScale,
+                    0);
+            }
+
+            return animationScale > 0;
         }
 
         #endregion

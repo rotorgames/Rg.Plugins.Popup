@@ -33,6 +33,8 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
 
         public bool IsInitialized => Popup.IsInitialized;
 
+        public bool IsSystemAnimationEnabled => true;
+
         [Preserve]
         public PopupPlatformWinPhone()
         {

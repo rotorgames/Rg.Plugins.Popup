@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Demo.Animations;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -14,17 +13,17 @@ namespace Demo.Pages
             InitializeComponent();
         }
 
-        private void OnClose(object sender, EventArgs e)
+        private async void OnClose(object sender, EventArgs e)
         {
-            PopupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
-        protected override Task OnAppearingAnimationEnd()
+        protected override Task OnAppearingAnimationEndAsync()
         {
             return Content.FadeTo(0.5);
         }
 
-        protected override Task OnDisappearingAnimationBegin()
+        protected override Task OnDisappearingAnimationBeginAsync()
         {
             return Content.FadeTo(1);
         }
