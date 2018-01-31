@@ -100,7 +100,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
+            Context.HideKeyboard(((Activity) Context).Window.DecorView);
             base.OnAttachedToWindow();
         }
 
@@ -108,7 +108,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         {
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
-                Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
+                Context.HideKeyboard(((Activity) Context).Window.DecorView);
                 return false;
             });
             base.OnDetachedFromWindow();
