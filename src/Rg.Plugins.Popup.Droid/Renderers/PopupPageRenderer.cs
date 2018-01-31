@@ -108,7 +108,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         {
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
-                Context.HideKeyboard(((Activity) Context).Window.DecorView);
+                Popup.Context.HideKeyboard(((Activity) Popup.Context).Window.DecorView);
                 return false;
             });
             base.OnDetachedFromWindow();
