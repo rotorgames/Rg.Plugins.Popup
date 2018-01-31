@@ -62,8 +62,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             var systemPadding = GetSystemPadding();
 
-            CurrentElement.SetSystemPadding(systemPadding);
-            CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            CurrentElement.SetSystemPadding(systemPadding, !changed);
+
+            if(changed)
+                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
 
             CurrentElement.BatchCommit();
 
@@ -112,6 +114,15 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 return false;
             });
             base.OnDetachedFromWindow();
+        }
+
+        protected override void OnWindowVisibilityChanged(ViewStates visibility)
+        {
+            base.OnWindowVisibilityChanged(visibility);
+
+            // It is needed because a size of popup has not updated on Android 7+. See #209
+            if (visibility == ViewStates.Visible)
+                ForceLayout();
         }
 
         #endregion

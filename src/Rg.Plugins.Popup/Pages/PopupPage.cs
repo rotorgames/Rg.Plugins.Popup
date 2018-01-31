@@ -214,10 +214,13 @@ namespace Rg.Plugins.Popup.Pages
             }
         }
 
-        internal void SetSystemPadding(Thickness systemPadding)
+        internal void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
         {
+            var systemPaddingWasChanged = SystemPadding != systemPadding;
             SystemPadding = systemPadding;
-            ForceLayout();
+
+            if(systemPaddingWasChanged && forceLayout)
+                ForceLayout();
         }
 
         #endregion
