@@ -128,30 +128,64 @@ namespace Rg.Plugins.Popup.Pages
 
         internal async Task AppearingAnimation()
         {
+            OnAppearingAnimationBegin();
+            await OnAppearingAnimationBeginAsync();
+
             if (IsAnimating && Animation != null)
                 await Animation.Appearing(Content, this);
 
-            await OnAppearingAnimationEnd();
+            OnAppearingAnimationEnd();
+            await OnAppearingAnimationEndAsync();
         }
 
         internal async Task DisappearingAnimation()
         {
-            await OnDisappearingAnimationBegin();
+            OnDisappearingAnimationBegin();
+            await OnDisappearingAnimationBeginAsync();
 
             if (IsAnimating && Animation != null)
                 await Animation.Disappearing(Content, this);
+
+            OnDisappearingAnimationEnd();
+            await OnDisappearingAnimationEndAsync();
         }
 
         #endregion
 
         #region Override Animation Methods
 
-        protected virtual Task OnAppearingAnimationEnd()
+        protected virtual void OnAppearingAnimationBegin()
+        {
+        }
+
+        protected virtual void OnAppearingAnimationEnd()
+        {
+        }
+
+        protected virtual void OnDisappearingAnimationBegin()
+        {
+        }
+
+        protected virtual void OnDisappearingAnimationEnd()
+        {
+        }
+
+        protected virtual Task OnAppearingAnimationBeginAsync()
         {
             return Task.FromResult(0);
         }
 
-        protected virtual Task OnDisappearingAnimationBegin()
+        protected virtual Task OnAppearingAnimationEndAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task OnDisappearingAnimationBeginAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task OnDisappearingAnimationEndAsync()
         {
             return Task.FromResult(0);
         }
@@ -180,10 +214,13 @@ namespace Rg.Plugins.Popup.Pages
             }
         }
 
-        internal void SetSystemPadding(Thickness systemPadding)
+        internal void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
         {
+            var systemPaddingWasChanged = SystemPadding != systemPadding;
             SystemPadding = systemPadding;
-            ForceLayout();
+
+            if(systemPaddingWasChanged && forceLayout)
+                ForceLayout();
         }
 
         #endregion

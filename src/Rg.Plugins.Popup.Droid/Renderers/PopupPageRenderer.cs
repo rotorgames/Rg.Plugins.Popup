@@ -62,8 +62,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             var systemPadding = GetSystemPadding();
 
-            CurrentElement.SetSystemPadding(systemPadding);
-            CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            CurrentElement.SetSystemPadding(systemPadding, !changed);
+
+            if(changed)
+                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
 
             CurrentElement.BatchCommit();
 
@@ -76,7 +78,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         private Thickness GetSystemPadding()
         {
-            var decoreView = (FrameLayout)((Activity)Forms.Context).Window.DecorView;
+            var decoreView = (FrameLayout)((Activity)Context).Window.DecorView;
             Rect visibleRect = new Rect();
             decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
@@ -100,7 +102,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
+            Context.HideKeyboard(((Activity) Context).Window.DecorView);
             base.OnAttachedToWindow();
         }
 
@@ -108,10 +110,19 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         {
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
-                Forms.Context.HideKeyboard(((Activity)Forms.Context).Window.DecorView);
+                Popup.Context.HideKeyboard(((Activity) Popup.Context).Window.DecorView);
                 return false;
             });
             base.OnDetachedFromWindow();
+        }
+
+        protected override void OnWindowVisibilityChanged(ViewStates visibility)
+        {
+            base.OnWindowVisibilityChanged(visibility);
+
+            // It is needed because a size of popup has not updated on Android 7+. See #209
+            if (visibility == ViewStates.Visible)
+                ForceLayout();
         }
 
         #endregion

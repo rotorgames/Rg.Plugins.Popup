@@ -94,7 +94,7 @@ namespace HelloXamarinFormsWorld.Android
             base.OnCreate(bundle);
 
             Rg.Plugins.Popup.Popup.Init(this, bundle);
-	    
+        
             Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication (new App ());
         }
@@ -129,8 +129,8 @@ Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Popup.GetExtraAssemblies());
 * BackgroundColor: Hex #80FF5C5C where #80 opacity [Range](http://stackoverflow.com/questions/5445085/understanding-colors-in-android-6-characters/11019879#11019879)
 * CloseWhenBackgroundIsClicked: Close pop-up when click on the background
 * HasSystemPadding: Enabled/Disabled system padding offset (Only for Content not for Background)
-	
-	![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
+    
+    ![Android](/icons/system-padding-droid.png) ![Android](/icons/system-padding-ios.png)
 * SystemPadding: (ReadOnly) Thickness
 
 ## How To Use
@@ -177,115 +177,147 @@ Task RemovePageAsync(PopupPage page, bool animate = true) // Navigation.RemovePo
 ```
 ```csharp
 public partial class MyPopupPage : PopupPage
+{
+    public MyPopupPage()
     {
-        public MyPopupPage()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-        }
-        
-		// Method for animation child in PopupPage
-		// Invoced after custom animation end
-        protected override Task OnAppearingAnimationEnd()
-        {
-            return Content.FadeTo(0.5);
-        }
-
-		// Method for animation child in PopupPage
-		// Invoked before custom animation begin
-        protected override Task OnDisappearingAnimationBegin()
-        {
-            return Content.FadeTo(1);
-        }
-
-        protected override bool OnBackButtonPressed()
-        {
-            // Prevent hide popup
-            //return base.OnBackButtonPressed();
-            return true; 
-        }
-
-		// Invoced when background is clicked
-		protected override bool OnBackgroundClicked()
-        {
-			// Return default value - CloseWhenBackgroundIsClicked
-            return base.OnBackgroundClicked();
-        }
+        InitializeComponent();
     }
-    
-    // Main Page
-    
-    public partial class MainPage : ContentPage
+
+    protected override void OnAppearing()
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        base.OnAppearing();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    }
+
+    // Methods for support animations of views in your popup page
+
+    // Invoked before an appearing animation
+    protected override void OnAppearingAnimationBegin()
+    {
+        base.OnAppearingAnimationBegin();
+    }
+
+    // Invoked after an appearing animation
+    protected override void OnAppearingAnimationEnd()
+    {
+        base.OnAppearingAnimationEnd();
+    }
+
+    // Invoked before an disappearing animation
+    protected override void OnDisappearingAnimationBegin()
+    {
+        base.OnDisappearingAnimationBegin();
+    }
+
+    // Invoked after an disappearing animation
+    protected override void OnDisappearingAnimationEnd()
+    {
+        base.OnDisappearingAnimationEnd();
+    }
+
+    protected override Task OnAppearingAnimationBeginAsync()
+    {
+        return base.OnAppearingAnimationBeginAsync();
+    }
+
+    protected override Task OnAppearingAnimationEndAsync()
+    {
+        return base.OnAppearingAnimationEndAsync();
+    }
+
+    protected override Task OnDisappearingAnimationBeginAsync()
+    {
+        return base.OnDisappearingAnimationBeginAsync();
+    }
+
+    protected override Task OnDisappearingAnimationEndAsync()
+    {
+        return base.OnDisappearingAnimationEndAsync();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        // Prevent hide popup
+        //return base.OnBackButtonPressed();
+        return true; 
+    }
+
+    // Invoced when background is clicked
+    protected override bool OnBackgroundClicked()
+    {
+        // Return default value - CloseWhenBackgroundIsClicked
+        return base.OnBackgroundClicked();
+    }
+}
+    
+// Main Page
+    
+public partial class MainPage : ContentPage
+{
+    public MainPage()
+    {
+        InitializeComponent();
+    }
         
-        // Button Click
-        private async void OnOpenPupup(object sender, EventArgs e)
-        {
-            var page = new MyPopupPage();
+    // Button Click
+    private async void OnOpenPupup(object sender, EventArgs e)
+    {
+        var page = new MyPopupPage();
             
-            await Navigation.PushPopupAsync(page);
-            // or
-            await PopupNavigation.PushAsync(page);
-        }
+        await Navigation.PushPopupAsync(page);
+        // or
+        await PopupNavigation.PushAsync(page);
     }
+}
 ```
 
 ## User Animation
 
 ```csharp
-    // User animation
-    class UserAnimation : IPopupAnimation
+// User animation
+class UserAnimation : IPopupAnimation
+{
+    // Call Before OnAppering
+    public void Preparing(View content, PopupPage page)
     {
-        // Call Before OnAppering
-        public void Preparing(View content, PopupPage page)
-        {
-            // Preparing content and page
-            content.Opacity = 0;
-        }
+        // Preparing content and page
+        content.Opacity = 0;
+    }
 
-		// Call After OnDisappering
-        public void Disposing(View content, PopupPage page)
-        {
-			// Dispose Unmanaged Code
-        }
-        
-        // Call After OnAppering
-        public async Task Appearing(View content, PopupPage page)
-        {
-            // Show animation
-            await content.FadeTo(1);
-        }
-        
-        // Call Before OnDisappering
-        public async Task Disappearing(View content, PopupPage page)
-        {
-            // Hide animation
-            await content.FadeTo(0);
-        }
-    }
-    
-    // Popup Page
-    public partial class UserPopupPage : PopupPage
+    // Call After OnDisappering
+    public void Disposing(View content, PopupPage page)
     {
-        public SecondPopupPage()
-        {
-            InitializeComponent();
-            Animation = new UserAnimation();
-        }
+        // Dispose Unmanaged Code
     }
+        
+    // Call After OnAppering
+    public async Task Appearing(View content, PopupPage page)
+    {
+        // Show animation
+        await content.FadeTo(1);
+    }
+        
+    // Call Before OnDisappering
+    public async Task Disappearing(View content, PopupPage page)
+    {
+        // Hide animation
+        await content.FadeTo(0);
+    }
+}
+    
+// Popup Page
+public partial class UserPopupPage : PopupPage
+{
+    public SecondPopupPage()
+    {
+        InitializeComponent();
+        Animation = new UserAnimation();
+    }
+}
 ```
 
 Or in xaml
@@ -304,8 +336,15 @@ Or in xaml
 </pages:PopupPage>
 ```
 
-## Thanks
+## Troubleshooting
 
+### Doesn't work/build or etc
+* Check if one version of plugin has been installed to an each project with Xamarin.Forms in solution.
+* Clean a solution or an each Xamarin.Forms project.
+* Close Visual Studio (or VS for Mac or Xamarin Studio or other IDA) and remove an each obj and bin folder in the each project.
+* If previous items didn't help, don't hesitate, [create a new issue here](https://github.com/rotorgames/Rg.Plugins.Popup/issues).
+
+## Thanks
 * [xam-forms-transparent-modal](https://github.com/gaborv/xam-forms-transparent-modal)
 
 ## License
