@@ -142,14 +142,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 animationScale = Settings.Global.GetFloat(
                     context.ContentResolver,
                     Settings.Global.AnimatorDurationScale,
-                    0);
+                    1);
             }
             else
             {
                 animationScale = Settings.System.GetFloat(
                     context.ContentResolver,
                     Settings.System.AnimatorDurationScale,
-                    0);
+                    1);
             }
 
             return animationScale > 0;
