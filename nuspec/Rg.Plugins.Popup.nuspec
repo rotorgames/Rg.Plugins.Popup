@@ -12,7 +12,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Plugin for Xamarin forms. Allows you to open any page as a popup.
         
-Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases/tag/v$version$</description>
+Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</description>
         <tags>Xamarin.Forms xamarin forms popup page modal</tags>
         <dependencies>
             <dependency id="Xamarin.Forms" version="2.5.0.121934" />
