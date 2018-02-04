@@ -340,6 +340,8 @@ Or in xaml
 
 ### Doesn't work/build or etc
 * Check if one version of plugin has been installed to an each project with Xamarin.Forms in solution.
+* Check you open popup pages only in a main thread.
+* Check you use `await` operator for pushing and popping popup pages.
 * Clean a solution or an each Xamarin.Forms project.
 * Close Visual Studio (or VS for Mac or Xamarin Studio or other IDA) and remove an each obj and bin folder in the each project.
 * If previous items didn't help, don't hesitate, [create a new issue here](https://github.com/rotorgames/Rg.Plugins.Popup/issues).
