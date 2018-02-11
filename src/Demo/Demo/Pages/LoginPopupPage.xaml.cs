@@ -19,6 +19,21 @@ namespace Demo.Pages
 
             FrameContainer.HeightRequest = -1;
 
+            if (!IsAnimationEnabled)
+            {
+                CloseImage.Rotation = 0;
+                CloseImage.Scale = 1;
+                CloseImage.Opacity = 1;
+
+                LoginButton.Scale = 1;
+                LoginButton.Opacity = 1;
+
+                UsernameEntry.TranslationX = PasswordEntry.TranslationX = 0;
+                UsernameEntry.Opacity = PasswordEntry.Opacity = 1;
+
+                return;
+            }
+
             CloseImage.Rotation = 30;
             CloseImage.Scale = 0.3;
             CloseImage.Opacity = 0;
@@ -32,6 +47,9 @@ namespace Demo.Pages
 
         protected override async Task OnAppearingAnimationEndAsync()
         {
+            if(!IsAnimationEnabled)
+                return;
+
             var translateLength = 400u;
 
             await Task.WhenAll(
@@ -56,6 +74,9 @@ namespace Demo.Pages
 
         protected override async Task OnDisappearingAnimationBeginAsync()
         {
+            if(!IsAnimationEnabled)
+                return;
+
             var taskSource = new TaskCompletionSource<bool>();
 
             var currentHeight = FrameContainer.Height;

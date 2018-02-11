@@ -9,6 +9,17 @@ namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
     {
+        #region Private
+
+        private const string IsAnimatingObsoleteText = 
+            nameof(IsAnimating) + 
+            " is obsolute as of v1.1.5. Please use "
+            +nameof(IsAnimationEnabled) + 
+            " instead. See more info: "
+            +Config.MigrationV1_0_xToV1_1_xUrl;
+
+        #endregion
+
         #region Internal Properties
 
         internal bool IsBeingDismissed { get; set; }
@@ -23,21 +34,25 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Bindable Properties
 
+        [Obsolete(IsAnimatingObsoleteText)]
         public static readonly BindableProperty IsAnimatingProperty = BindableProperty.Create(nameof(IsAnimating), typeof(bool), typeof(PopupPage), true);
-        public static readonly BindableProperty HasSystemPaddingProperty = BindableProperty.Create(nameof(HasSystemPadding), typeof(bool), typeof(PopupPage), true);
-        public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
-        public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
-        public static readonly BindableProperty SystemPaddingProperty = BindableProperty.Create(nameof(SystemPadding), typeof(Thickness), typeof(PopupPage), default(Thickness), BindingMode.OneWayToSource);
 
-        #endregion
-
-        #region Properties
-
+        [Obsolete(IsAnimatingObsoleteText)]
         public bool IsAnimating
         {
             get { return (bool)GetValue(IsAnimatingProperty); }
             set { SetValue(IsAnimatingProperty, value); }
         }
+
+        public static readonly BindableProperty IsAnimationEnabledProperty = BindableProperty.Create(nameof(IsAnimationEnabled), typeof(bool), typeof(PopupPage), true);
+
+        public bool IsAnimationEnabled
+        {
+            get { return (bool)GetValue(IsAnimationEnabledProperty); }
+            set { SetValue(IsAnimationEnabledProperty, value); }
+        }
+
+        public static readonly BindableProperty HasSystemPaddingProperty = BindableProperty.Create(nameof(HasSystemPadding), typeof(bool), typeof(PopupPage), true);
 
         public bool HasSystemPadding
         {
@@ -45,17 +60,23 @@ namespace Rg.Plugins.Popup.Pages
             set { SetValue(HasSystemPaddingProperty, value); }
         }
 
+        public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
+
         public IPopupAnimation Animation
         {
             get { return (IPopupAnimation)GetValue(AnimationProperty); }
             set { SetValue(AnimationProperty, value); }
         }
 
+        public static readonly BindableProperty SystemPaddingProperty = BindableProperty.Create(nameof(SystemPadding), typeof(Thickness), typeof(PopupPage), default(Thickness), BindingMode.OneWayToSource);
+
         public Thickness SystemPadding
         {
             get { return (Thickness)GetValue(SystemPaddingProperty); }
             private set { SetValue(SystemPaddingProperty, value); }
         }
+
+        public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
 
         public bool CloseWhenBackgroundIsClicked
         {
@@ -81,6 +102,12 @@ namespace Rg.Plugins.Popup.Pages
             {
                 case nameof(HasSystemPadding):
                     ForceLayout();
+                    break;
+                case nameof(IsAnimating):
+                    IsAnimationEnabled = IsAnimating;
+                    break;
+                case nameof(IsAnimationEnabled):
+                    IsAnimating = IsAnimationEnabled;
                     break;
             }
         }
@@ -118,12 +145,14 @@ namespace Rg.Plugins.Popup.Pages
 
         internal void PreparingAnimation()
         {
-            if (IsAnimating) Animation?.Preparing(Content, this);
+            if (IsAnimationEnabled)
+                Animation?.Preparing(Content, this);
         }
 
         internal void DisposingAnimation()
         {
-            if (IsAnimating) Animation?.Disposing(Content, this);
+            if (IsAnimationEnabled)
+                Animation?.Disposing(Content, this);
         }
 
         internal async Task AppearingAnimation()
@@ -131,7 +160,7 @@ namespace Rg.Plugins.Popup.Pages
             OnAppearingAnimationBegin();
             await OnAppearingAnimationBeginAsync();
 
-            if (IsAnimating && Animation != null)
+            if (IsAnimationEnabled && Animation != null)
                 await Animation.Appearing(Content, this);
 
             OnAppearingAnimationEnd();
@@ -143,7 +172,7 @@ namespace Rg.Plugins.Popup.Pages
             OnDisappearingAnimationBegin();
             await OnDisappearingAnimationBeginAsync();
 
-            if (IsAnimating && Animation != null)
+            if (IsAnimationEnabled && Animation != null)
                 await Animation.Disappearing(Content, this);
 
             OnDisappearingAnimationEnd();

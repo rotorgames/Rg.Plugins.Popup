@@ -1,4 +1,4 @@
-version: 1.1.4.{build}-beta
+version: 1.1.4.{build}-pre
 branches:
   only:
     - master

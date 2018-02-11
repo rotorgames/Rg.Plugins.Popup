@@ -115,7 +115,6 @@
     </Compile>
     <Compile Include="Extensions\PlatformExtension.cs" />
     <Compile Include="Gestures\RgGestureDetectorListener.cs" />
-    <Compile Include="Helpers\PlatformHelper.cs" />
     <Compile Include="Impl\PopupPlatformDroid.cs" />
     <Compile Include="Popup.cs" />
     <Compile Include="Renderers\PopupPageRenderer.cs" />
