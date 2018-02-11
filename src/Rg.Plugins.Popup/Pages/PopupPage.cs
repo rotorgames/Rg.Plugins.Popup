@@ -11,7 +11,12 @@ namespace Rg.Plugins.Popup.Pages
     {
         #region Private
 
-        private const string IsAnimatingObsoleteText = nameof(IsAnimating) + " is obsolute as of v1.1.5. Please use "+nameof(IsAnimationEnabled) + " instead";
+        private const string IsAnimatingObsoleteText = 
+            nameof(IsAnimating) + 
+            " is obsolute as of v1.1.5. Please use "
+            +nameof(IsAnimationEnabled) + 
+            " instead. See more info: "
+            +Config.MigrationV1_0_xToV1_1_xUrl;
 
         #endregion
 
