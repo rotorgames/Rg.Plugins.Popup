@@ -1,5 +1,5 @@
 # Popup Page Plugin for Xamarin Forms [![Build status](https://ci.appveyor.com/api/projects/status/faktrrb31efbqq3x/branch/master?svg=true)](https://ci.appveyor.com/project/Kirill/rg-plugins-popup/branch/master)
-The plugin allows you to open any page as a popup.
+**Rg.Plugins.Popup** - is a cross platform plugin for [Xamarin.Forms](https://www.xamarin.com/forms) which allows to open Xamarin.Forms pages as a popup that can be shared across iOS, Android and UWP (macOS supporting will be soon). Also the plugin allows to use very simple and flexible animations for showing popup pages.
 
 ## Setup
 * Available on NuGet: https://www.nuget.org/packages/Rg.Plugins.Popup [![NuGet](https://img.shields.io/nuget/v/Rg.Plugins.Popup.svg)](https://www.nuget.org/packages/Rg.Plugins.Popup/) [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Rg.Plugins.Popup.svg)](https://www.nuget.org/packages/Rg.Plugins.Popup/)
@@ -17,9 +17,6 @@ The plugin allows you to open any page as a popup.
 
 ## Documentation
 You can find all descriptions of [Getting Started](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Getting-started), [How to use](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/PopupPage), [Troubleshooting](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Troubleshooting) and etc in the [Wiki](https://github.com/rotorgames/Rg.Plugins.Popup/wiki)
-
-## Thanks
-* [xam-forms-transparent-modal](https://github.com/gaborv/xam-forms-transparent-modal)
 
 ## License
 
