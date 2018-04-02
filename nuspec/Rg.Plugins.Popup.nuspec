@@ -44,5 +44,10 @@ Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</descript
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.pdb" target="lib\uap10.0" />
+      <!--Tizen-->
+      <file src="..\src\Rg.Plugins.Popup.Tizen\bin\Release\tizen40\Rg.Plugins.Popup.dll" target="lib\tizen40" />
+      <file src="..\src\Rg.Plugins.Popup.Tizen\bin\Release\tizen40\Rg.Plugins.Popup.pdb" target="lib\tizen40" />
+      <file src="..\src\Rg.Plugins.Popup.Tizen\bin\Release\tizen40\Rg.Plugins.Popup.Tizen.dll" target="lib\tizen40" />
+      <file src="..\src\Rg.Plugins.Popup.Tizen\bin\Release\tizen40\Rg.Plugins.Popup.Tizen.pdb" target="lib\tizen40" />
     </files>
 </package>
