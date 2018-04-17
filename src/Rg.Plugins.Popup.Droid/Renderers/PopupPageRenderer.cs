@@ -122,7 +122,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             // It is needed because a size of popup has not updated on Android 7+. See #209
             if (visibility == ViewStates.Visible)
-                ForceLayout();
+                RequestLayout();
         }
 
         #endregion
