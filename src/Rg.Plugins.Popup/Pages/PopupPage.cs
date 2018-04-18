@@ -84,6 +84,14 @@ namespace Rg.Plugins.Popup.Pages
             set { SetValue(CloseWhenBackgroundIsClickedProperty, value); }
         }
 
+        public static readonly BindableProperty BackgroundInputTransparentProperty = BindableProperty.Create(nameof(BackgroundInputTransparent), typeof(bool), typeof(PopupPage), false);
+
+        public bool BackgroundInputTransparent
+        {
+            get { return (bool)GetValue(BackgroundInputTransparentProperty); }
+            set { SetValue(BackgroundInputTransparentProperty, value); }
+        }
+
         #endregion
 
         #region Main Methods

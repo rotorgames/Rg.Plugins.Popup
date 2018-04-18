@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
@@ -37,40 +36,12 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         {
             if (disposing)
             {
-                if (CurrentElement != null)
-                    CurrentElement.PropertyChanged -= OnElementPropertyChanged;
-
                 View?.RemoveGestureRecognizer(_tapGestureRecognizer);
             }
 
             base.Dispose(disposing);
 
             _isDisposed = true;
-        }
-
-        protected override void OnElementChanged(VisualElementChangedEventArgs e)
-        {
-            base.OnElementChanged(e);
-
-            if (e.OldElement != null)
-            {
-                e.OldElement.PropertyChanged -= OnElementPropertyChanged;
-            }
-
-            if (e.NewElement != null)
-            {
-                e.NewElement.PropertyChanged += OnElementPropertyChanged;
-            }
-        }
-
-        private void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(CurrentElement.InputTransparent):
-                    UpdateInputTransparent();
-                    break;
-            }
         }
 
         #endregion
@@ -107,13 +78,6 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             base.ViewDidUnload();
 
             View?.RemoveGestureRecognizer(_tapGestureRecognizer);
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-
-            UpdateInputTransparent();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -218,18 +182,6 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 return;
 
             ViewDidLayoutSubviews();
-        }
-
-        #endregion
-
-        #region Style Methods
-
-        private void UpdateInputTransparent()
-        {
-            if (View?.Window != null)
-            {
-                View.Window.UserInteractionEnabled = !CurrentElement.InputTransparent;
-            }
         }
 
         #endregion
