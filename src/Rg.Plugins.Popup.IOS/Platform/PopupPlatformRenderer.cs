@@ -7,6 +7,8 @@ namespace Rg.Plugins.Popup.IOS.Platform
     {
         private IVisualElementRenderer _renderer;
 
+        public IVisualElementRenderer Renderer => _renderer;
+
         public PopupPlatformRenderer(IVisualElementRenderer renderer)
         {
             _renderer = renderer;

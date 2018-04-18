@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -169,10 +170,13 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetector.OnTouchEvent(e);
 
-            if (CurrentElement != null && !CurrentElement.InputTransparent)
-                return baseValue;
+            if(CurrentElement != null && CurrentElement.BackgroundInputTransparent)
+            {
+                if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
+                    return false;
+            }
 
-            return false;
+            return baseValue;
         }
 
         private void OnBackgroundClick(object sender, MotionEvent e)
