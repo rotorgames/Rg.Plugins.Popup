@@ -39,7 +39,12 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             page.Parent = XApplication.Current.MainPage;
 
-            var renderer = page.GetOrCreateRenderer();
+			if (page.Parent is IPageController controller)
+			{
+				controller.SendDisappearing();
+			}
+
+			var renderer = page.GetOrCreateRenderer();
 
             decoreView.AddView(renderer.View);
 
@@ -53,9 +58,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 var element = renderer.Element;
 
-                DecoreView.RemoveView(renderer.View);
-                renderer.Dispose();
+				if (element.Parent is IPageController controller)
+				{
+					controller.SendAppearing();
+				}
 
+				DecoreView.RemoveView(renderer.View);
+                renderer.Dispose();
+                
                 if(element != null)
                     element.Parent = null;
             }

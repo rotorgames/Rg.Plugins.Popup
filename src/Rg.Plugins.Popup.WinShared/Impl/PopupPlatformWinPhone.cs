@@ -69,7 +69,12 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
         {
             page.Parent = Application.Current.MainPage;
 
-            var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
+			if (page.Parent is IPageController controller)
+			{
+				controller.SendDisappearing();
+			}
+
+			var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
 
             renderer.Prepare(popup);
@@ -89,7 +94,12 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
             {
                 renderer.Destroy();
 
-                Cleanup(page);
+				if (page.Parent is IPageController controller)
+				{
+					controller.SendAppearing();
+				}
+
+				Cleanup(page);
                 page.Parent = null;
                 popup.Child = null;
                 popup.IsOpen = false;
