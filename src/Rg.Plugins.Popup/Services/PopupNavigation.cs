@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
@@ -30,6 +31,9 @@ namespace Rg.Plugins.Popup.Services
                 return _popupNavigation;
             }
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetInstance(IPopupNavigation instance) => _popupNavigation = instance;
 
         [Obsolete(DepractedMethodsText)]
         public static IReadOnlyList<PopupPage> PopupStack => Instance.PopupStack;
