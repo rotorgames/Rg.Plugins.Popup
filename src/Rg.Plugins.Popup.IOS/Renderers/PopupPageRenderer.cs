@@ -123,7 +123,9 @@ namespace Rg.Plugins.Popup.IOS.Renderers
             currentElement.BatchBegin();
 
             currentElement.SetSystemPadding(systemPadding);
-            SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
+
+            if(Element != null)
+                SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
 
             currentElement.BatchCommit();
         }
