@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace Demo.Pages
 {
@@ -22,26 +23,28 @@ namespace Demo.Pages
 
         private async void OnOpenPupup(object sender, EventArgs e)
         {
-            //var page = new LoginPopupPage();
-            await Navigation.PushPopupAsync(_loginPopup);
+            await PopupNavigation.Instance.PushAsync(_loginPopup);
         }
 
         private async void OnUserAnimationPupup(object sender, EventArgs e)
         {
             var page = new UserAnimationPage();
-            await Navigation.PushPopupAsync(page);
+
+            await PopupNavigation.Instance.PushAsync(page);
         }
 
         private async void OnOpenSystemOffsetPage(object sender, EventArgs e)
         {
             var page = new SystemOffsetPage();
-            await Navigation.PushPopupAsync(page);
+
+            await PopupNavigation.Instance.PushAsync(page);
         }
 
         private async void OnOpenListViewPage(object sender, EventArgs e)
         {
             var page = new ListViewPage();
-            await Navigation.PushPopupAsync(page);
+
+            await PopupNavigation.Instance.PushAsync(page);
         }
     }
 }

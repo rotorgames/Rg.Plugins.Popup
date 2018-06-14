@@ -41,7 +41,7 @@ namespace Demo.Pages
 
         private async void OnClose(object sender, EventArgs e)
         {
-            await PopupNavigation.PopAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
     }
 

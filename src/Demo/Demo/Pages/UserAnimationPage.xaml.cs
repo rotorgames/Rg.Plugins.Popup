@@ -19,7 +19,7 @@ namespace Demo.Pages
 
         private void OnClose(object sender, EventArgs e)
         {
-            PopupNavigation.PopAsync();
+            PopupNavigation.Instance.PopAsync();
         }
     }
 }
