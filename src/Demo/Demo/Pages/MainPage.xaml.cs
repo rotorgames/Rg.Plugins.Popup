@@ -20,7 +20,17 @@ namespace Demo.Pages
             _loginPopup = new LoginPopupPage();
         }
 
-        private async void OnOpenPupup(object sender, EventArgs e)
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+		}
+
+		private async void OnOpenPupup(object sender, EventArgs e)
         {
             //var page = new LoginPopupPage();
             await Navigation.PushPopupAsync(_loginPopup);

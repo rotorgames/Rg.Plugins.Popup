@@ -34,7 +34,12 @@ namespace Rg.Plugins.Popup.IOS.Impl
         {
             page.Parent = Application.Current.MainPage;
 
-            page.DescendantRemoved += HandleChildRemoved;
+			if (page.Parent is IPageController controller)
+			{
+				controller.SendDisappearing();
+			}
+
+			page.DescendantRemoved += HandleChildRemoved;
 
             var renderer = page.GetOrCreateRenderer();
 
@@ -67,7 +72,12 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
-                var window = viewController.View.Window;
+				if (page.Parent is IPageController controller)
+				{
+					controller.SendAppearing();
+				}
+
+				var window = viewController.View.Window;
                 await window.RootViewController.DismissViewControllerAsync(false);
                 DisposeModelAndChildrenRenderers(page);
                 window.RootViewController.Dispose();
