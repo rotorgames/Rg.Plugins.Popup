@@ -1,8 +1,12 @@
 ﻿using UIKit;
 using Xamarin.Forms.Platform.iOS;
+using Foundation;
+using System;
 
 namespace Rg.Plugins.Popup.IOS.Platform
 {
+    [Preserve(AllMembers = true)]
+    [Register("RgPopupPlatformRenderer")]
     internal class PopupPlatformRenderer : UIViewController
     {
         private IVisualElementRenderer _renderer;
@@ -12,6 +16,11 @@ namespace Rg.Plugins.Popup.IOS.Platform
         public PopupPlatformRenderer(IVisualElementRenderer renderer)
         {
             _renderer = renderer;
+        }
+
+        public PopupPlatformRenderer(IntPtr handle) : base(handle)
+        {
+            // Fix #307
         }
 
         protected override void Dispose(bool disposing)
