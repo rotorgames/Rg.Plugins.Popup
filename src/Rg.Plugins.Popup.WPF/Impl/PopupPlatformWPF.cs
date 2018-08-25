@@ -3,8 +3,8 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.WPF.Impl;
 using Rg.Plugins.Popup.WPF.Renderers;
+using Rg.Plugins.Popup.WPF.Extensions;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -12,9 +12,7 @@ using XPlatform = Xamarin.Forms.Platform.WPF.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformWPF))]
 namespace Rg.Plugins.Popup.WPF.Impl
-{
-    using Extensions;
-
+{    
     [Preserve(AllMembers = true)]
     internal class PopupPlatformWPF : IPopupPlatform
     {
@@ -60,7 +58,7 @@ namespace Rg.Plugins.Popup.WPF.Impl
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
 
             renderer.Prepare(popup);
-            popup.Child = renderer.Container;
+            popup.Child = renderer.Control;
             popup.IsOpen = true;
             page.ForceLayout();
 

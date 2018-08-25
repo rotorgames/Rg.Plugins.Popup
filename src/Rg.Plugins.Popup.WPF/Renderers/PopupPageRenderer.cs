@@ -2,22 +2,19 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WPF.Renderers;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.WPF;
 using WinPopup = System.Windows.Controls.Primitives.Popup;
+using Application = System.Windows.Application;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.WPF.Renderers
 {
-    using System.Windows;
-    using Size = Xamarin.Forms.Size;
-
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
-        private Rect _keyboardBounds;
-
         internal WinPopup Container { get; private set; }
 
         private PopupPage CurrentElement => (PopupPage)Element;
@@ -67,9 +64,6 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             bottom = Math.Max(0, bottom);
             left = Math.Max(0, left);
             right = Math.Max(0, right);
-
-            if (_keyboardBounds != Rect.Empty)
-                bottom += _keyboardBounds.Height;
 
             var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
 
