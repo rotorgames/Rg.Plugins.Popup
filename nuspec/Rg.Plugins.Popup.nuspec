@@ -15,7 +15,7 @@
 Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</description>
         <tags>Xamarin.Forms xamarin forms popup page modal</tags>
         <dependencies>
-            <dependency id="Xamarin.Forms" version="2.5.0.121934" />
+            <dependency id="Xamarin.Forms" version="3.0.0.561731" />
         </dependencies>
     </metadata>
     <files>
@@ -45,5 +45,10 @@ Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</descript
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.pdb" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.dll" target="lib\uap10.0" />
       <file src="..\src\Rg.Plugins.Popup.UWP\bin\Release\Rg.Plugins.Popup.UWP.pdb" target="lib\uap10.0" />
+      <!--wpf-->
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\Rg.Plugins.Popup.dll" target="lib\net472" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\Rg.Plugins.Popup.pdb" target="lib\net472" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\Rg.Plugins.Popup.WPF.dll" target="lib\net472" />
+      <file src="..\src\Rg.Plugins.Popup.WPF\bin\Release\Rg.Plugins.Popup.WPF.pdb" target="lib\net472" />
     </files>
 </package>
