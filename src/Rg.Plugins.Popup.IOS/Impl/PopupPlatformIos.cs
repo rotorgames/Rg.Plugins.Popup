@@ -38,7 +38,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            var window = new UIWindow
+            var window = new PopupWindow
             {
                 BackgroundColor = Color.Transparent.ToUIColor()
             };

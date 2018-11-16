@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Services;
 
 namespace Demo.Pages
 {
@@ -46,7 +47,7 @@ namespace Demo.Pages
 
         private async void OnClose(object sender, EventArgs e)
         {
-            await Navigation.PopPopupAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
     }
 }

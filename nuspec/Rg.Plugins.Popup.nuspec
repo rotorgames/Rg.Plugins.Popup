@@ -19,6 +19,7 @@ Release Notes: https://github.com/rotorgames/Rg.Plugins.Popup/releases</descript
         </dependencies>
     </metadata>
     <files>
+      <file src="readme.txt" target="readme.txt" /> 
       <!--PCL-->
       <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard1.0\Rg.Plugins.Popup.dll" target="lib\netstandard1.0" />
       <file src="..\src\Rg.Plugins.Popup\bin\Release\netstandard1.0\Rg.Plugins.Popup.pdb" target="lib\netstandard1.0" />
