@@ -1,11 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              x:Class="Demo.Pages.LoginSuccessPopupPage"
+             x:Name="ThisPage"
              BackgroundColor="Transparent"
-             InputTransparent="True"
+             BackgroundInputTransparent="True"
              HasSystemPadding="False"
              CloseWhenBackgroundIsClicked="False">
   <pages:PopupPage.Animation>
@@ -15,8 +16,9 @@
   </pages:PopupPage.Animation>
   <StackLayout
     VerticalOptions="Start"
-    BackgroundColor="#43A047"
-    HeightRequest="50">
+    BackgroundColor="#43A047">
+    <BoxView
+        HeightRequest="{Binding Source={x:Reference ThisPage}, Path=SystemPadding.Top}"/>
     <Label
       Margin="10, 0, 0, 5"
       TextColor="White"
