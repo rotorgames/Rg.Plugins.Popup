@@ -27,11 +27,14 @@ namespace Rg.Plugins.Popup.IOS.Platform
             var renderer = platformRenderer?.Renderer;
             var hitTestResult = base.HitTest(point, uievent);
 
-            if (formsElement != null && formsElement.BackgroundInputTransparent)
-            {
-                if (renderer.NativeView == hitTestResult)
-                    return null;
-            }
+            if (formsElement == null)
+                return hitTestResult;
+
+            if (formsElement.InputTransparent)
+                return null;
+
+            if (formsElement.BackgroundInputTransparent && renderer.NativeView == hitTestResult)
+                return null;
 
             return hitTestResult;
         }
