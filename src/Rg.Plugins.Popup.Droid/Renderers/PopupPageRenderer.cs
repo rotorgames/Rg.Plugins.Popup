@@ -173,7 +173,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             if(CurrentElement != null && CurrentElement.BackgroundInputTransparent)
             {
                 if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
+                {
+                    CurrentElement.SendBackgroundClick();
                     return false;
+                }
             }
 
             return baseValue;
