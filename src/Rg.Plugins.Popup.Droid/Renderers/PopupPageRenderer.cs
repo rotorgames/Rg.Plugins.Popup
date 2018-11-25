@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -13,6 +12,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Point = Xamarin.Forms.Point;
 using View = Android.Views.View;
+using Android.OS;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
@@ -59,42 +59,70 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            CurrentElement.BatchBegin();
+            var activity = (Activity)Context;
 
-            var systemPadding = GetSystemPadding();
+            Thickness systemPadding;
+            var keyboardOffset = 0d;
 
-            CurrentElement.SetSystemPadding(systemPadding, !changed);
-
-            if(changed)
-                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
-
-            CurrentElement.BatchCommit();
-
-            base.OnLayout(changed, l, t, r, b);
-        }
-
-        #endregion
-
-        #region Size Methods
-
-        private Thickness GetSystemPadding()
-        {
-            var decoreView = (FrameLayout)((Activity)Context).Window.DecorView;
-            Rect visibleRect = new Rect();
-            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
-
+            var decoreView = activity.Window.DecorView;
             var decoreHeight = decoreView.Height;
             var decoreWidht = decoreView.Width;
 
-            var result = new Thickness
-            {
-                Top = Context.FromPixels(visibleRect.Top),
-                Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom),
-                Right = Context.FromPixels(decoreWidht - visibleRect.Right),
-                Left = Context.FromPixels(visibleRect.Left)
-            };
+            var visibleRect = new Rect();
+            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
-            return result;
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                var screenRealSize = new Android.Graphics.Point();
+                activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
+
+                var windowInsets = RootWindowInsets;
+                var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
+
+                if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
+                {
+                    keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
+                }
+                
+                systemPadding = new Thickness
+                {
+                    Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
+                    Top = Context.FromPixels(windowInsets.SystemWindowInsetTop),
+                    Right = Context.FromPixels(windowInsets.SystemWindowInsetRight),
+                    Bottom = Context.FromPixels(bottomPadding)
+                };
+            }
+            else
+            {
+                var screenSize = new Android.Graphics.Point();
+                activity.WindowManager.DefaultDisplay.GetSize(screenSize);
+
+                var keyboardHeight = 0d;
+
+                if (visibleRect.Bottom < screenSize.Y)
+                {
+                    keyboardHeight = screenSize.Y - visibleRect.Bottom;
+                    keyboardOffset = Context.FromPixels(decoreHeight - visibleRect.Bottom);
+                }
+
+                systemPadding = new Thickness
+                {
+                    Left = Context.FromPixels(visibleRect.Left),
+                    Top = Context.FromPixels(visibleRect.Top),
+                    Right = Context.FromPixels(decoreWidht - visibleRect.Right),
+                    Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom - keyboardHeight)
+                };
+            }
+
+            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardOffset);
+
+            if (changed)
+                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            else
+                CurrentElement.ForceLayout();
+
+            base.OnLayout(changed, l, t, r, b);
         }
 
         #endregion
@@ -173,7 +201,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             if(CurrentElement != null && CurrentElement.BackgroundInputTransparent)
             {
                 if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
+                {
+                    CurrentElement.SendBackgroundClick();
                     return false;
+                }
             }
 
             return baseValue;

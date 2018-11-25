@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -76,6 +77,14 @@ namespace Rg.Plugins.Popup.Pages
             private set { SetValue(SystemPaddingProperty, value); }
         }
 
+        public static readonly BindableProperty SystemPaddingSidesProperty = BindableProperty.Create(nameof(SystemPaddingSides), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);
+
+        public PaddingSide SystemPaddingSides
+        {
+            get { return (PaddingSide)GetValue(SystemPaddingSidesProperty); }
+            set { SetValue(SystemPaddingSidesProperty, value); }
+        }
+
         public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
 
         public bool CloseWhenBackgroundIsClicked
@@ -90,6 +99,22 @@ namespace Rg.Plugins.Popup.Pages
         {
             get { return (bool)GetValue(BackgroundInputTransparentProperty); }
             set { SetValue(BackgroundInputTransparentProperty, value); }
+        }
+
+        public static readonly BindableProperty HasKeyboardOffsetProperty = BindableProperty.Create(nameof(HasKeyboardOffset), typeof(bool), typeof(PopupPage), true);
+
+        public bool HasKeyboardOffset
+        {
+            get { return (bool)GetValue(HasKeyboardOffsetProperty); }
+            set { SetValue(HasKeyboardOffsetProperty, value); }
+        }
+
+        public static readonly BindableProperty KeyboardOffsetProperty = BindableProperty.Create(nameof(KeyboardOffset), typeof(double), typeof(PopupPage), 0d, BindingMode.OneWayToSource);
+
+        public double KeyboardOffset
+        {
+            get { return (double)GetValue(KeyboardOffsetProperty); }
+            private set { SetValue(KeyboardOffsetProperty, value); }
         }
 
         #endregion
@@ -109,6 +134,8 @@ namespace Rg.Plugins.Popup.Pages
             switch (propertyName)
             {
                 case nameof(HasSystemPadding):
+                case nameof(HasKeyboardOffset):
+                case nameof(SystemPaddingSides):
                     ForceLayout();
                     break;
                 case nameof(IsAnimating):
@@ -131,18 +158,37 @@ namespace Rg.Plugins.Popup.Pages
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            if (!HasSystemPadding)
+            if(HasSystemPadding)
             {
-                base.LayoutChildren(x, y, width, height);
-                return;
+                var systemPadding = SystemPadding;
+                var systemPaddingSide = SystemPaddingSides;
+                var left = 0d;
+                var top = 0d;
+                var right = 0d;
+                var bottom = 0d;
+
+                if (systemPaddingSide.HasFlag(PaddingSide.Left))
+                    left = systemPadding.Left;
+                if (systemPaddingSide.HasFlag(PaddingSide.Top))
+                    top = systemPadding.Top;
+                if (systemPaddingSide.HasFlag(PaddingSide.Right))
+                    right = systemPadding.Right;
+                if (systemPaddingSide.HasFlag(PaddingSide.Bottom))
+                    bottom = systemPadding.Bottom;
+
+                x += left;
+                y += top;
+                width -= left + right;
+
+                if (HasKeyboardOffset)
+                    height -= top + Math.Max(bottom, KeyboardOffset);
+                else
+                    height -= top + bottom;
             }
-
-            var systemPadding = SystemPadding;
-
-            x += systemPadding.Left;
-            y += systemPadding.Top;
-            width -= systemPadding.Left + systemPadding.Right;
-            height -= systemPadding.Top + systemPadding.Bottom;
+            else if(HasKeyboardOffset)
+            {
+                height -= KeyboardOffset;
+            }
 
             base.LayoutChildren(x, y, width, height);
         }
@@ -249,15 +295,6 @@ namespace Rg.Plugins.Popup.Pages
             {
                 await PopupNavigation.Instance.RemovePageAsync(this);
             }
-        }
-
-        internal void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
-        {
-            var systemPaddingWasChanged = SystemPadding != systemPadding;
-            SystemPadding = systemPadding;
-
-            if(systemPaddingWasChanged && forceLayout)
-                ForceLayout();
         }
 
         #endregion

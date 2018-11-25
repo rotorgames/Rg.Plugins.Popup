@@ -107,6 +107,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
             var windowBound = Window.Current.Bounds;
             var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
 
             var top = visibleBounds.Top - windowBound.Top;
             var bottom = windowBound.Bottom - visibleBounds.Bottom;
@@ -118,17 +119,12 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             left = Math.Max(0, left);
             right = Math.Max(0, right);
 
-            if(_keyboardBounds != Rect.Empty)
-                bottom += _keyboardBounds.Height;
-
             var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
 
-            CurrentElement.BatchBegin();
-
-            CurrentElement.SetSystemPadding(systemPadding);
+            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
             CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-
-            CurrentElement.BatchCommit();
+            CurrentElement.ForceLayout();
         }
     }
 }
