@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -13,6 +12,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Point = Xamarin.Forms.Point;
 using View = Android.Views.View;
+using Android.OS;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
@@ -59,42 +59,55 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            CurrentElement.BatchBegin();
+            var keyboardOffset = 0d;
+            var keyboardHeight = 0d;
 
-            var systemPadding = GetSystemPadding();
-
-            CurrentElement.SetSystemPadding(systemPadding, !changed);
-
-            if(changed)
-                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
-
-            CurrentElement.BatchCommit();
-
-            base.OnLayout(changed, l, t, r, b);
-        }
-
-        #endregion
-
-        #region Size Methods
-
-        private Thickness GetSystemPadding()
-        {
-            var decoreView = (FrameLayout)((Activity)Context).Window.DecorView;
-            Rect visibleRect = new Rect();
-            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
-
+            var decoreView = ((Activity)Context).Window.DecorView;
             var decoreHeight = decoreView.Height;
             var decoreWidht = decoreView.Width;
 
-            var result = new Thickness
+            var visibleRect = new Rect();
+            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
+
+            var screenSize = new Android.Graphics.Point();
+            ((Activity)Context).WindowManager.DefaultDisplay.GetSize(screenSize);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                var windowInsets = RootWindowInsets;
+
+                if (decoreHeight - visibleRect.Bottom > windowInsets.StableInsetBottom)
+                {
+                    keyboardHeight = decoreHeight - visibleRect.Bottom - windowInsets.StableInsetBottom;
+                    keyboardOffset = Context.FromPixels(decoreHeight - visibleRect.Bottom);
+                }
+            }
+            else
+            {
+                if (visibleRect.Bottom < screenSize.Y)
+                {
+                    keyboardHeight = screenSize.Y - visibleRect.Bottom;
+                    keyboardOffset = Context.FromPixels(decoreHeight - visibleRect.Bottom);
+                }
+            }
+
+            var systemPadding = new Thickness
             {
                 Top = Context.FromPixels(visibleRect.Top),
-                Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom),
+                Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom - keyboardHeight),
                 Right = Context.FromPixels(decoreWidht - visibleRect.Right),
                 Left = Context.FromPixels(visibleRect.Left)
             };
 
-            return result;
+            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardOffset);
+
+            if (changed)
+                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            else
+                CurrentElement.ForceLayout();
+
+            base.OnLayout(changed, l, t, r, b);
         }
 
         #endregion

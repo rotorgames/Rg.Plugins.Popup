@@ -92,6 +92,22 @@ namespace Rg.Plugins.Popup.Pages
             set { SetValue(BackgroundInputTransparentProperty, value); }
         }
 
+        public static readonly BindableProperty HasKeyboardOffsetProperty = BindableProperty.Create(nameof(HasKeyboardOffset), typeof(bool), typeof(PopupPage), true);
+
+        public bool HasKeyboardOffset
+        {
+            get { return (bool)GetValue(HasKeyboardOffsetProperty); }
+            set { SetValue(HasKeyboardOffsetProperty, value); }
+        }
+
+        public static readonly BindableProperty KeyboardOffsetProperty = BindableProperty.Create(nameof(KeyboardOffset), typeof(double), typeof(PopupPage), 0d, BindingMode.OneWayToSource);
+
+        public double KeyboardOffset
+        {
+            get { return (double)GetValue(KeyboardOffsetProperty); }
+            private set { SetValue(KeyboardOffsetProperty, value); }
+        }
+
         #endregion
 
         #region Main Methods
@@ -109,6 +125,7 @@ namespace Rg.Plugins.Popup.Pages
             switch (propertyName)
             {
                 case nameof(HasSystemPadding):
+                case nameof(HasKeyboardOffset):
                     ForceLayout();
                     break;
                 case nameof(IsAnimating):
@@ -131,18 +148,23 @@ namespace Rg.Plugins.Popup.Pages
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            if (!HasSystemPadding)
+            if(HasSystemPadding)
             {
-                base.LayoutChildren(x, y, width, height);
-                return;
+                var systemPadding = SystemPadding;
+
+                x += systemPadding.Left;
+                y += systemPadding.Top;
+                width -= systemPadding.Left + systemPadding.Right;
+
+                if (HasKeyboardOffset)
+                    height -= systemPadding.Top + Math.Max(systemPadding.Bottom, KeyboardOffset);
+                else
+                    height -= systemPadding.Top + systemPadding.Bottom;
             }
-
-            var systemPadding = SystemPadding;
-
-            x += systemPadding.Left;
-            y += systemPadding.Top;
-            width -= systemPadding.Left + systemPadding.Right;
-            height -= systemPadding.Top + systemPadding.Bottom;
+            else if(HasKeyboardOffset)
+            {
+                height -= KeyboardOffset;
+            }
 
             base.LayoutChildren(x, y, width, height);
         }
@@ -249,15 +271,6 @@ namespace Rg.Plugins.Popup.Pages
             {
                 await PopupNavigation.Instance.RemovePageAsync(this);
             }
-        }
-
-        internal void SetSystemPadding(Thickness systemPadding, bool forceLayout = true)
-        {
-            var systemPaddingWasChanged = SystemPadding != systemPadding;
-            SystemPadding = systemPadding;
-
-            if(systemPaddingWasChanged && forceLayout)
-                ForceLayout();
         }
 
         #endregion
