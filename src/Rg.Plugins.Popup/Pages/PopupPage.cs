@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Animations;
+using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -76,6 +77,14 @@ namespace Rg.Plugins.Popup.Pages
             private set { SetValue(SystemPaddingProperty, value); }
         }
 
+        public static readonly BindableProperty SystemPaddingSideProperty = BindableProperty.Create(nameof(SystemPaddingSide), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);
+
+        public PaddingSide SystemPaddingSide
+        {
+            get { return (PaddingSide)GetValue(SystemPaddingSideProperty); }
+            set { SetValue(SystemPaddingSideProperty, value); }
+        }
+
         public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
 
         public bool CloseWhenBackgroundIsClicked
@@ -126,6 +135,7 @@ namespace Rg.Plugins.Popup.Pages
             {
                 case nameof(HasSystemPadding):
                 case nameof(HasKeyboardOffset):
+                case nameof(SystemPaddingSide):
                     ForceLayout();
                     break;
                 case nameof(IsAnimating):
@@ -151,15 +161,29 @@ namespace Rg.Plugins.Popup.Pages
             if(HasSystemPadding)
             {
                 var systemPadding = SystemPadding;
+                var systemPaddingSide = SystemPaddingSide;
+                var left = 0d;
+                var top = 0d;
+                var right = 0d;
+                var bottom = 0d;
 
-                x += systemPadding.Left;
-                y += systemPadding.Top;
-                width -= systemPadding.Left + systemPadding.Right;
+                if (systemPaddingSide.HasFlag(PaddingSide.Left))
+                    left = systemPadding.Left;
+                if (systemPaddingSide.HasFlag(PaddingSide.Top))
+                    top = systemPadding.Top;
+                if (systemPaddingSide.HasFlag(PaddingSide.Right))
+                    right = systemPadding.Right;
+                if (systemPaddingSide.HasFlag(PaddingSide.Bottom))
+                    bottom = systemPadding.Bottom;
+
+                x += left;
+                y += top;
+                width -= left + right;
 
                 if (HasKeyboardOffset)
-                    height -= systemPadding.Top + Math.Max(systemPadding.Bottom, KeyboardOffset);
+                    height -= top + Math.Max(bottom, KeyboardOffset);
                 else
-                    height -= systemPadding.Top + systemPadding.Bottom;
+                    height -= top + bottom;
             }
             else if(HasKeyboardOffset)
             {
