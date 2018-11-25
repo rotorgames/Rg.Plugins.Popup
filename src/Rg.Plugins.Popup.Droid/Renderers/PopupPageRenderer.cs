@@ -77,6 +77,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
 
                 var windowInsets = RootWindowInsets;
+                var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
 
                 if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
                 {
@@ -88,7 +89,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                     Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
                     Top = Context.FromPixels(windowInsets.SystemWindowInsetTop),
                     Right = Context.FromPixels(windowInsets.SystemWindowInsetRight),
-                    Bottom = Context.FromPixels(windowInsets.StableInsetBottom)
+                    Bottom = Context.FromPixels(bottomPadding)
                 };
             }
             else
