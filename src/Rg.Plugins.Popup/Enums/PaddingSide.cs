@@ -9,8 +9,6 @@ namespace Rg.Plugins.Popup.Enums
         Top = 2,
         Right = 4,
         Bottom = 8,
-        Horizontal = Left | Right,
-        Vertical = Top | Bottom,
-        All = Horizontal | Vertical
+        All = Left | Top | Right | Bottom
     }
 }

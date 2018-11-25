@@ -41,12 +41,6 @@ namespace Demo.Pages
                 SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Bottom;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Horizontal;
-
-                await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Vertical;
-
-                await Task.Delay(2000);
                 SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.All;
             });
         }
