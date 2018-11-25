@@ -29,19 +29,19 @@ namespace Demo.Pages
                 HasSystemPadding = true;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Left;
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Left;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Top;
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Top;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Right;
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Right;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.Bottom;
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Bottom;
 
                 await Task.Delay(2000);
-                SystemPaddingSide = Rg.Plugins.Popup.Enums.PaddingSide.All;
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.All;
             });
         }
 
@@ -54,7 +54,7 @@ namespace Demo.Pages
                 case nameof(Padding):
                 case nameof(HasSystemPadding):
                 case nameof(SystemPadding):
-                case nameof(SystemPaddingSide):
+                case nameof(SystemPaddingSides):
                 case nameof(HasKeyboardOffset):
                 case nameof(KeyboardOffset):
                     UpdateInfoText();
@@ -72,7 +72,7 @@ namespace Demo.Pages
             InfoLabel.Text = $"Padding: {ThicknessToString(Padding)}\n" +
                 $"HasSystemPadding: {HasSystemPadding}\n" +
                 $"SystemPadding: {ThicknessToString(SystemPadding)}\n" +
-                $"SystemPaddingSide: {SystemPaddingSide}\n" +
+                $"SystemPaddingSide: {SystemPaddingSides}\n" +
                 $"HasKeyboardOffset: {HasKeyboardOffset}\n" +
                 $"KeyboardOffset: {KeyboardOffset}";
         }

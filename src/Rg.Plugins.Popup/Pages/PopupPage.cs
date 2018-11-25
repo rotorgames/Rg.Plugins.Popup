@@ -77,12 +77,12 @@ namespace Rg.Plugins.Popup.Pages
             private set { SetValue(SystemPaddingProperty, value); }
         }
 
-        public static readonly BindableProperty SystemPaddingSideProperty = BindableProperty.Create(nameof(SystemPaddingSide), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);
+        public static readonly BindableProperty SystemPaddingSidesProperty = BindableProperty.Create(nameof(SystemPaddingSides), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);
 
-        public PaddingSide SystemPaddingSide
+        public PaddingSide SystemPaddingSides
         {
-            get { return (PaddingSide)GetValue(SystemPaddingSideProperty); }
-            set { SetValue(SystemPaddingSideProperty, value); }
+            get { return (PaddingSide)GetValue(SystemPaddingSidesProperty); }
+            set { SetValue(SystemPaddingSidesProperty, value); }
         }
 
         public static readonly BindableProperty CloseWhenBackgroundIsClickedProperty = BindableProperty.Create(nameof(CloseWhenBackgroundIsClicked), typeof(bool), typeof(PopupPage), true);
@@ -135,7 +135,7 @@ namespace Rg.Plugins.Popup.Pages
             {
                 case nameof(HasSystemPadding):
                 case nameof(HasKeyboardOffset):
-                case nameof(SystemPaddingSide):
+                case nameof(SystemPaddingSides):
                     ForceLayout();
                     break;
                 case nameof(IsAnimating):
@@ -161,7 +161,7 @@ namespace Rg.Plugins.Popup.Pages
             if(HasSystemPadding)
             {
                 var systemPadding = SystemPadding;
-                var systemPaddingSide = SystemPaddingSide;
+                var systemPaddingSide = SystemPaddingSides;
                 var left = 0d;
                 var top = 0d;
                 var right = 0d;
