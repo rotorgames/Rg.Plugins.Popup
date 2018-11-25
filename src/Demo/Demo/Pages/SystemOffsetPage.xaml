@@ -6,9 +6,9 @@
   <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="5,5,5,5" BackgroundColor="Red">
     <ContentView BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
       <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-        <Label x:Name="InfoLabel"/>
+        <Label x:Name="InfoLabel" TextColor="DarkGray"/>
         <Button Text="Close Popup" TextColor="Red" Clicked="OnClose"/>
-        <Entry Placeholder="Keyboard Test Entry"/>
+        <Entry Placeholder="Keyboard Test Entry" PlaceholderColor="DarkGray"/>
       </StackLayout>
     </ContentView>
   </ContentView>
