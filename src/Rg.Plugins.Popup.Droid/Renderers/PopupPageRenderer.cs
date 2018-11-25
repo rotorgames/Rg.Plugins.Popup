@@ -59,45 +59,59 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            var keyboardOffset = 0d;
-            var keyboardHeight = 0d;
+            var activity = (Activity)Context;
 
-            var decoreView = ((Activity)Context).Window.DecorView;
+            Thickness systemPadding;
+            var keyboardOffset = 0d;
+
+            var decoreView = activity.Window.DecorView;
             var decoreHeight = decoreView.Height;
             var decoreWidht = decoreView.Width;
 
             var visibleRect = new Rect();
             decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
-            var screenSize = new Android.Graphics.Point();
-            ((Activity)Context).WindowManager.DefaultDisplay.GetSize(screenSize);
-
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
+                var screenRealSize = new Android.Graphics.Point();
+                activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
+
                 var windowInsets = RootWindowInsets;
 
-                if (decoreHeight - visibleRect.Bottom > windowInsets.StableInsetBottom)
+                if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
                 {
-                    keyboardHeight = decoreHeight - visibleRect.Bottom - windowInsets.StableInsetBottom;
-                    keyboardOffset = Context.FromPixels(decoreHeight - visibleRect.Bottom);
+                    keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
                 }
+                
+                systemPadding = new Thickness
+                {
+                    Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
+                    Top = Context.FromPixels(windowInsets.SystemWindowInsetTop),
+                    Right = Context.FromPixels(windowInsets.SystemWindowInsetRight),
+                    Bottom = Context.FromPixels(windowInsets.StableInsetBottom)
+                };
             }
             else
             {
+                var screenSize = new Android.Graphics.Point();
+                activity.WindowManager.DefaultDisplay.GetSize(screenSize);
+
+                var keyboardHeight = 0d;
+
                 if (visibleRect.Bottom < screenSize.Y)
                 {
                     keyboardHeight = screenSize.Y - visibleRect.Bottom;
                     keyboardOffset = Context.FromPixels(decoreHeight - visibleRect.Bottom);
                 }
-            }
 
-            var systemPadding = new Thickness
-            {
-                Top = Context.FromPixels(visibleRect.Top),
-                Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom - keyboardHeight),
-                Right = Context.FromPixels(decoreWidht - visibleRect.Right),
-                Left = Context.FromPixels(visibleRect.Left)
-            };
+                systemPadding = new Thickness
+                {
+                    Left = Context.FromPixels(visibleRect.Left),
+                    Top = Context.FromPixels(visibleRect.Top),
+                    Right = Context.FromPixels(decoreWidht - visibleRect.Right),
+                    Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom - keyboardHeight)
+                };
+            }
 
             CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
             CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardOffset);
