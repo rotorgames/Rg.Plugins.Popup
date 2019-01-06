@@ -36,6 +36,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             page.DescendantRemoved += HandleChildRemoved;
 
+            if(UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
+                UIApplication.SharedApplication.KeyWindow.WindowLevel = -1;
+
             var renderer = page.GetOrCreateRenderer();
 
             var window = new PopupWindow
@@ -74,6 +77,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
+
+                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
+                    UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
 
             await Task.Delay(5);
