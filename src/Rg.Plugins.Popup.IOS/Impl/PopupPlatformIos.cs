@@ -77,6 +77,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
+                window.Dispose();
 
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
