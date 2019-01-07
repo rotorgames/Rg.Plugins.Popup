@@ -181,7 +181,6 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                     if (!new Rectangle(currentFocus1.Left, currentFocus1.Top, currentFocus1.Width, currentFocus1.Height).Contains(num1, num2))
                     {
                         Context.HideKeyboard(currentFocus1);
-                        RequestFocus();
                         currentFocus1.ClearFocus();
                     }
                 }
