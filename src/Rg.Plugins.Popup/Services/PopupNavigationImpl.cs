@@ -43,7 +43,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PushAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafty(async () =>
+            return InvokeThreadSafe(async () =>
             {
                 if (page.IsBeingAppeared)
                     return;
@@ -69,7 +69,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAsync(bool animate = true)
         {
-            return InvokeThreadSafty(async () =>
+            return InvokeThreadSafe(async () =>
             {
                 animate = CanBeAnimated(animate);
 
@@ -82,7 +82,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAllAsync(bool animate = true)
         {
-            return InvokeThreadSafty(async () =>
+            return InvokeThreadSafe(async () =>
             {
                 animate = CanBeAnimated(animate);
 
@@ -97,7 +97,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task RemovePageAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafty(async () =>
+            return InvokeThreadSafe(async () =>
             {
                 if (page == null)
                     throw new NullReferenceException("Page can not be null");
@@ -154,7 +154,7 @@ namespace Rg.Plugins.Popup.Services
 
         #region Helpers
 
-        Task InvokeThreadSafty(Func<Task> action)
+        Task InvokeThreadSafe(Func<Task> action)
         {
             var tcs = new TaskCompletionSource<bool>();
 
