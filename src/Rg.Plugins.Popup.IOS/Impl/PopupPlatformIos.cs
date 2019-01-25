@@ -36,6 +36,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             page.DescendantRemoved += HandleChildRemoved;
 
+            if(UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
+                UIApplication.SharedApplication.KeyWindow.WindowLevel = -1;
+
             var renderer = page.GetOrCreateRenderer();
 
             var window = new PopupWindow
@@ -53,7 +56,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
             }
 
             await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
-            await Task.Delay(5);
         }
 
         public async Task RemoveAsync(PopupPage page)
@@ -74,9 +76,11 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
-            }
+                window.Dispose();
 
-            await Task.Delay(5);
+                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
+                    UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
+            }
         }
 
         private void DisposeModelAndChildrenRenderers(VisualElement view)

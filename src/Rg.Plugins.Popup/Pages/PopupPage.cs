@@ -23,6 +23,8 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Internal Properties
 
+        internal bool IsBeingAppeared { get; set; }
+
         internal bool IsBeingDismissed { get; set; }
 
         #endregion
