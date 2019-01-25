@@ -128,8 +128,8 @@ namespace Rg.Plugins.Popup.Services
 
         private async Task RemoveAsync(PopupPage page)
         {
-            _popupStack.Remove(page);
             await PopupPlatform.RemoveAsync(page);
+            _popupStack.Remove(page);
         }
 
         // Internal 
