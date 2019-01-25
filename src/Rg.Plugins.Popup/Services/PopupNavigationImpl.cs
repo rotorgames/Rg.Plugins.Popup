@@ -73,7 +73,7 @@ namespace Rg.Plugins.Popup.Services
             {
                 animate = CanBeAnimated(animate);
 
-                if (PopupStack.Count == 0)
+                if (!PopupStack.Any())
                     throw new IndexOutOfRangeException("There is not page in PopupStack");
 
                 await RemovePageAsync(PopupStack.Last(), animate);
@@ -86,7 +86,10 @@ namespace Rg.Plugins.Popup.Services
             {
                 animate = CanBeAnimated(animate);
 
-                var popupTasks = _popupStack.ToList().Select(page => RemovePageAsync(page, animate));
+                if (!PopupStack.Any())
+                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+
+                var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
                 await Task.WhenAll(popupTasks);
             });
