@@ -45,6 +45,11 @@ namespace Rg.Plugins.Popup.Services
         {
             return InvokeThreadSafty(async () =>
             {
+                if (page.IsBeingAppeared)
+                    return;
+
+                page.IsBeingAppeared = true;
+
                 animate = CanBeAnimated(animate);
 
                 if (animate)
@@ -58,6 +63,8 @@ namespace Rg.Plugins.Popup.Services
                 {
                     await AddAsync(page);
                 }
+
+                page.IsBeingAppeared = false;
             });
         }
 
