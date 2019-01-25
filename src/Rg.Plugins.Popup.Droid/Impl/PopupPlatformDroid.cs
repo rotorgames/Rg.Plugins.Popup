@@ -33,7 +33,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public bool IsSystemAnimationEnabled => GetIsSystemAnimationEnabled();
 
-        public async Task AddAsync(PopupPage page)
+        public Task AddAsync(PopupPage page)
         {
             var decoreView = DecoreView;
 
@@ -43,10 +43,10 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             decoreView.AddView(renderer.View);
 
-            await Task.Delay(5);
+            return PostAsync(renderer.View);
         }
 
-        public async Task RemoveAsync(PopupPage page)
+        public Task RemoveAsync(PopupPage page)
         {
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
@@ -58,9 +58,11 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
                 if(element != null)
                     element.Parent = null;
+
+                return PostAsync(DecoreView);
             }
 
-            await Task.Delay(5);
+            return Task.FromResult(true);
         }
 
         #region System Animation
@@ -89,6 +91,25 @@ namespace Rg.Plugins.Popup.Droid.Impl
             }
 
             return animationScale > 0;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Task PostAsync(Android.Views.View nativeView)
+        {
+            if (nativeView == null)
+                return Task.FromResult(true);
+
+            var tcs = new TaskCompletionSource<bool>();
+
+            nativeView.Post(() =>
+            {
+                tcs.SetResult(true);
+            });
+
+            return tcs.Task;
         }
 
         #endregion

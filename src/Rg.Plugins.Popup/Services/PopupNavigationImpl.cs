@@ -56,7 +56,6 @@ namespace Rg.Plugins.Popup.Services
                 {
                     page.PreparingAnimation();
                     await AddAsync(page);
-                    await Task.Delay(10);
                     await page.AppearingAnimation();
                 }
                 else
@@ -111,14 +110,11 @@ namespace Rg.Plugins.Popup.Services
                     await page.DisappearingAnimation();
 
                 await RemoveAsync(page);
-                await Task.Delay(50);
 
                 if (animate)
                     page.DisposingAnimation();
 
                 page.IsBeingDismissed = false;
-
-                await Task.Delay(5);
             });
         }
 

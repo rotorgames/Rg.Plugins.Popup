@@ -56,7 +56,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
             }
 
             await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
-            await Task.Delay(5);
         }
 
         public async Task RemoveAsync(PopupPage page)
@@ -82,8 +81,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
-
-            await Task.Delay(5);
         }
 
         private void DisposeModelAndChildrenRenderers(VisualElement view)
