@@ -160,9 +160,15 @@ namespace Rg.Plugins.Popup.Services
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await action.Invoke();
-
-                tcs.SetResult(true);
+                try
+                {
+                    await action.Invoke();
+                    tcs.SetResult(true);
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
             });
 
             return tcs.Task;
