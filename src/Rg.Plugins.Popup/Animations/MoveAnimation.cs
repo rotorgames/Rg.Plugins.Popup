@@ -31,7 +31,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             base.Preparing(content, page);
 
-            page.IsVisible = false;
+            HidePage(page);
 
             if(content == null) return;
 
@@ -42,7 +42,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             base.Disposing(content, page);
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             if (content == null) return;
 
@@ -81,7 +81,7 @@ namespace Rg.Plugins.Popup.Animations
                 taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
             }
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             await Task.WhenAll(taskList);
         }

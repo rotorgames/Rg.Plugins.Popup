@@ -39,5 +39,26 @@ namespace Rg.Plugins.Popup.Animations.Base
         {
             return (int)(content.Width + page.Width) / 2;
         }
+
+        /// <summary>
+        /// Use this method for avoiding the problem with blinking animation on iOS
+        /// See https://github.com/rotorgames/Rg.Plugins.Popup/issues/404
+        /// </summary>
+        /// <param name="page">Page.</param>
+        protected virtual void HidePage(Page page)
+        {
+            page.IsVisible = false;
+        }
+
+        /// <summary>
+        /// Use this method for avoiding the problem with blinking animation on iOS
+        /// See https://github.com/rotorgames/Rg.Plugins.Popup/issues/404
+        /// </summary>
+        /// <param name="page">Page.</param>
+        protected virtual void ShowPage(Page page)
+        {
+            //Fix: #404
+            Device.BeginInvokeOnMainThread(() => page.IsVisible = true);
+        }
     }
 }
