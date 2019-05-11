@@ -82,7 +82,7 @@ namespace Rg.Plugins.Popup.Services
                 animate = CanBeAnimated(animate);
 
                 if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+                    throw new IndexOutOfRangeException("No Page in PopupStack");
 
                 await RemovePageAsync(PopupStack.Last(), animate);
             });
