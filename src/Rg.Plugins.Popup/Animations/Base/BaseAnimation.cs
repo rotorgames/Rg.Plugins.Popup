@@ -30,12 +30,12 @@ namespace Rg.Plugins.Popup.Animations.Base
 
         public abstract Task Disappearing(View content, PopupPage page);
 
-        protected int GetTopOffset(View content, Page page)
+        protected virtual int GetTopOffset(View content, Page page)
         {
             return (int)(content.Height + page.Height) / 2;
         }
 
-        protected int GetLeftOffset(View content, Page page)
+        protected virtual int GetLeftOffset(View content, Page page)
         {
             return (int)(content.Width + page.Width) / 2;
         }
