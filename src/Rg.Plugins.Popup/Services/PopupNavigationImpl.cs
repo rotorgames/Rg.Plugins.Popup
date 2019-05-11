@@ -10,6 +10,8 @@ namespace Rg.Plugins.Popup.Services
 {
     internal class PopupNavigationImpl : IPopupNavigation
     {
+        readonly object _locker = new object();
+
         private readonly List<PopupPage> _popupStack = new List<PopupPage>();
 
         private IPopupPlatform PopupPlatform
@@ -43,28 +45,34 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PushAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock (_locker)
             {
-                if (page.IsBeingAppeared)
-                    return;
+                if (_popupStack.Contains(page))
+                    throw new InvalidOperationException("The page has been pushed already. Pop or remove the page before to push it again");
 
-                page.IsBeingAppeared = true;
+                _popupStack.Add(page);
 
-                animate = CanBeAnimated(animate);
-
-                if (animate)
+                var task = InvokeThreadSafe(async () =>
                 {
-                    page.PreparingAnimation();
-                    await AddAsync(page);
-                    await page.AppearingAnimation();
-                }
-                else
-                {
-                    await AddAsync(page);
-                }
+                    animate = CanBeAnimated(animate);
 
-                page.IsBeingAppeared = false;
-            });
+                    if (animate)
+                    {
+                        page.PreparingAnimation();
+                        await AddAsync(page);
+                        await page.AppearingAnimation();
+                    }
+                    else
+                    {
+                        await AddAsync(page);
+                    }
+
+                });
+
+                page.TransactionTask = task;
+
+                return task;
+            }
         }
 
         public Task PopAsync(bool animate = true)
@@ -97,42 +105,64 @@ namespace Rg.Plugins.Popup.Services
 
         public Task RemovePageAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock (_locker)
             {
                 if (page == null)
                     throw new NullReferenceException("Page can not be null");
 
-                if (page.IsBeingDismissed)
-                    return;
+                if (!_popupStack.Contains(page))
+                    throw new InvalidOperationException("The page has not been pushed yet or has been removed already");
 
-                animate = CanBeAnimated(animate);
+                var transactionTask = page.TransactionTask;
 
-                page.IsBeingDismissed = true;
+                var task = InvokeThreadSafe(async () =>
+                {
+                    if (transactionTask != null)
+                        await transactionTask;
 
-                if (animate)
-                    await page.DisappearingAnimation();
+                    lock (_locker)
+                    {
+                        if (!_popupStack.Contains(page))
+                            return;
+                    }
 
-                await RemoveAsync(page);
+                    page.IsBeingDismissed = true;
 
-                if (animate)
-                    page.DisposingAnimation();
+                    animate = CanBeAnimated(animate);
 
-                page.IsBeingDismissed = false;
-            });
+                    if (animate)
+                        await page.DisappearingAnimation();
+
+                    await RemoveAsync(page);
+
+                    if (animate)
+                        page.DisposingAnimation();
+
+                    lock (_locker)
+                    {
+                        _popupStack.Remove(page);
+                        page.TransactionTask = null;
+                    }
+
+                    page.IsBeingDismissed = false;
+                });
+
+                page.TransactionTask = task;
+
+                return task;
+            }
         }
 
         // Private
 
         private async Task AddAsync(PopupPage page)
         {
-            _popupStack.Add(page);
             await PopupPlatform.AddAsync(page);
         }
 
         private async Task RemoveAsync(PopupPage page)
         {
             await PopupPlatform.RemoveAsync(page);
-            _popupStack.Remove(page);
         }
 
         // Internal 
