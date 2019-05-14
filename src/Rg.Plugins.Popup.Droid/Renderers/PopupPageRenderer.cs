@@ -167,8 +167,12 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             }
             if (e.Action != MotionEventActions.Up)
                 return base.DispatchTouchEvent(e);
+
+            if (_disposed)
+                return false;
+
             View currentFocus1 = ((Activity)Context).CurrentFocus;
-            bool flag = base.DispatchTouchEvent(e);
+
             if (currentFocus1 is EditText)
             {
                 View currentFocus2 = ((Activity)Context).CurrentFocus;
@@ -185,6 +189,12 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                     }
                 }
             }
+
+            if (_disposed)
+                return false;
+
+            var flag = base.DispatchTouchEvent(e);
+
             return flag;
         }
 
