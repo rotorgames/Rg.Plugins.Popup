@@ -77,20 +77,28 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
 
                 var windowInsets = RootWindowInsets;
-                var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
+                if(windowInsets != null)
+                {
+                    var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
 
-                if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
-                {
-                    keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
-                }
+                    if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
+                    {
+                        keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
+                    }
                 
-                systemPadding = new Thickness
+                    systemPadding = new Thickness
+                    {
+                        Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
+                        Top = Context.FromPixels(windowInsets.SystemWindowInsetTop),
+                        Right = Context.FromPixels(windowInsets.SystemWindowInsetRight),
+                        Bottom = Context.FromPixels(bottomPadding)
+                    };
+                }
+                else
                 {
-                    Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
-                    Top = Context.FromPixels(windowInsets.SystemWindowInsetTop),
-                    Right = Context.FromPixels(windowInsets.SystemWindowInsetRight),
-                    Bottom = Context.FromPixels(bottomPadding)
-                };
+                    // the page is probably being popped so this doesn't matter...
+                    systemPadding = new Thickness();
+                }
             }
             else
             {
