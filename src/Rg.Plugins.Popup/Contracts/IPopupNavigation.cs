@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Contracts
 {
     public interface IPopupNavigation
     {
-        event EventHandler Pushed;
+        event EventHandler<NavigationEventArgs> Pushed;
 
-        event EventHandler Popped;
+        event EventHandler<NavigationEventArgs> Popped;
 
-        event EventHandler PoppedAll;
+        event EventHandler<AllPagesPoppedEventArgs> PoppedAll;
 
-        event EventHandler RemovePageRequested;
+        event EventHandler<NavigationEventArgs> RemovePageRequested;
 
         IReadOnlyList<PopupPage> PopupStack { get; }
 

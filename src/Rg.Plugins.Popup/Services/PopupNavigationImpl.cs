@@ -12,13 +12,13 @@ namespace Rg.Plugins.Popup.Services
     {
         private readonly List<PopupPage> _popupStack = new List<PopupPage>();
 
-        public event EventHandler Pushed;
+        public event EventHandler<NavigationEventArgs> Pushed;
 
-        public event EventHandler Popped;
+        public event EventHandler<NavigationEventArgs> Popped;
 
-        public event EventHandler PoppedAll;
+        public event EventHandler<AllPagesPoppedEventArgs> PoppedAll;
 
-        public event EventHandler RemovePageRequested;
+        public event EventHandler<NavigationEventArgs> RemovePageRequested;
 
         private IPopupPlatform PopupPlatform
         {
@@ -72,7 +72,7 @@ namespace Rg.Plugins.Popup.Services
                 }
 
                 page.IsBeingAppeared = false;
-                Pushed?.Invoke(page, EventArgs.Empty);
+                Pushed?.Invoke(this, new NavigationEventArgs(page));
             });
         }
 
@@ -87,7 +87,7 @@ namespace Rg.Plugins.Popup.Services
 
                 var popupPage = PopupStack.Last();
                 await RemovePageAsync(popupPage, animate);
-                Popped?.Invoke(popupPage, EventArgs.Empty);
+                Popped?.Invoke(this, new NavigationEventArgs(popupPage));
             });
         }
 
@@ -100,10 +100,11 @@ namespace Rg.Plugins.Popup.Services
                 if (!PopupStack.Any())
                     throw new IndexOutOfRangeException("There is not page in PopupStack");
 
-                var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
+                var popupPages = PopupStack.ToList();
+                var popupTasks = popupPages.Select(page => RemovePageAsync(page, animate));
 
                 await Task.WhenAll(popupTasks);
-                PoppedAll?.Invoke(PopupStack, EventArgs.Empty);
+                PoppedAll?.Invoke(this, new AllPagesPoppedEventArgs(popupPages));
             });
         }
 
@@ -130,7 +131,7 @@ namespace Rg.Plugins.Popup.Services
                     page.DisposingAnimation();
 
                 page.IsBeingDismissed = false;
-                RemovePageRequested?.Invoke(page, EventArgs.Empty);
+                RemovePageRequested?.Invoke(this, new NavigationEventArgs(page));
             });
         }
 

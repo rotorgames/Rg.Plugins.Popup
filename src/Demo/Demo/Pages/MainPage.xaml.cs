@@ -50,27 +50,24 @@ namespace Demo.Pages
             await PopupNavigation.Instance.PushAsync(page);
         }
 
-        private static void RemovePageRequested(object sender, EventArgs e)
+        private static void RemovePageRequested(object sender, NavigationEventArgs e)
         {
-            var pageType = sender.GetType();
-            Debug.WriteLine($"RemovePageRequested for {pageType.Name}.");
+            Debug.WriteLine($"RemovePageRequested for {e.Page.GetType().Name}.");
         }
 
-        private static void AllPagesPopped(object sender, EventArgs e)
+        private static void AllPagesPopped(object sender, AllPagesPoppedEventArgs e)
         {
-            Debug.WriteLine("All popup pages popped.");
+            Debug.WriteLine($"Popped {e.PoppedPages.Count()} page(s).");
         }
 
-        private static void PagePopped(object sender, EventArgs e)
+        private static void PagePopped(object sender, NavigationEventArgs e)
         {
-            var pageType = sender.GetType();
-            Debug.WriteLine($"{pageType.Name} Page Popped.");
+            Debug.WriteLine($"{e.Page.GetType().Name} page popped.");
         }
 
-        private static void PagePushed(object sender, EventArgs e)
+        private static void PagePushed(object sender, NavigationEventArgs e)
         {
-            var pageType = sender.GetType();
-            Debug.WriteLine($"{pageType.Name} Page Pushed.");
+            Debug.WriteLine($"{e.Page.GetType().Name} page pushed.");
         }
     }
 }
