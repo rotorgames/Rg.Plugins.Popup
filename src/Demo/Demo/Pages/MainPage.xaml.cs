@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,7 +18,10 @@ namespace Demo.Pages
         public MainPage()
         {
             InitializeComponent();
-
+            PopupNavigation.Instance.Pushed += PagePushed;
+            PopupNavigation.Instance.Popped += PagePopped;
+            PopupNavigation.Instance.PoppedAll += AllPagesPopped;
+            PopupNavigation.Instance.RemovePageRequested += RemovePageRequested;
             _loginPopup = new LoginPopupPage();
         }
 
@@ -43,8 +47,30 @@ namespace Demo.Pages
         private async void OnOpenListViewPage(object sender, EventArgs e)
         {
             var page = new ListViewPage();
-
             await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        private static void RemovePageRequested(object sender, EventArgs e)
+        {
+            var pageType = sender.GetType();
+            Debug.WriteLine($"RemovePageRequested for {pageType.Name}.");
+        }
+
+        private static void AllPagesPopped(object sender, EventArgs e)
+        {
+            Debug.WriteLine("All popup pages popped.");
+        }
+
+        private static void PagePopped(object sender, EventArgs e)
+        {
+            var pageType = sender.GetType();
+            Debug.WriteLine($"{pageType.Name} Page Popped.");
+        }
+
+        private static void PagePushed(object sender, EventArgs e)
+        {
+            var pageType = sender.GetType();
+            Debug.WriteLine($"{pageType.Name} Page Pushed.");
         }
     }
 }

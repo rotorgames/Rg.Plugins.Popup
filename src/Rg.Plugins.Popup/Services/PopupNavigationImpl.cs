@@ -12,16 +12,24 @@ namespace Rg.Plugins.Popup.Services
     {
         private readonly List<PopupPage> _popupStack = new List<PopupPage>();
 
+        public event EventHandler Pushed;
+
+        public event EventHandler Popped;
+
+        public event EventHandler PoppedAll;
+
+        public event EventHandler RemovePageRequested;
+
         private IPopupPlatform PopupPlatform
         {
             get
             {
                 var popupPlatform = DependencyService.Get<IPopupPlatform>();
 
-                if(popupPlatform == null)
+                if (popupPlatform == null)
                     throw new InvalidOperationException("You MUST install Rg.Plugins.Popup to each project and call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
-                if(!popupPlatform.IsInitialized)
+                if (!popupPlatform.IsInitialized)
                     throw new InvalidOperationException("You MUST call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
                 return popupPlatform;
@@ -64,6 +72,7 @@ namespace Rg.Plugins.Popup.Services
                 }
 
                 page.IsBeingAppeared = false;
+                Pushed?.Invoke(page, EventArgs.Empty);
             });
         }
 
@@ -76,7 +85,9 @@ namespace Rg.Plugins.Popup.Services
                 if (!PopupStack.Any())
                     throw new IndexOutOfRangeException("There is not page in PopupStack");
 
-                await RemovePageAsync(PopupStack.Last(), animate);
+                var popupPage = PopupStack.Last();
+                await RemovePageAsync(popupPage, animate);
+                Popped?.Invoke(popupPage, EventArgs.Empty);
             });
         }
 
@@ -92,6 +103,7 @@ namespace Rg.Plugins.Popup.Services
                 var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
                 await Task.WhenAll(popupTasks);
+                PoppedAll?.Invoke(PopupStack, EventArgs.Empty);
             });
         }
 
@@ -118,6 +130,7 @@ namespace Rg.Plugins.Popup.Services
                     page.DisposingAnimation();
 
                 page.IsBeingDismissed = false;
+                RemovePageRequested?.Invoke(page, EventArgs.Empty);
             });
         }
 
