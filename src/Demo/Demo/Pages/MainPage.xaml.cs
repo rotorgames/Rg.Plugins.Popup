@@ -21,7 +21,6 @@ namespace Demo.Pages
             PopupNavigation.Instance.Pushed += PagePushed;
             PopupNavigation.Instance.Popped += PagePopped;
             PopupNavigation.Instance.PoppedAll += AllPagesPopped;
-            PopupNavigation.Instance.RemovePageRequested += RemovePageRequested;
             _loginPopup = new LoginPopupPage();
         }
 
@@ -48,11 +47,6 @@ namespace Demo.Pages
         {
             var page = new ListViewPage();
             await PopupNavigation.Instance.PushAsync(page);
-        }
-
-        private static void RemovePageRequested(object sender, NavigationEventArgs e)
-        {
-            Debug.WriteLine($"RemovePageRequested for {e.Page.GetType().Name}.");
         }
 
         private static void AllPagesPopped(object sender, AllPagesPoppedEventArgs e)

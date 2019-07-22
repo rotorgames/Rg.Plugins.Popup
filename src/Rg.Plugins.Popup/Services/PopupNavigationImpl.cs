@@ -18,8 +18,6 @@ namespace Rg.Plugins.Popup.Services
 
         public event EventHandler<AllPagesPoppedEventArgs> PoppedAll;
 
-        public event EventHandler<NavigationEventArgs> RemovePageRequested;
-
         private IPopupPlatform PopupPlatform
         {
             get
@@ -87,7 +85,6 @@ namespace Rg.Plugins.Popup.Services
 
                 var popupPage = PopupStack.Last();
                 await RemovePageAsync(popupPage, animate);
-                Popped?.Invoke(this, new NavigationEventArgs(popupPage));
             });
         }
 
@@ -131,7 +128,7 @@ namespace Rg.Plugins.Popup.Services
                     page.DisposingAnimation();
 
                 page.IsBeingDismissed = false;
-                RemovePageRequested?.Invoke(this, new NavigationEventArgs(page));
+                Popped?.Invoke(this, new NavigationEventArgs(page));
             });
         }
 
