@@ -67,9 +67,10 @@ namespace Rg.Plugins.Popup.Services
                         await AddAsync(page);
                     }
 
+                    page.AppearingTransactionTask = null;
                 });
 
-                page.TransactionTask = task;
+                page.AppearingTransactionTask = task;
 
                 return task;
             }
@@ -77,30 +78,30 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAsync(bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock(_locker)
             {
                 animate = CanBeAnimated(animate);
 
                 if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+                    throw new IndexOutOfRangeException("No Page in PopupStack");
 
-                await RemovePageAsync(PopupStack.Last(), animate);
-            });
+                return RemovePageAsync(PopupStack.Last(), animate);
+            }
         }
 
         public Task PopAllAsync(bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock(_locker)
             {
                 animate = CanBeAnimated(animate);
 
                 if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+                    throw new IndexOutOfRangeException("No Page in PopupStack");
 
                 var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
-                await Task.WhenAll(popupTasks);
-            });
+                return Task.WhenAll(popupTasks);
+            };
         }
 
         public Task RemovePageAsync(PopupPage page, bool animate = true)
@@ -113,20 +114,19 @@ namespace Rg.Plugins.Popup.Services
                 if (!_popupStack.Contains(page))
                     throw new InvalidOperationException("The page has not been pushed yet or has been removed already");
 
-                var transactionTask = page.TransactionTask;
+                if (page.DisappearingTransactionTask != null)
+                    return page.DisappearingTransactionTask;
 
                 var task = InvokeThreadSafe(async () =>
                 {
-                    if (transactionTask != null)
-                        await transactionTask;
+                    if (page.AppearingTransactionTask != null)
+                        await page.AppearingTransactionTask;
 
                     lock (_locker)
                     {
                         if (!_popupStack.Contains(page))
                             return;
                     }
-
-                    page.IsBeingDismissed = true;
 
                     animate = CanBeAnimated(animate);
 
@@ -141,13 +141,11 @@ namespace Rg.Plugins.Popup.Services
                     lock (_locker)
                     {
                         _popupStack.Remove(page);
-                        page.TransactionTask = null;
+                        page.DisappearingTransactionTask = null;
                     }
-
-                    page.IsBeingDismissed = false;
                 });
 
-                page.TransactionTask = task;
+                page.DisappearingTransactionTask = task;
 
                 return task;
             }
