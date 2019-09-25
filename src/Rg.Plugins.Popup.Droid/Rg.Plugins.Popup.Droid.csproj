@@ -191,7 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj">
-      <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
+      <Project>{BC95339D-A81B-4072-A8D3-529723303BED}</Project>
       <Name>Rg.Plugins.Popup</Name>
       <Private>True</Private>
     </ProjectReference>
