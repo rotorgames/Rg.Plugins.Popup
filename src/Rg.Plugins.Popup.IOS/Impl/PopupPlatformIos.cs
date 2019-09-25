@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
@@ -18,7 +19,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformIos : IPopupPlatform
     {
+        private readonly List<UIWindow> _windows = new List<UIWindow>();
+
         private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+        private bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
 
         public event EventHandler OnInitialized
         {
@@ -36,15 +40,19 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             page.DescendantRemoved += HandleChildRemoved;
 
-            if(UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
+            if (UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
                 UIApplication.SharedApplication.KeyWindow.WindowLevel = -1;
 
             var renderer = page.GetOrCreateRenderer();
 
-            var window = new PopupWindow
+            var window = new PopupWindow();
+
+            if (IsiOS13OrNewer)
             {
-                BackgroundColor = Color.Transparent.ToUIColor()
-            };
+                _windows.Add(window);
+            }
+
+            window.BackgroundColor = Color.Transparent.ToUIColor();
             window.RootViewController = new PopupPlatformRenderer(renderer);
             window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
             window.WindowLevel = UIWindowLevel.Normal;
@@ -76,7 +84,14 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
+
+                if (IsiOS13OrNewer && _windows.Contains(window))
+                {
+                    _windows.Remove(window);
+                }
+
                 window.Dispose();
+                window = null;
 
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
@@ -110,7 +125,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
         private void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
-            DisposeModelAndChildrenRenderers((VisualElement) view);
+            DisposeModelAndChildrenRenderers((VisualElement)view);
         }
     }
 }
