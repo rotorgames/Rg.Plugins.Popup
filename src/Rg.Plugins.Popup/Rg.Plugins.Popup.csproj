@@ -9,4 +9,7 @@
     <ItemGroup>
       <None Remove="readme.txt" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Events\" />
+    </ItemGroup>
 </Project>

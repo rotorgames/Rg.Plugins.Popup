@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Rg.Plugins.Popup.Extensions;
-using Xamarin.Forms;
+using System.Diagnostics;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace Demo.Pages
 {
@@ -17,6 +12,11 @@ namespace Demo.Pages
         public MainPage()
         {
             InitializeComponent();
+
+            PopupNavigation.Instance.Pushing += (sender, e) => Debug.WriteLine($"[Popup] Pushing: {e.Page.GetType().Name}");
+            PopupNavigation.Instance.Pushed += (sender, e) => Debug.WriteLine($"[Popup] Pushed: {e.Page.GetType().Name}");
+            PopupNavigation.Instance.Popping += (sender, e) => Debug.WriteLine($"[Popup] Popping: {e.Page.GetType().Name}");
+            PopupNavigation.Instance.Popped += (sender, e) => Debug.WriteLine($"[Popup] Popped: {e.Page.GetType().Name}");
 
             _loginPopup = new LoginPopupPage();
         }
