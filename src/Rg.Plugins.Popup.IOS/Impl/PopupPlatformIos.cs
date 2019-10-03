@@ -19,6 +19,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformIos : IPopupPlatform
     {
+        // It's necessary because GC in Xamarin.iOS 13 removes all UIWindow if there are not any references to them. See #459
         readonly List<UIWindow> _windows = new List<UIWindow>();
 
         bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
