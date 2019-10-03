@@ -19,10 +19,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformIos : IPopupPlatform
     {
-        private readonly List<UIWindow> _windows = new List<UIWindow>();
+        readonly List<UIWindow> _windows = new List<UIWindow>();
 
-        private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
-        private bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
+        bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+        bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
 
         public event EventHandler OnInitialized
         {
@@ -48,9 +48,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var window = new PopupWindow();
 
             if (IsiOS13OrNewer)
-            {
                 _windows.Add(window);
-            }
 
             window.BackgroundColor = Color.Transparent.ToUIColor();
             window.RootViewController = new PopupPlatformRenderer(renderer);
@@ -59,9 +57,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             window.MakeKeyAndVisible();
 
             if (!IsiOS9OrNewer)
-            {
                 window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
-            }
 
             await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
         }
@@ -86,9 +82,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.Hidden = true;
 
                 if (IsiOS13OrNewer && _windows.Contains(window))
-                {
                     _windows.Remove(window);
-                }
 
                 window.Dispose();
                 window = null;
@@ -98,7 +92,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             }
         }
 
-        private void DisposeModelAndChildrenRenderers(VisualElement view)
+        void DisposeModelAndChildrenRenderers(VisualElement view)
         {
             IVisualElementRenderer renderer;
             foreach (VisualElement child in view.Descendants())
@@ -122,7 +116,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             XFPlatform.SetRenderer(view, null);
         }
 
-        private void HandleChildRemoved(object sender, ElementEventArgs e)
+        void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
             DisposeModelAndChildrenRenderers((VisualElement)view);
