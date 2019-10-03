@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
@@ -18,7 +19,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformIos : IPopupPlatform
     {
-        private bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+        readonly List<UIWindow> _windows = new List<UIWindow>();
+
+        bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+        bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
 
         public event EventHandler OnInitialized
         {
@@ -36,24 +40,24 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             page.DescendantRemoved += HandleChildRemoved;
 
-            if(UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
+            if (UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
                 UIApplication.SharedApplication.KeyWindow.WindowLevel = -1;
 
             var renderer = page.GetOrCreateRenderer();
 
-            var window = new PopupWindow
-            {
-                BackgroundColor = Color.Transparent.ToUIColor()
-            };
+            var window = new PopupWindow();
+
+            if (IsiOS13OrNewer)
+                _windows.Add(window);
+
+            window.BackgroundColor = Color.Transparent.ToUIColor();
             window.RootViewController = new PopupPlatformRenderer(renderer);
             window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
             window.WindowLevel = UIWindowLevel.Normal;
             window.MakeKeyAndVisible();
 
             if (!IsiOS9OrNewer)
-            {
                 window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
-            }
 
             await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
         }
@@ -76,14 +80,19 @@ namespace Rg.Plugins.Popup.IOS.Impl
                 window.RootViewController = null;
                 page.Parent = null;
                 window.Hidden = true;
+
+                if (IsiOS13OrNewer && _windows.Contains(window))
+                    _windows.Remove(window);
+
                 window.Dispose();
+                window = null;
 
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
         }
 
-        private void DisposeModelAndChildrenRenderers(VisualElement view)
+        void DisposeModelAndChildrenRenderers(VisualElement view)
         {
             IVisualElementRenderer renderer;
             foreach (VisualElement child in view.Descendants())
@@ -107,10 +116,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
             XFPlatform.SetRenderer(view, null);
         }
 
-        private void HandleChildRemoved(object sender, ElementEventArgs e)
+        void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
-            DisposeModelAndChildrenRenderers((VisualElement) view);
+            DisposeModelAndChildrenRenderers((VisualElement)view);
         }
     }
 }
