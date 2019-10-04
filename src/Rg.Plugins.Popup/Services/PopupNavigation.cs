@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
@@ -8,7 +9,7 @@ namespace Rg.Plugins.Popup.Services
 {
     public static class PopupNavigation
     {
-        private const string DepractedMethodsText = 
+        const string DepractedMethodsText = 
             "You should use "
             +nameof(IPopupNavigation)+
             " instance from "
@@ -18,12 +19,16 @@ namespace Rg.Plugins.Popup.Services
             ".\nSee more info: "
             +Config.MigrationV1_0_xToV1_1_xUrl;
         
-        private static IPopupNavigation _popupNavigation;
+        static IPopupNavigation _popupNavigation;
+        static IPopupNavigation _customNavigation;
 
         public static IPopupNavigation Instance
         {
             get
             {
+                if (_customNavigation != null)
+                    return _customNavigation;
+
                 if(_popupNavigation == null)
                     _popupNavigation = new PopupNavigationImpl();
 
@@ -56,6 +61,18 @@ namespace Rg.Plugins.Popup.Services
         public static Task RemovePageAsync(PopupPage page, bool animate = true)
         {
             return Instance.RemovePageAsync(page, animate);
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void SetInstance(IPopupNavigation instance)
+        {
+            _customNavigation = instance;
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static void RestoreDefaultInstance()
+        {
+            _customNavigation = null;
         }
     }
 }

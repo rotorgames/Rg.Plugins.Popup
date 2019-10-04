@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Events;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
@@ -10,7 +11,17 @@ namespace Rg.Plugins.Popup.Services
 {
     internal class PopupNavigationImpl : IPopupNavigation
     {
-        private readonly List<PopupPage> _popupStack = new List<PopupPage>();
+        readonly object _locker = new object();
+
+        readonly List<PopupPage> _popupStack = new List<PopupPage>();
+
+        public event EventHandler<PopupNavigationEventArgs> Pushing;
+
+        public event EventHandler<PopupNavigationEventArgs> Pushed;
+
+        public event EventHandler<PopupNavigationEventArgs> Popping;
+
+        public event EventHandler<PopupNavigationEventArgs> Popped;
 
         private IPopupPlatform PopupPlatform
         {
@@ -43,96 +54,130 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PushAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock (_locker)
             {
-                if (page.IsBeingAppeared)
-                    return;
+                if (_popupStack.Contains(page))
+                    throw new InvalidOperationException("The page has been pushed already. Pop or remove the page before to push it again");
 
-                page.IsBeingAppeared = true;
+                Pushing?.Invoke(this, new PopupNavigationEventArgs(page, animate));
 
-                animate = CanBeAnimated(animate);
+                _popupStack.Add(page);
 
-                if (animate)
+                var task = InvokeThreadSafe(async () =>
                 {
-                    page.PreparingAnimation();
-                    await AddAsync(page);
-                    await page.AppearingAnimation();
-                }
-                else
-                {
-                    await AddAsync(page);
-                }
+                    animate = CanBeAnimated(animate);
 
-                page.IsBeingAppeared = false;
-            });
+                    if (animate)
+                    {
+                        page.PreparingAnimation();
+                        await AddAsync(page);
+                        await page.AppearingAnimation();
+                    }
+                    else
+                    {
+                        await AddAsync(page);
+                    }
+
+                    page.AppearingTransactionTask = null;
+
+                    Pushed?.Invoke(this, new PopupNavigationEventArgs(page, animate));
+                });
+
+                page.AppearingTransactionTask = task;
+
+                return task;
+            }
         }
 
         public Task PopAsync(bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock(_locker)
             {
                 animate = CanBeAnimated(animate);
 
                 if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+                    throw new IndexOutOfRangeException("No Page in PopupStack");
 
-                await RemovePageAsync(PopupStack.Last(), animate);
-            });
+                return RemovePageAsync(PopupStack.Last(), animate);
+            }
         }
 
         public Task PopAllAsync(bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock(_locker)
             {
                 animate = CanBeAnimated(animate);
 
                 if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("There is not page in PopupStack");
+                    throw new IndexOutOfRangeException("No Page in PopupStack");
 
                 var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
-                await Task.WhenAll(popupTasks);
-            });
+                return Task.WhenAll(popupTasks);
+            }
         }
 
         public Task RemovePageAsync(PopupPage page, bool animate = true)
         {
-            return InvokeThreadSafe(async () =>
+            lock (_locker)
             {
                 if (page == null)
                     throw new NullReferenceException("Page can not be null");
 
-                if (page.IsBeingDismissed)
-                    return;
+                if (!_popupStack.Contains(page))
+                    throw new InvalidOperationException("The page has not been pushed yet or has been removed already");
 
-                animate = CanBeAnimated(animate);
+                if (page.DisappearingTransactionTask != null)
+                    return page.DisappearingTransactionTask;
 
-                page.IsBeingDismissed = true;
+                var task = InvokeThreadSafe(async () =>
+                {
+                    if (page.AppearingTransactionTask != null)
+                        await page.AppearingTransactionTask;
 
-                if (animate)
-                    await page.DisappearingAnimation();
+                    lock (_locker)
+                    {
+                        if (!_popupStack.Contains(page))
+                            return;
+                    }
 
-                await RemoveAsync(page);
+                    Popping?.Invoke(this, new PopupNavigationEventArgs(page, animate));
 
-                if (animate)
-                    page.DisposingAnimation();
+                    animate = CanBeAnimated(animate);
 
-                page.IsBeingDismissed = false;
-            });
+                    if (animate)
+                        await page.DisappearingAnimation();
+
+                    await RemoveAsync(page);
+
+                    if (animate)
+                        page.DisposingAnimation();
+
+                    lock (_locker)
+                    {
+                        _popupStack.Remove(page);
+                        page.DisappearingTransactionTask = null;
+
+                        Popped?.Invoke(this, new PopupNavigationEventArgs(page, animate));
+                    }
+                });
+
+                page.DisappearingTransactionTask = task;
+
+                return task;
+            }
         }
 
         // Private
 
-        private async Task AddAsync(PopupPage page)
+        async Task AddAsync(PopupPage page)
         {
-            _popupStack.Add(page);
             await PopupPlatform.AddAsync(page);
         }
 
-        private async Task RemoveAsync(PopupPage page)
+        async Task RemoveAsync(PopupPage page)
         {
             await PopupPlatform.RemoveAsync(page);
-            _popupStack.Remove(page);
         }
 
         // Internal 
@@ -145,7 +190,7 @@ namespace Rg.Plugins.Popup.Services
 
         #region Animation
 
-        private bool CanBeAnimated(bool animate)
+        bool CanBeAnimated(bool animate)
         {
             return animate && PopupPlatform.IsSystemAnimationEnabled;
         }
