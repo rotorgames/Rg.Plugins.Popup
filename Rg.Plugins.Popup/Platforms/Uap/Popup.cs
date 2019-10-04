@@ -15,7 +15,6 @@ namespace Rg.Plugins.Popup
 
         internal static bool IsInitialized { get; private set; }
 
-#if WINDOWS_UWP
         /// <summary>
         /// Use this method for UWP project .NET Native compilation and add result to <see cref="T:Xamarin.Forms.Forms.Init"/>
         /// </summary>
@@ -40,7 +39,6 @@ namespace Rg.Plugins.Popup
             return typeof (T).GetTypeInfo().Assembly;
         }
 
-#endif
         public static void Init()
         {
             LinkAssemblies();

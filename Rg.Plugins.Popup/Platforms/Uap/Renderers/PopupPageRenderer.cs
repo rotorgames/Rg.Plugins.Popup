@@ -11,11 +11,7 @@ using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Size = Windows.Foundation.Size;
-#if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
-#elif WINDOWS_PHONE_APP
-using Xamarin.Forms.Platform.WinRT;
-#endif
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 
 [assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]

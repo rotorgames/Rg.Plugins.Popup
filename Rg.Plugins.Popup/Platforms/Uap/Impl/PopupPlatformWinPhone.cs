@@ -9,13 +9,8 @@ using Rg.Plugins.Popup.WinPhone.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
-#if WINDOWS_UWP
 using Xamarin.Forms.Platform.UWP;
 using Windows.UI.Core;
-#elif WINDOWS_PHONE_APP
-using Windows.Phone.UI.Input;
-using Xamarin.Forms.Platform.WinRT;
-#endif
 
 [assembly: Dependency(typeof(PopupPlatformWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl
