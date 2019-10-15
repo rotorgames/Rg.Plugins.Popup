@@ -47,7 +47,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             var renderer = page.GetOrCreateRenderer();
 
             var window = new PopupWindow();
-
+            window.OriginalKeyWindow = UIApplication.SharedApplication.KeyWindow;
             if (IsiOS13OrNewer)
                 _windows.Add(window);
 
@@ -71,7 +71,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             await Task.Delay(50);
 
             page.DescendantRemoved -= HandleChildRemoved;
-
+            var popup = (PopupWindow)viewController.View.Window;
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
                 var window = viewController.View.Window;
@@ -87,10 +87,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
                 window.Dispose();
                 window = null;
-
-                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
-                    UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
+
+            popup.OriginalKeyWindow.WindowLevel = UIWindowLevel.Normal;
+            popup.OriginalKeyWindow.MakeKeyAndVisible(); 
         }
 
         void DisposeModelAndChildrenRenderers(VisualElement view)

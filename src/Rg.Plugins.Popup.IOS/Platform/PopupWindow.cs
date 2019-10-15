@@ -10,6 +10,8 @@ namespace Rg.Plugins.Popup.IOS.Platform
     [Register("RgPopupWindow")]
     internal class PopupWindow : UIWindow
     {
+        //Save the reference to uiwindow that was the original key window before the popupwindow got presented
+        public UIWindow OriginalKeyWindow { get; set; }
         public PopupWindow(IntPtr handle):base(handle)
         {
             // Fix #307
