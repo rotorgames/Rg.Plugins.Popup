@@ -36,7 +36,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             if(HasBackgroundAnimation) base.Preparing(content, page);
 
-            page.IsVisible = false;
+            HidePage(page);
 
             if(content == null) return;
 
@@ -49,7 +49,7 @@ namespace Rg.Plugins.Popup.Animations
         {
             if (HasBackgroundAnimation) base.Disposing(content, page);
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             if(content == null) return;
 
@@ -94,7 +94,7 @@ namespace Rg.Plugins.Popup.Animations
                 }
             }
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             await Task.WhenAll(taskList);
         }

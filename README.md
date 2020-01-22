@@ -20,6 +20,10 @@
 ## Documentation
 You can find all descriptions of [Getting Started](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Getting-started), [How to use](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/PopupPage), [Troubleshooting](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Troubleshooting) and etc in the [Wiki](https://github.com/rotorgames/Rg.Plugins.Popup/wiki)
 
+## Created By: Kirill Lyubimov
+* LinkedIn: [Kirill Lyubimov](https://www.linkedin.com/in/kirill-lyubimov-06a68712b/)
+* Twitter: [@rotorgames_LK](https://twitter.com/rotorgames_LK)
+
 ## License
 
 The MIT License

@@ -55,7 +55,7 @@ namespace Rg.Plugins.Popup.WinPhone.Impl
 
             if (lastPopupPage != null)
             {
-                var isPrevent = lastPopupPage.IsBeingDismissed || lastPopupPage.SendBackButtonPressed();
+                var isPrevent = lastPopupPage.DisappearingTransactionTask != null || lastPopupPage.SendBackButtonPressed();
 
                 if (!isPrevent)
                 {

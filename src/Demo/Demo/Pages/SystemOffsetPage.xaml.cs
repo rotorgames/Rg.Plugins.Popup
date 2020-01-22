@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -14,69 +10,76 @@ namespace Demo.Pages
     {
         public SystemOffsetPage()
         {
-            var bc = new VM();
-            BindingContext = bc;
             InitializeComponent();
-            Device.StartTimer(TimeSpan.FromMilliseconds(2000), () =>
+
+            UpdateInfoText();
+
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                bc.Padding = new Thickness(10,10,10,10);
-                return false;
-            });
-            Device.StartTimer(TimeSpan.FromMilliseconds(4000), () =>
-            {
-                bc.IsSystemPadding = false;
-                return false;
-            });
-            Device.StartTimer(TimeSpan.FromMilliseconds(6000), () =>
-            {
+                await Task.Delay(2000);
+                Padding = new Thickness(10, 10, 10, 10);
+
+                await Task.Delay(2000);
+                HasSystemPadding = false;
+
+                await Task.Delay(2000);
                 Padding = new Thickness();
-                return false;
-            });
-            Device.StartTimer(TimeSpan.FromMilliseconds(8000), () =>
-            {
+
+                await Task.Delay(2000);
                 HasSystemPadding = true;
-                return false;
+
+                await Task.Delay(2000);
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Left;
+
+                await Task.Delay(2000);
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Top;
+
+                await Task.Delay(2000);
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Right;
+
+                await Task.Delay(2000);
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.Bottom;
+
+                await Task.Delay(2000);
+                SystemPaddingSides = Rg.Plugins.Popup.Enums.PaddingSide.All;
             });
+        }
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(Padding):
+                case nameof(HasSystemPadding):
+                case nameof(SystemPadding):
+                case nameof(SystemPaddingSides):
+                case nameof(HasKeyboardOffset):
+                case nameof(KeyboardOffset):
+                    UpdateInfoText();
+                    break;
+            }
         }
 
         private async void OnClose(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PopAsync();
         }
-    }
 
-    public class VM : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        void UpdateInfoText()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this,
-                    new PropertyChangedEventArgs(propertyName));
-            }
+            InfoLabel.Text = $"Padding: {ThicknessToString(Padding)}\n" +
+                $"HasSystemPadding: {HasSystemPadding}\n" +
+                $"SystemPadding: {ThicknessToString(SystemPadding)}\n" +
+                $"SystemPaddingSide: {SystemPaddingSides}\n" +
+                $"HasKeyboardOffset: {HasKeyboardOffset}\n" +
+                $"KeyboardOffset: {KeyboardOffset}";
         }
 
-        private Thickness _padding;
-        private bool _isSystemPadding = true;
-        public Thickness Padding
+        string ThicknessToString(Thickness v)
         {
-            get { return _padding; }
-            set
-            {
-                _padding = value;
-                OnPropertyChanged("Padding");
-            }
-        }
-
-        public bool IsSystemPadding
-        {
-            get { return _isSystemPadding; }
-            set
-            {
-                _isSystemPadding = value;
-                OnPropertyChanged("IsSystemPadding");
-            }
+            return $"[{v.Left}, {v.Top}, {v.Right}, {v.Bottom}]";
         }
     }
 }

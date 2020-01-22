@@ -112,22 +112,37 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
             var superviewFrame = View.Superview.Frame;
             var applactionFrame = UIScreen.MainScreen.ApplicationFrame;
-            var systemPadding = new Thickness
+
+            Thickness systemPadding;
+
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
             {
-                Left = applactionFrame.Left,
-                Top = applactionFrame.Top,
-                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
-                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + _keyboardBounds.Height
-            };
+                var safeAreaInsets = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets;
 
-            currentElement.BatchBegin();
+                systemPadding = new Thickness(
+                    safeAreaInsets.Left,
+                    safeAreaInsets.Top,
+                    safeAreaInsets.Right,
+                    safeAreaInsets.Bottom);
+            }
+            else
+            {
+                systemPadding = new Thickness
+                {
+                    Left = applactionFrame.Left,
+                    Top = applactionFrame.Top,
+                    Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
+                    Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top
+                };
+            }
 
-            currentElement.SetSystemPadding(systemPadding);
+            currentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+            currentElement.SetValue(PopupPage.KeyboardOffsetProperty, _keyboardBounds.Height);
 
-            if(Element != null)
+            if (Element != null)
                 SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
 
-            currentElement.BatchCommit();
+            currentElement.ForceLayout();
         }
 
         #endregion

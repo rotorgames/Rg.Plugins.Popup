@@ -35,7 +35,7 @@ namespace Rg.Plugins.Popup
             {
                 var lastPage = popupNavigationInstance.PopupStack.Last();
 
-                var isPreventClose = lastPage.IsBeingDismissed || lastPage.SendBackButtonPressed();
+                var isPreventClose = lastPage.DisappearingTransactionTask != null || lastPage.SendBackButtonPressed();
 
                 if (!isPreventClose)
                 {
