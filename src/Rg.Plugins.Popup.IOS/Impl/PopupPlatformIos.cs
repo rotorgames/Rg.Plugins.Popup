@@ -74,7 +74,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
-                var window = viewController.View.Window;
+                var window = UIApplication.SharedApplication.KeyWindow;
+                if (window==null)
+                        window = viewController.View.Window;
+                        
                 await window.RootViewController.DismissViewControllerAsync(false);
                 DisposeModelAndChildrenRenderers(page);
                 window.RootViewController.Dispose();
