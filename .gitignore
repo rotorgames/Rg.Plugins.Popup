@@ -215,3 +215,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/src/Demo/Demo/Properties/Resources.Designer.cs
+/src/Demo/Demo/Properties/Resources.resx
