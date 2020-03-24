@@ -27,7 +27,7 @@ namespace Demo.Animations
         {
             base.Preparing(content, page);
 
-            page.IsVisible = false;
+            HidePage(page);
 
             if (content == null) return;
 
@@ -38,7 +38,7 @@ namespace Demo.Animations
         {
             base.Disposing(content, page);
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             if (content == null) return;
 
@@ -59,7 +59,7 @@ namespace Demo.Animations
                 taskList.Add(content.TranslateTo(content.TranslationX, _defaultTranslationY, DurationIn, EasingIn));
             };
 
-            page.IsVisible = true;
+            ShowPage(page);
 
             await Task.WhenAll(taskList);
         }

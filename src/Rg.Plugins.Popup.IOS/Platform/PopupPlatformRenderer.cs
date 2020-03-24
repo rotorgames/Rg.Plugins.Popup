@@ -79,7 +79,8 @@ namespace Rg.Plugins.Popup.IOS.Platform
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            PresentedViewController.ViewDidLayoutSubviews();
+            
+            PresentedViewController?.ViewDidLayoutSubviews();
         }
     }
 }

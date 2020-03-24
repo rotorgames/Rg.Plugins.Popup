@@ -26,7 +26,9 @@ namespace Demo.Pages
         private async void HidePopup()
         {
             await Task.Delay(4000);
-            await PopupNavigation.Instance.RemovePageAsync(this);
+
+            if(PopupNavigation.Instance.PopupStack.Contains(this))
+                await PopupNavigation.Instance.RemovePageAsync(this);
         }
     }
 }
