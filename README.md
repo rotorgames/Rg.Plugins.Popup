@@ -14,8 +14,10 @@
 
 - [x] Android
 - [x] iOS
-- [x] UWP (Min Target: 10.0.16299)
+- [x] UWP (Min Target: 10.0.17763)
 - [x] Tizen
+- [x] WPF
+- [x] MacOS
 
 ## Documentation
 You can find all descriptions of [Getting Started](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Getting-started), [How to use](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/PopupPage), [Troubleshooting](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Troubleshooting) and etc in the [Wiki](https://github.com/rotorgames/Rg.Plugins.Popup/wiki)
