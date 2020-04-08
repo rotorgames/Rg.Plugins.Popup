@@ -1,0 +1,17 @@
+﻿<Project Sdk="Tizen.NET.Sdk/1.0.3">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>tizen50</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Rg.Plugins.Popup\Rg.Plugins.Popup.csproj" />
+    <ProjectReference Include="..\Demo\Demo.csproj" />
+  </ItemGroup>
+
+</Project>
