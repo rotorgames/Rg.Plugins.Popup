@@ -4,7 +4,7 @@ using Rg.Plugins.Popup.Pages;
 
 namespace Rg.Plugins.Popup.Contracts
 {
-    internal interface IPopupPlatform
+    public interface IPopupPlatform
     {
         event EventHandler OnInitialized;
 
