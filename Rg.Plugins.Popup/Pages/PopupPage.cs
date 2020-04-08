@@ -76,7 +76,7 @@ namespace Rg.Plugins.Popup.Pages
         public Thickness SystemPadding
         {
             get { return (Thickness)GetValue(SystemPaddingProperty); }
-            private set { SetValue(SystemPaddingProperty, value); }
+            internal set { SetValue(SystemPaddingProperty, value); }
         }
 
         public static readonly BindableProperty SystemPaddingSidesProperty = BindableProperty.Create(nameof(SystemPaddingSides), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);

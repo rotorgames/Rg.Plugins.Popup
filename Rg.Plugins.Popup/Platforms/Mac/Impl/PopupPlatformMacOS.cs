@@ -19,9 +19,6 @@ namespace Rg.Plugins.Popup.MacOS.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformMacOS : IPopupPlatform
     {
-        // It's necessary because GC in Xamarin.iOS 13 removes all UIWindow if there are not any references to them. See #459
-        readonly List<NSWindow> _windows = new List<NSWindow>();
-
         public event EventHandler OnInitialized
         {
             add => Popup.OnInitialized += value;
@@ -32,92 +29,30 @@ namespace Rg.Plugins.Popup.MacOS.Impl
 
         public bool IsSystemAnimationEnabled => true;
 
-        public async Task AddAsync(PopupPage page)
+        public Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
 
             page.DescendantRemoved += HandleChildRemoved;
 
-            //if (NSApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
-            //    NSApplication.SharedApplication.KeyWindow.WindowLevel = -1;
-
             var renderer = page.GetOrCreateRenderer();
 
-            var window = new PopupWindow();
-
-            //if (IsiOS13OrNewer)
-            //    _windows.Add(window);
-
-            //window.BackgroundColor = Color.Transparent.ToUIColor();
-            //window.RootViewController = new PopupPlatformRenderer(renderer);
-            //window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
-            //window.WindowLevel = UIWindowLevel.Normal;
-            //window.MakeKeyAndVisible();
-
-            //if (!IsiOS9OrNewer)
-            //    window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
-
-            //await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
+            NSApplication.SharedApplication.MainWindow.ContentView.AddSubview(renderer.NativeView);
+            return Task.CompletedTask;
         }
 
-        public async Task RemoveAsync(PopupPage page)
+        public Task RemoveAsync(PopupPage page)
         {
-            var renderer = XFPlatform.GetRenderer(page);
-            var viewController = renderer?.ViewController;
-
-            await Task.Delay(50);
-
             page.DescendantRemoved -= HandleChildRemoved;
+            page.DisposeModelAndChildrenRenderers();
 
-            if (renderer != null && viewController != null)
-            {
-                var window = viewController.View.Window;
-                //await window.RootViewController.DismissViewControllerAsync(false);
-                DisposeModelAndChildrenRenderers(page);
-                //window.RootViewController.Dispose();
-                //window.RootViewController = null;
-                page.Parent = null;
-                //window.Hidden = true;
-
-                //if (IsiOS13OrNewer && _windows.Contains(window))
-                //    _windows.Remove(window);
-
-                window.Dispose();
-                window = null;
-
-                //if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
-                //    UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
-            }
+            return Task.CompletedTask;
         }
 
-        void DisposeModelAndChildrenRenderers(VisualElement view)
-        {
-            IVisualElementRenderer renderer;
-            foreach (VisualElement child in view.Descendants())
-            {
-                renderer = XFPlatform.GetRenderer(child);
-                XFPlatform.SetRenderer(child, null);
-
-                if (renderer != null)
-                {
-                    renderer.NativeView.RemoveFromSuperview();
-                    renderer.Dispose();
-                }
-            }
-
-            renderer = XFPlatform.GetRenderer(view);
-            if (renderer != null)
-            {
-                renderer.NativeView.RemoveFromSuperview();
-                renderer.Dispose();
-            }
-            XFPlatform.SetRenderer(view, null);
-        }
-
-        void HandleChildRemoved(object sender, ElementEventArgs e)
+        private static void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
-            DisposeModelAndChildrenRenderers((VisualElement)view);
+            ((VisualElement)view).DisposeModelAndChildrenRenderers();
         }
     }
 }
