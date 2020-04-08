@@ -1,28 +1,49 @@
-version: 1.2.0.{build}
-branches:
-  only:
-    - master
-    - develop
-skip_tags: true
-image: Visual Studio 2017
-configuration: Publish
-platform: Any CPU
-assembly_info:
-    patch: true
-    file: '**\AssemblyInfo.*'
-    assembly_version: '{version}'
-    assembly_file_version: '{version}'
-    assembly_informational_version: '{version}'
-environment:
-    solution_dir: "src"
-    nuspec_dir: "nuspec"
-init:
-    - nuget update -self
-before_build:
-    - nuget restore %solution_dir%
-build_script:
-    - msbuild %solution_dir%/Rg.Plugins.Popup.sln /t:Build /p:Configuration=Publish /p:Platform="Any CPU"
-after_build:
-    - nuget pack %nuspec_dir%/Rg.Plugins.Popup.nuspec -Version %APPVEYOR_BUILD_VERSION%
-artifacts:
-    - path: "*.nupkg"
+-
+  branches:
+      only:
+        - master
+        - /release\/.*/
+  version: 1.0.{build}
+  image: Visual Studio 2019
+  before_build:
+  - cmd: dotnet --info
+  - cmd: dotnet tool install --tool-path . SignClient
+  environment:
+    NUGET_SOURCE: https://www.nuget.org/api/v2/package
+    NUGET_APIKEY:
+      secure: Kse62H9lWHIwjsqpi2ih1efUnHc5R6VfIzu1Nfr/CXcJSKPkH8EGElCIxvP43/Oh
+    SIGNING_USER:
+      secure: 
+    SIGNING_SECRET:
+      secure: 
+    GITHUB_TOKEN:
+      secure: D9GQsZK1etNdnyc39Ko8wsm5C8SbAjHiOyYr5E8K0KUKqFloOYSYP9n6zrcRawal
+  build_script:
+  - ps: .\build.ps1
+  test: off
+  cache:
+  - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache
+-
+  branches:
+      only:
+        - develop
+  version: 1.0.{build}
+  image: Visual Studio 2019
+  before_build:
+  - cmd: dotnet --info
+  - cmd: dotnet tool install --tool-path . SignClient
+  environment:
+    NUGET_SOURCE: https://nuget.pkg.github.com/martijn00/index.json
+    NUGET_APIKEY:
+      secure: 0PNC9eZWAinI1KkE9usbhPAwF1wudL5GJi6lJn9Ylb67M7SE17LIXBoMHuRKJaLE
+    SIGNING_USER:
+      secure: 
+    SIGNING_SECRET:
+      secure: 
+    GITHUB_TOKEN:
+      secure: D9GQsZK1etNdnyc39Ko8wsm5C8SbAjHiOyYr5E8K0KUKqFloOYSYP9n6zrcRawal
+  build_script:
+  - ps: .\build.ps1
+  test: off
+  cache:
+  - '%USERPROFILE%\.nuget\packages -> **\project.json'  # project.json cache

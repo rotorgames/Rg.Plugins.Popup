@@ -1,0 +1,123 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
+    <TargetFrameworks>netstandard2.0;xamarin.ios10;xamarin.mac20;xamarin.tvos10;xamarin.watchos10;monoandroid10.0;tizen40;netcoreapp3.1;net472</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">uap10.0.17763;$(TargetFrameworks)</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetsToBuild)' != 'All' ">
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Android' ">netstandard2.0;monoandroid10.0;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Uap' ">netstandard2.0;uap10.0.17763</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'iOS' ">netstandard2.0;xamarin.ios10</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(TargetsToBuild)' == 'Apple' ">netstandard2.0;xamarin.ios10;xamarin.mac20;xamarin.tvos10</TargetFrameworks>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <AssemblyName>Rg.Plugins.Popup</AssemblyName>
+    <RootNamespace>Rg.Plugins.Popup</RootNamespace>
+    <PackageId>Rg.Plugins.Popup</PackageId>
+    <Description>Plugin for Xamarin forms. Allows you to open any page as a popup.</Description>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('uap')) And '$(OS)' == 'Windows_NT'">
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Platforms\**\*.cs" />
+    <None Include="Platforms\**\*.cs" />
+    <None Include="Resources\*.cs" />
+    <Compile Remove="Resources\*.cs" />
+    <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+    <None Include="readme.txt" pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
+    <None Remove="Platforms\Netstandard\**\*.cs" />
+    <Compile Include="Platforms\Netstandard\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) And '$(OS)' == 'Windows_NT' ">
+    <None Remove="Platforms\Net\**\*.cs" />
+    <None Remove="Platforms\Wpf\**\*.cs" />
+    <Compile Include="Platforms\Net\**\*.cs" />
+    <Compile Include="Platforms\Wpf\**\*.cs" />
+    <PackageReference Include="Xamarin.Forms.Platform.WPF" Version="4.5.0.530" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
+    <None Remove="Platforms\Shared\**\*.cs" />
+    <Compile Include="Platforms\Shared\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
+    <Compile Include="Platforms\Windows\**\*.cs" />
+    <Compile Include="Platforms\Uap\**\*.cs" />
+    <Page Include="Platforms\Uap\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
+    <None Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+    <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.ios')) ">
+    <None Remove="Platforms\Apple\**\*.cs" />
+    <None Remove="Platforms\Ios\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Apple\**\*.cs" />
+    <Compile Include="Platforms\Ios\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.mac')) ">
+    <None Remove="Platforms\Apple\**\*.cs" />
+    <None Remove="Platforms\Mac\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Apple\**\*.cs" />
+    <Compile Include="Platforms\Mac\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.tvos')) ">
+    <None Remove="Platforms\Apple\**\*.cs" />
+    <None Remove="Platforms\Tvos\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Apple\**\*.cs" />
+    <Compile Include="Platforms\Tvos\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.watchos')) ">
+    <None Remove="Platforms\Apple\**\*.cs" />
+    <None Remove="Platforms\Watchos\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Apple\**\*.cs" />
+    <Compile Include="Platforms\Watchos\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('monoandroid')) ">
+    <None Remove="Platforms\Android\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Android\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
+    <AndroidResource Include="Resources\**\*.json" Generator="MSBuild:UpdateAndroidResources" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('tizen')) ">
+    <None Remove="Platforms\Tizen\**\*.cs" />
+    <None Remove="Platforms\Xamarin\**\*.cs" />
+    <Compile Include="Platforms\Tizen\**\*.cs" />
+    <Compile Include="Platforms\Xamarin\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
+  </ItemGroup>
+
+  <!-- There is something not working correctly w.r.t. multi-targetting so adding
+    direct reference seems to help get the build to work -->
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('xamarin.mac')) ">
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  
+</Project>
