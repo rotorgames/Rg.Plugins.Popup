@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CoreGraphics;
 using Foundation;
 using Rg.Plugins.Popup.IOS.Renderers;
@@ -115,7 +115,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
             Thickness systemPadding;
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && UIApplication.SharedApplication.KeyWindow != null)
             {
                 var safeAreaInsets = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets;
 

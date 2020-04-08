@@ -56,6 +56,21 @@ namespace Rg.Plugins.Popup.IOS.Platform
             return _renderer.ViewController;
         }
 
+        public override bool PrefersStatusBarHidden()
+        {
+            return _renderer.ViewController.PrefersStatusBarHidden();
+        }
+
+        public override UIViewController ChildViewControllerForStatusBarStyle()
+        {
+            return _renderer.ViewController;
+        }
+
+        public override UIStatusBarStyle PreferredStatusBarStyle()
+        {
+            return _renderer.ViewController.PreferredStatusBarStyle();
+        }
+
         public override bool ShouldAutorotate()
         {
             if ((ChildViewControllers != null) && (ChildViewControllers.Length > 0))
