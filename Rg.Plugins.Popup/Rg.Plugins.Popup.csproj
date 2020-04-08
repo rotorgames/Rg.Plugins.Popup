@@ -17,7 +17,7 @@
     <PackageId>Rg.Plugins.Popup</PackageId>
     <Description>Plugin for Xamarin forms. Allows you to open any page as a popup.</Description>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-    <UseWPF>true</UseWPF>
+    <UseWPF Condition=" '$(OS)' == 'Windows_NT' ">true</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(TargetFramework.StartsWith('uap')) And '$(OS)' == 'Windows_NT'">
