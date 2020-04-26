@@ -14,7 +14,7 @@
 
 - [x] Android
 - [x] iOS
-- [x] UWP (Min Target: 10.0.17763)
+- [x] UWP (Min Target: 10.0.16299)
 - [x] Tizen
 - [x] WPF
 - [x] MacOS
