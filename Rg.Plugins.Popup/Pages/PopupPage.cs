@@ -138,6 +138,7 @@ namespace Rg.Plugins.Popup.Pages
                 case nameof(HasSystemPadding):
                 case nameof(HasKeyboardOffset):
                 case nameof(SystemPaddingSides):
+                case nameof(SystemPadding):
                     ForceLayout();
                     break;
                 case nameof(IsAnimating):
