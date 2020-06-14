@@ -1,7 +1,6 @@
-using Rg.Plugins.Popup.Pages;
+﻿using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WPF.Renderers;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -18,12 +17,6 @@ namespace Rg.Plugins.Popup.WPF.Renderers
         internal WinPopup Container { get; private set; }
 
         private PopupPage CurrentElement => (PopupPage)Element;
-
-        [Preserve]
-        public PopupPageRenderer()
-        {
-
-        }
         
         internal void Prepare(WinPopup container)
         {
@@ -32,11 +25,20 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.SizeChanged += OnSizeChanged;
 
+            UpdateElementSize();
             CurrentElement.CloseWhenBackgroundIsClicked = true;
+            Container.AllowsTransparency = true;
+            Container.MouseDown += Container_MouseDown;
+        }
+
+        private void Container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Container.IsOpen = false;
         }
 
         internal void Destroy()
         {
+            Container.MouseDown -= Container_MouseDown;
             Container = null;
 
             if (Application.Current.MainWindow != null)
@@ -48,10 +50,8 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             UpdateElementSize();
         }
 
-        private async void UpdateElementSize()
+        private void UpdateElementSize()
         {
-            await Task.Delay(50);
-
             var windowBound = Application.Current.MainWindow.RestoreBounds;
             var visibleBounds = Application.Current.MainWindow.RestoreBounds;
 
@@ -70,9 +70,12 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             CurrentElement.BatchBegin();
 
             CurrentElement.Padding = systemPadding;
-            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+            var rectangle = new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height);
+            CurrentElement.Layout(rectangle);
 
             CurrentElement.BatchCommit();
+            Container.VerticalOffset = rectangle.X;
+            Container.HorizontalOffset = rectangle.Y;
         }
     }
 }
