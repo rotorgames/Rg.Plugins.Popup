@@ -1,6 +1,5 @@
 ﻿using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.WPF.Impl;
 using Rg.Plugins.Popup.WPF.Renderers;
 using Rg.Plugins.Popup.WPF.Extensions;
@@ -16,8 +15,6 @@ namespace Rg.Plugins.Popup.WPF.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformWPF : IPopupPlatform
     {
-        private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
-
         public event EventHandler OnInitialized
         {
             add => Popup.OnInitialized += value;
@@ -27,30 +24,8 @@ namespace Rg.Plugins.Popup.WPF.Impl
         public bool IsInitialized => Popup.IsInitialized;
 
         public bool IsSystemAnimationEnabled => true;
-
-        [Preserve]
-        public PopupPlatformWPF()
-        {
-            //TODO onBackPressed subscribe
-        }
-
-        //private async void OnBackRequested(object sender, BackRequestedEventArgs e)
-        //{
-        //    var lastPopupPage = PopupNavigationInstance.PopupStack.LastOrDefault();
-
-        //    if (lastPopupPage != null)
-        //    {
-        //        var isPrevent = lastPopupPage.IsBeingDismissed || lastPopupPage.SendBackButtonPressed();
-
-        //        if (!isPrevent)
-        //        {
-        //            e.Handled = true;
-        //            await PopupNavigationInstance.PopAsync();
-        //        }
-        //    }
-        //}
-
-        public async Task AddAsync(PopupPage page)
+        
+        public Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
 
@@ -62,16 +37,17 @@ namespace Rg.Plugins.Popup.WPF.Impl
             popup.IsOpen = true;
             page.ForceLayout();
 
-            await Task.Delay(5);
+            return Task.CompletedTask;
         }
 
-        public async Task RemoveAsync(PopupPage page)
+        public Task RemoveAsync(PopupPage page)
         {
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
             var popup = renderer.Container;
 
             if (popup != null)
             {
+                renderer.Destroy();
                 renderer.Dispose();
 
                 Cleanup(page);
@@ -80,19 +56,18 @@ namespace Rg.Plugins.Popup.WPF.Impl
                 popup.IsOpen = false;
             }
 
-            await Task.Delay(5);
+            return Task.CompletedTask;
         }
 
-        internal static void Cleanup(VisualElement element)
+        private static void Cleanup(VisualElement element)
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
             var elementRenderer = XPlatform.GetRenderer(element);
-            foreach (Element descendant in element.Descendants())
+            foreach (var descendant in element.Descendants())
             {
-                var child = descendant as VisualElement;
-                if (child != null)
+                if (descendant is VisualElement child)
                 {
                     var childRenderer = XPlatform.GetRenderer(child);
                     if (childRenderer != null)
