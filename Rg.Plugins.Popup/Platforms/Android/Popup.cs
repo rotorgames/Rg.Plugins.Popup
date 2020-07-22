@@ -41,7 +41,7 @@ namespace Rg.Plugins.Popup
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await popupNavigationInstance.PopAsync();
+                        await popupNavigationInstance.RemovePageAsync(lastPage);
                     });
                 }
 
