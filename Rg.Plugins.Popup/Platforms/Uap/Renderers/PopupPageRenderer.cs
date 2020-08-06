@@ -116,11 +116,13 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             right = Math.Max(0, right);
 
             var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
-
-            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
-            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-            CurrentElement.ForceLayout();
+            if (CurrentElement != null)
+            {
+                CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+                CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
+                CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                CurrentElement.ForceLayout();
+            }
         }
     }
 }
