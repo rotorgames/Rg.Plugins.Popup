@@ -97,9 +97,10 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             }
         }
 
-        private async void UpdateElementSize()
+        private void UpdateElementSize()
         {
-            await Task.Delay(50);
+            //fix crashes with CurrentElement being null.
+            //await Task.Delay(50);
 
             var windowBound = Window.Current.Bounds;
             var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
@@ -117,10 +118,14 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
             var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
 
-            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
-            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-            CurrentElement.ForceLayout();
+            var element = CurrentElement;
+            if (element != null)
+            {
+                element.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+                element.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
+                element.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                element.ForceLayout();
+            }
         }
     }
 }
