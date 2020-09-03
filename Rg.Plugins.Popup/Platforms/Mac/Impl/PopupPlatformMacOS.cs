@@ -37,7 +37,8 @@ namespace Rg.Plugins.Popup.MacOS.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            NSApplication.SharedApplication.MainWindow.ContentView.AddSubview(renderer.NativeView);
+            var forcedMainWindow = NSApplication.SharedApplication.MainWindow ?? Application.Current.MainPage.GetOrCreateRenderer().NativeView.Window;
+            forcedMainWindow.ContentView.AddSubview(renderer.NativeView);
             return Task.CompletedTask;
         }
 
