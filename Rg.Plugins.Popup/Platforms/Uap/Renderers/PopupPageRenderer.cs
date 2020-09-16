@@ -14,7 +14,7 @@ using Size = Windows.Foundation.Size;
 using Xamarin.Forms.Platform.UWP;
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 
-[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Windows.Renderers
 {
     [Preserve(AllMembers = true)]
@@ -29,7 +29,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
         [Preserve]
         public PopupPageRenderer()
         {
-            
+
         }
 
         private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
@@ -123,8 +123,12 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             {
                 element.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
                 element.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
-                element.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-                element.ForceLayout();
+                //if its not invoked on MainThread when the popup is showed it will be blank until the user manually resizes of owner window
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    element.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                    element.ForceLayout();
+                });
             }
         }
     }
