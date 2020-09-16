@@ -101,6 +101,8 @@ namespace Rg.Plugins.Popup.Windows.Renderers
         {
             if (CurrentElement != null)
             {
+                var capturedElement = CurrentElement;
+
                 var windowBound = Window.Current.Bounds;
                 var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
                 var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
@@ -112,13 +114,13 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
                 var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
 
-                CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-                CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
+                capturedElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+                capturedElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
                 //if its not invoked on MainThread when the popup is showed it will be blank until the user manually resizes of owner window
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-                    CurrentElement.ForceLayout();
+                    capturedElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                    capturedElement.ForceLayout();
                 });
             }
         }
