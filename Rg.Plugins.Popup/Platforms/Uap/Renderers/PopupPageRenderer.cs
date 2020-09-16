@@ -99,35 +99,26 @@ namespace Rg.Plugins.Popup.Windows.Renderers
 
         private void UpdateElementSize()
         {
-            //fix crashes with CurrentElement being null.
-            //await Task.Delay(50);
-
-            var windowBound = Window.Current.Bounds;
-            var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
-
-            var top = visibleBounds.Top - windowBound.Top;
-            var bottom = windowBound.Bottom - visibleBounds.Bottom;
-            var left = visibleBounds.Left - windowBound.Left;
-            var right = windowBound.Right - visibleBounds.Right;
-
-            top = Math.Max(0, top);
-            bottom = Math.Max(0, bottom);
-            left = Math.Max(0, left);
-            right = Math.Max(0, right);
-
-            var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
-
-            var element = CurrentElement;
-            if (element != null)
+            if (CurrentElement != null)
             {
-                element.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-                element.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
+                var windowBound = Window.Current.Bounds;
+                var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+                var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
+
+                var top = Math.Max(0, visibleBounds.Top - windowBound.Top);
+                var bottom = Math.Max(0, windowBound.Bottom - visibleBounds.Bottom);
+                var left = Math.Max(0, visibleBounds.Left - windowBound.Left);
+                var right = Math.Max(0, windowBound.Right - visibleBounds.Right);
+
+                var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
+
+                CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+                CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
                 //if its not invoked on MainThread when the popup is showed it will be blank until the user manually resizes of owner window
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    element.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-                    element.ForceLayout();
+                    CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                    CurrentElement.ForceLayout();
                 });
             }
         }
