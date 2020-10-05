@@ -1,17 +1,17 @@
-﻿using Rg.Plugins.Popup.Contracts;
+﻿using System;
+using System.Threading.Tasks;
+using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.WPF.Extensions;
 using Rg.Plugins.Popup.WPF.Impl;
 using Rg.Plugins.Popup.WPF.Renderers;
-using Rg.Plugins.Popup.WPF.Extensions;
-using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using XPlatform = Xamarin.Forms.Platform.WPF.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformWPF))]
 namespace Rg.Plugins.Popup.WPF.Impl
-{    
+{
     [Preserve(AllMembers = true)]
     internal class PopupPlatformWPF : IPopupPlatform
     {
@@ -24,7 +24,7 @@ namespace Rg.Plugins.Popup.WPF.Impl
         public bool IsInitialized => Popup.IsInitialized;
 
         public bool IsSystemAnimationEnabled => true;
-        
+
         public Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;

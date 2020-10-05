@@ -1,11 +1,11 @@
 using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Tizen;
+using ElmSharp;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Tizen.Renderers;
-using ElmSharp;
-using EPopup = ElmSharp.Popup;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Tizen;
 using EColor = ElmSharp.Color;
+using EPopup = ElmSharp.Popup;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Tizen.Renderers
@@ -51,7 +51,8 @@ namespace Rg.Plugins.Popup.Tizen.Renderers
 
                 _gestureLayer = new GestureLayer(_popup);
                 _gestureLayer.Attach(_popup);
-                _gestureLayer.SetTapCallback(GestureLayer.GestureType.Tap , GestureLayer.GestureState.End, (data) => {
+                _gestureLayer.SetTapCallback(GestureLayer.GestureType.Tap, GestureLayer.GestureState.End, (data) =>
+                {
                     if (ContentBound.HasValue)
                     {
                         var contentBound = ContentBound.Value;

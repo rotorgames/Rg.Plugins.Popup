@@ -19,7 +19,7 @@ namespace Rg.Plugins.Popup.Animations
         public MoveAnimationOptions PositionIn { get; set; }
         public MoveAnimationOptions PositionOut { get; set; }
 
-        public ScaleAnimation():this(MoveAnimationOptions.Center, MoveAnimationOptions.Center) {}
+        public ScaleAnimation() : this(MoveAnimationOptions.Center, MoveAnimationOptions.Center) { }
 
         public ScaleAnimation(MoveAnimationOptions positionIn, MoveAnimationOptions positionOut)
         {
@@ -34,15 +34,15 @@ namespace Rg.Plugins.Popup.Animations
 
         public override void Preparing(View content, PopupPage page)
         {
-            if(HasBackgroundAnimation) base.Preparing(content, page);
+            if (HasBackgroundAnimation) base.Preparing(content, page);
 
             HidePage(page);
 
-            if(content == null) return;
+            if (content == null) return;
 
             UpdateDefaultProperties(content);
 
-            if(!HasBackgroundAnimation) content.Opacity = 0;
+            if (!HasBackgroundAnimation) content.Opacity = 0;
         }
 
         public override void Disposing(View content, PopupPage page)
@@ -51,7 +51,7 @@ namespace Rg.Plugins.Popup.Animations
 
             ShowPage(page);
 
-            if(content == null) return;
+            if (content == null) return;
 
             content.Scale = _defaultScale;
             content.Opacity = _defaultOpacity;
@@ -138,7 +138,7 @@ namespace Rg.Plugins.Popup.Animations
         private Task Scale(View content, Easing easing, double start, double end, bool isAppearing)
         {
             TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
-            
+
             content.Animate("popIn", d =>
             {
                 content.Scale = d;

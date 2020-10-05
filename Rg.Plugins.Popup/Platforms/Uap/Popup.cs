@@ -28,7 +28,7 @@ namespace Rg.Plugins.Popup
                 GetAssembly<PopupPageRenderer>()
             };
 
-            if(defaultAssemblies != null)
+            if (defaultAssemblies != null)
                 assemblies.AddRange(defaultAssemblies);
 
             return assemblies;
@@ -36,7 +36,7 @@ namespace Rg.Plugins.Popup
 
         private static Assembly GetAssembly<T>()
         {
-            return typeof (T).GetTypeInfo().Assembly;
+            return typeof(T).GetTypeInfo().Assembly;
         }
 
         public static void Init()

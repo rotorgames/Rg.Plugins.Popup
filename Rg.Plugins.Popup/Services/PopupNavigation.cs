@@ -9,16 +9,16 @@ namespace Rg.Plugins.Popup.Services
 {
     public static class PopupNavigation
     {
-        const string DepractedMethodsText = 
+        const string DepractedMethodsText =
             "You should use "
-            +nameof(IPopupNavigation)+
+            + nameof(IPopupNavigation) +
             " instance from "
-            +nameof(PopupNavigation)+
+            + nameof(PopupNavigation) +
             "."
-            +nameof(Instance)+
+            + nameof(Instance) +
             ".\nSee more info: "
-            +Config.MigrationV1_0_xToV1_1_xUrl;
-        
+            + Config.MigrationV1_0_xToV1_1_xUrl;
+
         static IPopupNavigation _popupNavigation;
         static IPopupNavigation _customNavigation;
 
@@ -29,7 +29,7 @@ namespace Rg.Plugins.Popup.Services
                 if (_customNavigation != null)
                     return _customNavigation;
 
-                if(_popupNavigation == null)
+                if (_popupNavigation == null)
                     _popupNavigation = new PopupNavigationImpl();
 
                 return _popupNavigation;

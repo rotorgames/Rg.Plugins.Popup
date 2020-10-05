@@ -7,7 +7,6 @@ using Rg.Plugins.Popup.Pages;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using Size = Xamarin.Forms.Size;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.IOS.Renderers
@@ -21,7 +20,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
         private bool _isDisposed;
 
         internal CGRect KeyboardBounds { get; private set; } = CGRect.Empty;
-        internal PopupPage CurrentElement => (PopupPage) Element;
+        internal PopupPage CurrentElement => (PopupPage)Element;
 
         #region Main Methods
 
@@ -143,7 +142,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
                 //It is needed that buttons are working when keyboard is opened. See #11
                 await Task.Delay(70);
 
-                if(!_isDisposed)
+                if (!_isDisposed)
                     await UIView.AnimateAsync((double)(NSNumber)duration, OnKeyboardAnimated);
             }
             else

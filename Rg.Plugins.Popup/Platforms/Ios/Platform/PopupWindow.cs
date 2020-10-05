@@ -1,8 +1,8 @@
 ﻿using System;
 using CoreGraphics;
-using UIKit;
-using Rg.Plugins.Popup.Pages;
 using Foundation;
+using Rg.Plugins.Popup.Pages;
+using UIKit;
 
 namespace Rg.Plugins.Popup.IOS.Platform
 {
@@ -10,7 +10,7 @@ namespace Rg.Plugins.Popup.IOS.Platform
     [Register("RgPopupWindow")]
     internal class PopupWindow : UIWindow
     {
-        public PopupWindow(IntPtr handle):base(handle)
+        public PopupWindow(IntPtr handle) : base(handle)
         {
             // Fix #307
         }
@@ -22,7 +22,7 @@ namespace Rg.Plugins.Popup.IOS.Platform
 
         public override UIView HitTest(CGPoint point, UIEvent uievent)
         {
-            var platformRenderer = (PopupPlatformRenderer) RootViewController;
+            var platformRenderer = (PopupPlatformRenderer)RootViewController;
             var formsElement = platformRenderer?.Renderer?.Element as PopupPage;
             var renderer = platformRenderer?.Renderer;
             var hitTestResult = base.HitTest(point, uievent);

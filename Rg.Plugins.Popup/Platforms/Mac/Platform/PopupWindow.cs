@@ -1,8 +1,6 @@
 ﻿using System;
-using CoreGraphics;
-using Rg.Plugins.Popup.Pages;
-using Foundation;
 using AppKit;
+using Foundation;
 
 namespace Rg.Plugins.Popup.MacOS.Platform
 {
@@ -10,7 +8,7 @@ namespace Rg.Plugins.Popup.MacOS.Platform
     [Register("RgPopupWindow")]
     internal class PopupWindow : NSWindow
     {
-        public PopupWindow(IntPtr handle):base(handle)
+        public PopupWindow(IntPtr handle) : base(handle)
         {
             // Fix #307
         }

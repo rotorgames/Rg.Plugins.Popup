@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
-using Xamarin.Forms;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 
 namespace Demo.Pages
 {
@@ -48,7 +48,7 @@ namespace Demo.Pages
 
         protected override async Task OnAppearingAnimationEndAsync()
         {
-            if(!IsAnimationEnabled)
+            if (!IsAnimationEnabled)
                 return;
 
             var translateLength = 400u;
@@ -75,7 +75,7 @@ namespace Demo.Pages
 
         protected override async Task OnDisappearingAnimationBeginAsync()
         {
-            if(!IsAnimationEnabled)
+            if (!IsAnimationEnabled)
                 return;
 
             var taskSource = new TaskCompletionSource<bool>();

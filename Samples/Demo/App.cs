@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Demo.Pages;
+﻿using Demo.Pages;
 using Xamarin.Forms;
 
 namespace Demo

@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using AppKit;
-using CoreGraphics;
+﻿using AppKit;
 using Foundation;
 using Rg.Plugins.Popup.MacOS.Extensions;
 using Rg.Plugins.Popup.MacOS.Renderers;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
-using Size = Xamarin.Forms.Size;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.MacOS.Renderers

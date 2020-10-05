@@ -96,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms.Platform.WPF">
-      <Version>4.5.0.617</Version>
+      <Version>4.5.0.657</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

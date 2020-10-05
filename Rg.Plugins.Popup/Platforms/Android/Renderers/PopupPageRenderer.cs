@@ -2,6 +2,7 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -12,7 +13,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Point = Xamarin.Forms.Point;
 using View = Android.Views.View;
-using Android.OS;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
@@ -26,11 +26,11 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         private Point _downPosition;
         private bool _disposed;
 
-        private PopupPage CurrentElement => (PopupPage) Element;
+        private PopupPage CurrentElement => (PopupPage)Element;
 
         #region Main Methods
 
-        public PopupPageRenderer(Context context):base(context)
+        public PopupPageRenderer(Context context) : base(context)
         {
             _gestureDetectorListener = new RgGestureDetectorListener();
 
@@ -83,7 +83,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 {
                     keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
                 }
-                
+
                 systemPadding = new Thickness
                 {
                     Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
@@ -131,7 +131,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Context.HideKeyboard(((Activity) Context).Window.DecorView);
+            Context.HideKeyboard(((Activity)Context).Window.DecorView);
             base.OnAttachedToWindow();
         }
 
@@ -139,7 +139,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         {
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
-                Popup.Context.HideKeyboard(((Activity) Popup.Context).Window.DecorView);
+                Popup.Context.HideKeyboard(((Activity)Popup.Context).Window.DecorView);
                 return false;
             });
             base.OnDetachedFromWindow();
@@ -207,7 +207,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetector.OnTouchEvent(e);
 
-            if(CurrentElement != null && CurrentElement.BackgroundInputTransparent)
+            if (CurrentElement != null && CurrentElement.BackgroundInputTransparent)
             {
                 if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
                 {

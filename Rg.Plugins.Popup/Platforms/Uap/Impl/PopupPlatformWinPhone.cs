@@ -6,11 +6,11 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.WinPhone.Impl;
+using Windows.UI.Core;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 using Xamarin.Forms.Platform.UWP;
-using Windows.UI.Core;
+using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformWinPhone))]
 namespace Rg.Plugins.Popup.WinPhone.Impl

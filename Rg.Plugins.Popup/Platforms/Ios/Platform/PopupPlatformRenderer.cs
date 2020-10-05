@@ -1,7 +1,7 @@
-﻿using UIKit;
-using Xamarin.Forms.Platform.iOS;
+﻿using System;
 using Foundation;
-using System;
+using UIKit;
+using Xamarin.Forms.Platform.iOS;
 
 namespace Rg.Plugins.Popup.IOS.Platform
 {
@@ -94,7 +94,7 @@ namespace Rg.Plugins.Popup.IOS.Platform
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            
+
             PresentedViewController?.ViewDidLayoutSubviews();
         }
     }

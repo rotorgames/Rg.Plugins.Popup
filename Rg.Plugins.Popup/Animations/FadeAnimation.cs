@@ -18,7 +18,7 @@ namespace Rg.Plugins.Popup.Animations
                 _defaultOpacity = page.Opacity;
                 page.Opacity = 0;
             }
-            else if(content != null)
+            else if (content != null)
             {
                 _defaultOpacity = content.Opacity;
                 content.Opacity = 0;

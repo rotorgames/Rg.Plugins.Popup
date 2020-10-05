@@ -15,7 +15,7 @@ namespace Rg.Plugins.Popup.Animations
         public MoveAnimationOptions PositionIn { get; set; }
         public MoveAnimationOptions PositionOut { get; set; }
 
-        public MoveAnimation(): this(MoveAnimationOptions.Bottom, MoveAnimationOptions.Bottom) {}
+        public MoveAnimation() : this(MoveAnimationOptions.Bottom, MoveAnimationOptions.Bottom) { }
 
         public MoveAnimation(MoveAnimationOptions positionIn, MoveAnimationOptions positionOut)
         {
@@ -33,7 +33,7 @@ namespace Rg.Plugins.Popup.Animations
 
             HidePage(page);
 
-            if(content == null) return;
+            if (content == null) return;
 
             UpdateDefaultTranslations(content);
         }

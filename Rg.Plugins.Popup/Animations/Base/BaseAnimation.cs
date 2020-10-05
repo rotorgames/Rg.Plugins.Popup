@@ -10,10 +10,10 @@ namespace Rg.Plugins.Popup.Animations.Base
     {
         private const uint DefaultDuration = 200;
 
-        [TypeConverter(typeof (UintTypeConverter))]
+        [TypeConverter(typeof(UintTypeConverter))]
         public uint DurationIn { get; set; } = DefaultDuration;
 
-        [TypeConverter(typeof (UintTypeConverter))]
+        [TypeConverter(typeof(UintTypeConverter))]
         public uint DurationOut { get; set; } = DefaultDuration;
 
         [TypeConverter(typeof(EasingTypeConverter))]

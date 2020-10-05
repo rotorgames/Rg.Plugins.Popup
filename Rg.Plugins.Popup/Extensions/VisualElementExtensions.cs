@@ -7,7 +7,7 @@ namespace Rg.Plugins.Popup.Extensions
 {
     internal static class VisualElementExtensions
     {
-        [Obsolete("Use "+nameof(Element)+"."+nameof(Element.Descendants))]
+        [Obsolete("Use " + nameof(Element) + "." + nameof(Element.Descendants))]
         internal static IEnumerable<Element> RgDescendants(this Element element)
         {
             var queue = new Queue<Element>(16);

@@ -1,6 +1,6 @@
+using System;
 using Rg.Plugins.Popup.Tizen.Impl;
 using Rg.Plugins.Popup.Tizen.Renderers;
-using System;
 
 namespace Rg.Plugins.Popup.Tizen
 {

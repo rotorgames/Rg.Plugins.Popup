@@ -7,7 +7,7 @@
     <!--<PackageIcon>icon.png</PackageIcon>
     <PackageIconFullPath>$(MSBuildThisFileDirectory)icon.png</PackageIconFullPath>-->
     <Authors>Kirill Lyubimov</Authors>
-    <Owners>Kirill Lyubimov, rotorgames, martijn00</Owners>
+    <Owners>Kirill Lyubimov, rotorgames, martijn00, Baseflow</Owners>
     <PackageTags>Xamarin.Forms, xamarin, forms, popup, page, modal</PackageTags>
     <PackageReleaseNotes>https://github.com/rotorgames/Rg.Plugins.Popup/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -18,7 +18,7 @@
     <RepositoryUrl>https://github.com/rotorgames/Rg.Plugins.Popup</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>2.0.0.5</Version>
+    <Version>2.0.0.6</Version>
 
     <!--<Nullable>enable</Nullable>-->
     <LangVersion>8.0</LangVersion>
@@ -83,7 +83,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -1,7 +1,7 @@
-﻿using Xamarin.Forms.Platform.MacOS;
-using Foundation;
-using System;
+﻿using System;
 using AppKit;
+using Foundation;
+using Xamarin.Forms.Platform.MacOS;
 
 namespace Rg.Plugins.Popup.MacOS.Platform
 {

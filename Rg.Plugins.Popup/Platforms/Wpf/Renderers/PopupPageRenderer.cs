@@ -1,12 +1,12 @@
-﻿using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.WPF.Renderers;
-using System;
+﻿using System;
 using System.Windows;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.WPF.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.WPF;
-using WinPopup = System.Windows.Controls.Primitives.Popup;
 using Application = System.Windows.Application;
+using WinPopup = System.Windows.Controls.Primitives.Popup;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.WPF.Renderers
@@ -17,7 +17,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
         internal WinPopup Container { get; private set; }
 
         private PopupPage CurrentElement => (PopupPage)Element;
-        
+
         internal void Prepare(WinPopup container)
         {
             Container = container;
@@ -44,7 +44,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.SizeChanged -= OnSizeChanged;
         }
-        
+
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateElementSize();

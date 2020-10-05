@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Windows.Renderers;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using Size = Windows.Foundation.Size;
 using Xamarin.Forms.Platform.UWP;
+using Size = Windows.Foundation.Size;
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]

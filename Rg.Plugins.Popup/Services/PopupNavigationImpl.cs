@@ -29,10 +29,10 @@ namespace Rg.Plugins.Popup.Services
             {
                 var popupPlatform = DependencyService.Get<IPopupPlatform>();
 
-                if(popupPlatform == null)
+                if (popupPlatform == null)
                     throw new InvalidOperationException("You MUST install Rg.Plugins.Popup to each project and call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
-                if(!popupPlatform.IsInitialized)
+                if (!popupPlatform.IsInitialized)
                     throw new InvalidOperationException("You MUST call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
                 return popupPlatform;
@@ -91,7 +91,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAsync(bool animate = true)
         {
-            lock(_locker)
+            lock (_locker)
             {
                 animate = CanBeAnimated(animate);
 
@@ -104,7 +104,7 @@ namespace Rg.Plugins.Popup.Services
 
         public Task PopAllAsync(bool animate = true)
         {
-            lock(_locker)
+            lock (_locker)
             {
                 animate = CanBeAnimated(animate);
 
