@@ -1,26 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-             x:Class="Demo.Pages.LoginPopupPage">
-  <pages:PopupPage.Resources>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              x:Class="Demo.Pages.LoginPopupPage">
+  <rg:PopupPage.Resources>
     <ResourceDictionary>
       <Style x:Key="EntryStyle" TargetType="Entry">
         <Setter Property="PlaceholderColor" Value="#9cdaf1"/>
         <Setter Property="TextColor" Value="#7dbbe6"/>
       </Style>
     </ResourceDictionary>
-  </pages:PopupPage.Resources>
-  <pages:PopupPage.Animation>
-    <animations:ScaleAnimation
+  </rg:PopupPage.Resources>
+  <rg:PopupPage.Animation>
+    <rg:ScaleAnimation
       PositionIn="Bottom"
       PositionOut="Center"
       ScaleIn="1"
       ScaleOut="0.7"
       DurationIn="700"
       EasingIn="BounceOut"/>
-  </pages:PopupPage.Animation>
+  </rg:PopupPage.Animation>
   <ScrollView
     HorizontalOptions="Center"
     VerticalOptions="Center">
@@ -93,4 +92,4 @@
       </ContentView>
     </AbsoluteLayout>
   </ScrollView>
-</pages:PopupPage>
+</rg:PopupPage>

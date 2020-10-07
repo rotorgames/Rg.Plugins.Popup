@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             x:Class="Demo.Pages.LoadingPopupPage"
-             CloseWhenBackgroundIsClicked="False">
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              x:Class="Demo.Pages.LoadingPopupPage"
+              CloseWhenBackgroundIsClicked="False">
   <ActivityIndicator
     Color="White"
     IsRunning="True"
@@ -12,4 +12,4 @@
     HorizontalOptions="Center"
     HeightRequest="70"
     WidthRequest="70"/>
-</pages:PopupPage>
+</rg:PopupPage>
