@@ -4,6 +4,8 @@ using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
+using EasingTypeConverter = Rg.Plugins.Popup.Converters.TypeConverters.EasingTypeConverter;
+
 namespace Rg.Plugins.Popup.Animations.Base
 {
     public abstract class BaseAnimation : IPopupAnimation
