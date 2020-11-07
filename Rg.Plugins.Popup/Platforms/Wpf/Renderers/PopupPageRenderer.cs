@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WPF.Renderers;
 using Xamarin.Forms;
@@ -21,6 +22,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
         internal void Prepare(WinPopup container)
         {
             Container = container;
+            Container.Placement = PlacementMode.Absolute;
 
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.SizeChanged += OnSizeChanged;
@@ -74,8 +76,8 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             CurrentElement.Layout(rectangle);
 
             CurrentElement.BatchCommit();
-            Container.VerticalOffset = rectangle.X;
-            Container.HorizontalOffset = rectangle.Y;
+            Container.VerticalOffset = rectangle.Y;
+            Container.HorizontalOffset = rectangle.X;
         }
     }
 }
