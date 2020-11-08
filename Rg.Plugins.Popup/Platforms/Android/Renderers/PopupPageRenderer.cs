@@ -68,7 +68,8 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             var decoreHeight = decoreView.Height;
             var decoreWidht = decoreView.Width;
 
-            var visibleRect = new Rect();
+            var visibleRect = new Android.Graphics.Rect();
+
             decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)

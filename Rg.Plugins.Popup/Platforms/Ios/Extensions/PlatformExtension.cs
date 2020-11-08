@@ -61,13 +61,15 @@ namespace Rg.Plugins.Popup.IOS.Extensions
                 Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
                 Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + renderer.KeyboardBounds.Height
             };
+            if (currentElement.SystemPadding != systemPadding && renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
+            {
+                currentElement.BatchBegin();
 
-            currentElement.BatchBegin();
+                currentElement.SystemPadding = systemPadding;
+                renderer.SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
 
-            currentElement.SystemPadding = systemPadding;
-            renderer.SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-
-            currentElement.BatchCommit();
+                currentElement.BatchCommit();
+            }
         }
     }
 }
