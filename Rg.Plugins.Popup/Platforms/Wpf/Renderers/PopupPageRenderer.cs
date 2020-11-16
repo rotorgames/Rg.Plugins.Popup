@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Interop;
+using System.Windows.Media;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.WPF.Renderers;
 using Xamarin.Forms;
@@ -26,11 +29,19 @@ namespace Rg.Plugins.Popup.WPF.Renderers
 
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.SizeChanged += OnSizeChanged;
+            if (Application.Current.MainWindow != null)
+                Application.Current.MainWindow.Activated += OnActivated;
 
             UpdateElementSize();
             CurrentElement.CloseWhenBackgroundIsClicked = true;
             Container.AllowsTransparency = true;
             Container.MouseDown += Container_MouseDown;
+            Container.Opened += Container_Opened;
+        }
+
+        private void OnActivated(object sender, EventArgs e)
+        {
+            UpdateZOrder();
         }
 
         private void Container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -38,13 +49,21 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             Container.IsOpen = false;
         }
 
+        private void Container_Opened(object sender, EventArgs e)
+        {
+            UpdateZOrder();
+        }
+
         internal void Destroy()
         {
             Container.MouseDown -= Container_MouseDown;
+            Container.Opened -= Container_Opened;
             Container = null;
 
             if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.SizeChanged -= OnSizeChanged;
+            if (Application.Current.MainWindow != null)
+                Application.Current.MainWindow.Activated -= OnActivated;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -79,5 +98,28 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             Container.VerticalOffset = rectangle.Y;
             Container.HorizontalOffset = rectangle.X;
         }
+
+        private void UpdateZOrder()
+        {
+            _ = SetWindowPos(GetHwnd(Container.Child), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        }
+
+        private static IntPtr GetHwnd(Visual visual)
+        {
+            HwndSource hwndSource = ((HwndSource)PresentationSource.FromVisual(visual));
+            if(hwndSource==null)
+            {
+                return IntPtr.Zero;
+            }
+            return hwndSource.Handle;
+        }
+
+        private const int HWND_NOTOPMOST = -2;
+        private const int SWP_NOMOVE = 2;
+        private const int SWP_NOSIZE = 1;
+
+        [DllImport("user32", EntryPoint = "SetWindowPos")]
+        private static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+
     }
 }
