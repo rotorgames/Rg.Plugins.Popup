@@ -61,7 +61,7 @@ namespace Rg.Plugins.Popup.IOS.Extensions
                 Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
                 Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + renderer.KeyboardBounds.Height
             };
-            if (currentElement.SystemPadding != systemPadding && renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
+            if (renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
             {
                 currentElement.BatchBegin();
 
