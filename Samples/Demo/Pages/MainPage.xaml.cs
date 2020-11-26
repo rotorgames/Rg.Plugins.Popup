@@ -46,5 +46,19 @@ namespace Demo.Pages
 
             await PopupNavigation.Instance.PushAsync(page);
         }
+
+        private async void OnOpenUserAnimationFromResource(object sender, EventArgs e)
+        {
+            var page = new UserAnimationFromResourcePage();
+
+            await PopupNavigation.Instance.PushAsync(page);
+        }
+
+        private async void OnOpenUserAnimationFromStyle(object sender, EventArgs e)
+        {
+            var page = new UserAnimationFromStylePage();
+
+            await PopupNavigation.Instance.PushAsync(page);
+        }
     }
 }
