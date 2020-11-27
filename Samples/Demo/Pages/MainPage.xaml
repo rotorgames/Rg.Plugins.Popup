@@ -21,5 +21,7 @@
               Clicked="OnOpenUserAnimationFromResource"></Button>
       <Button Text="Open User Animation Popup using Style"
               Clicked="OnOpenUserAnimationFromStyle"></Button>
+      <Button Text="Open Settings Page"
+              Clicked="OnOpenSettingsPage"></Button>
     </StackLayout>
 </ContentPage>

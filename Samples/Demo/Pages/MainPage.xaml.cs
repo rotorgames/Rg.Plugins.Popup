@@ -60,5 +60,12 @@ namespace Demo.Pages
 
             await PopupNavigation.Instance.PushAsync(page);
         }
+
+        private async void OnOpenSettingsPage(object sender, EventArgs e)
+        {
+            var page = new SettingsPage();
+
+            await PopupNavigation.Instance.PushAsync(page);
+        }
     }
 }
