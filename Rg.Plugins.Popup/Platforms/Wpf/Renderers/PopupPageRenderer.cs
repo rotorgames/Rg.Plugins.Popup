@@ -33,7 +33,6 @@ namespace Rg.Plugins.Popup.WPF.Renderers
                 Application.Current.MainWindow.Activated += OnActivated;
 
             UpdateElementSize();
-            CurrentElement.CloseWhenBackgroundIsClicked = true;
             Container.AllowsTransparency = true;
             Container.MouseDown += Container_MouseDown;
             Container.Opened += Container_Opened;
@@ -46,7 +45,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
 
         private void Container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Container.IsOpen = false;
+            CurrentElement.SendBackgroundClick();
         }
 
         private void Container_Opened(object sender, EventArgs e)
