@@ -9,7 +9,7 @@ namespace Rg.Plugins.Popup.Services
 {
     public static class PopupNavigation
     {
-        const string DepractedMethodsText =
+        private const string DepractedMethodsText =
             "You should use "
             + nameof(IPopupNavigation) +
             " instance from "
@@ -19,8 +19,8 @@ namespace Rg.Plugins.Popup.Services
             ".\nSee more info: "
             + Config.MigrationV1_0_xToV1_1_xUrl;
 
-        static IPopupNavigation _popupNavigation;
-        static IPopupNavigation _customNavigation;
+        private static IPopupNavigation? _popupNavigation;
+        private static IPopupNavigation? _customNavigation;
 
         public static IPopupNavigation Instance
         {

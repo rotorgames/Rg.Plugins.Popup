@@ -18,7 +18,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
     [Preserve(AllMembers = true)]
     public class PopupPageRenderer : PageRenderer
     {
-        internal WinPopup Container { get; private set; }
+        internal WinPopup? Container { get; private set; }
 
         private PopupPage CurrentElement => (PopupPage)Element;
 
@@ -55,14 +55,18 @@ namespace Rg.Plugins.Popup.WPF.Renderers
 
         internal void Destroy()
         {
-            Container.MouseDown -= Container_MouseDown;
-            Container.Opened -= Container_Opened;
-            Container = null;
+            if (Container != null)
+            {
+                Container.MouseDown -= Container_MouseDown;
+                Container.Opened -= Container_Opened;
+                Container = null;
+            }
 
             if (Application.Current.MainWindow != null)
+            {
                 Application.Current.MainWindow.SizeChanged -= OnSizeChanged;
-            if (Application.Current.MainWindow != null)
                 Application.Current.MainWindow.Activated -= OnActivated;
+            }
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -94,18 +98,22 @@ namespace Rg.Plugins.Popup.WPF.Renderers
             CurrentElement.Layout(rectangle);
 
             CurrentElement.BatchCommit();
-            Container.VerticalOffset = rectangle.Y;
-            Container.HorizontalOffset = rectangle.X;
+            if (Container != null)
+            {
+                Container.VerticalOffset = rectangle.Y;
+                Container.HorizontalOffset = rectangle.X;
+            }
         }
 
         private void UpdateZOrder()
         {
-            _ = SetWindowPos(GetHwnd(Container.Child), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+            if (Container != null)
+                _ = SetWindowPos(GetHwnd(Container.Child), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
         }
 
         private static IntPtr GetHwnd(Visual visual)
         {
-            HwndSource hwndSource = ((HwndSource)PresentationSource.FromVisual(visual));
+            var hwndSource = ((HwndSource)PresentationSource.FromVisual(visual));
             if(hwndSource==null)
             {
                 return IntPtr.Zero;
@@ -119,6 +127,5 @@ namespace Rg.Plugins.Popup.WPF.Renderers
 
         [DllImport("user32", EntryPoint = "SetWindowPos")]
         private static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
-
     }
 }

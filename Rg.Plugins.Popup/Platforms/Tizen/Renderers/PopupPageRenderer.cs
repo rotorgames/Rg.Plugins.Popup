@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ElmSharp;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Tizen.Renderers;
@@ -12,27 +12,32 @@ namespace Rg.Plugins.Popup.Tizen.Renderers
 {
     public class PopupPageRenderer : PageRenderer
     {
-        private GestureLayer _gestureLayer;
-        private EPopup _popup;
+        private GestureLayer? _gestureLayer;
+        private EPopup? _popup;
         public PopupPageRenderer()
         {
             RegisterPropertyHandler(Page.TitleProperty, UpdateTitle);
         }
 
-        private PopupPage PopupPage => Element as PopupPage;
+        private PopupPage PopupPage => (Element as PopupPage)!;
         private Rect? ContentBound => Platform.GetRenderer(PopupPage.Content)?.NativeView.Geometry;
 
 
         public void ShowPopup()
         {
-            _popup.BackButtonPressed += OnBackButtonPressed;
-            _popup.Show();
+            if (_popup != null)
+            {
+                _popup.BackButtonPressed += OnBackButtonPressed;
+                _popup.Show();
+            }
         }
-
         public void ClosePopup()
         {
-            _popup.BackButtonPressed -= OnBackButtonPressed;
-            _popup.Hide();
+            if (_popup != null)
+            {
+                _popup.BackButtonPressed -= OnBackButtonPressed;
+                _popup.Hide();
+            }
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
@@ -82,17 +87,17 @@ namespace Rg.Plugins.Popup.Tizen.Renderers
 
         private void OnBackButtonPressed(object sender, EventArgs e)
         {
-            PopupPage.SendBackgroundClick();
+            PopupPage?.SendBackgroundClick();
         }
 
         private void OnOutsideClicked(object sender, EventArgs e)
         {
-            PopupPage.SendBackgroundClick();
+            PopupPage?.SendBackgroundClick();
         }
 
         private void UpdateTitle()
         {
-            _popup.SetPartText("title,text", PopupPage.Title);
+            _popup?.SetPartText("title,text", PopupPage.Title);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Rg.Plugins.Popup.Tizen.Impl;
 using Rg.Plugins.Popup.Tizen.Renderers;
 
@@ -6,7 +6,7 @@ namespace Rg.Plugins.Popup.Tizen
 {
     public static class Popup
     {
-        internal static event EventHandler OnInitialized;
+        internal static event EventHandler? OnInitialized;
 
         internal static bool IsInitialized { get; private set; }
 

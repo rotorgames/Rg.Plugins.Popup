@@ -6,7 +6,7 @@ namespace Rg.Plugins.Popup
 {
     public static class Popup
     {
-        internal static event EventHandler OnInitialized;
+        internal static event EventHandler? OnInitialized;
 
         internal static bool IsInitialized { get; private set; }
 

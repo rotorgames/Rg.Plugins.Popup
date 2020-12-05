@@ -11,13 +11,13 @@ namespace Rg.Plugins.Popup
 {
     public static class Popup
     {
-        internal static event EventHandler OnInitialized;
+        internal static event EventHandler? OnInitialized;
 
         internal static bool IsInitialized { get; private set; }
 
-        internal static Context Context { get; private set; }
+        internal static Context? Context { get; private set; }
 
-        public static void Init(Context context, Bundle bundle)
+        public static void Init(Context context)
         {
             LinkAssemblies();
 
@@ -27,7 +27,7 @@ namespace Rg.Plugins.Popup
             OnInitialized?.Invoke(null, EventArgs.Empty);
         }
 
-        public static bool SendBackPressed(Action backPressedHandler = null)
+        public static bool SendBackPressed(Action? backPressedHandler = null)
         {
             var popupNavigationInstance = PopupNavigation.Instance;
 
@@ -58,7 +58,7 @@ namespace Rg.Plugins.Popup
             if (false.Equals(true))
             {
                 var i = new PopupPlatformDroid();
-                var r = new PopupPageRenderer(null);
+                var r = new PopupPageRenderer(null!);
             }
         }
     }

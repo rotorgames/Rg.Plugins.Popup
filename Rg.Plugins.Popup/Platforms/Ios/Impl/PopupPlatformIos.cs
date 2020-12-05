@@ -20,10 +20,11 @@ namespace Rg.Plugins.Popup.IOS.Impl
     internal class PopupPlatformIos : IPopupPlatform
     {
         // It's necessary because GC in Xamarin.iOS 13 removes all UIWindow if there are not any references to them. See #459
-        readonly List<UIWindow> _windows = new List<UIWindow>();
+        private readonly List<UIWindow> _windows = new List<UIWindow>();
 
-        bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
-        bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
+        private static bool IsiOS9OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(9, 0);
+
+        private static bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
 
         public event EventHandler OnInitialized
         {
@@ -35,7 +36,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public bool IsSystemAnimationEnabled => true;
 
-        public async Task AddAsync(PopupPage page)
+        public Task AddAsync(PopupPage page)
         {
             page.Parent = Application.Current.MainPage;
 
@@ -53,14 +54,15 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             window.BackgroundColor = Color.Transparent.ToUIColor();
             window.RootViewController = new PopupPlatformRenderer(renderer);
-            window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
+            if (window.RootViewController.View != null)
+                window.RootViewController.View.BackgroundColor = Color.Transparent.ToUIColor();
             window.WindowLevel = UIWindowLevel.Normal;
             window.MakeKeyAndVisible();
 
             if (!IsiOS9OrNewer)
                 window.Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 
-            await window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
+            return window.RootViewController.PresentViewControllerAsync(renderer.ViewController, false);
         }
 
         public async Task RemoveAsync(PopupPage page)
@@ -74,26 +76,30 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
-                var window = viewController.View.Window;
-                await window.RootViewController.DismissViewControllerAsync(false);
+                var window = viewController.View?.Window;
                 DisposeModelAndChildrenRenderers(page);
-                window.RootViewController.Dispose();
-                window.RootViewController = null;
                 page.Parent = null;
-                window.Hidden = true;
-
-                if (IsiOS13OrNewer && _windows.Contains(window))
-                    _windows.Remove(window);
-
-                window.Dispose();
-                window = null;
-
+                if (window != null)
+                {
+                    var rvc = window.RootViewController;
+                    if (rvc != null)
+                    {
+                        await rvc.DismissViewControllerAsync(false);
+                        rvc.Dispose();
+                    }
+                    window.RootViewController = null;
+                    window.Hidden = true;
+                    if (IsiOS13OrNewer && _windows.Contains(window))
+                        _windows.Remove(window);
+                    window.Dispose();
+                    window = null;
+                }
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
         }
 
-        void DisposeModelAndChildrenRenderers(VisualElement view)
+        private static void DisposeModelAndChildrenRenderers(VisualElement view)
         {
             IVisualElementRenderer renderer;
             foreach (VisualElement child in view.Descendants())
@@ -117,7 +123,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
             XFPlatform.SetRenderer(view, null);
         }
 
-        void HandleChildRemoved(object sender, ElementEventArgs e)
+        private void HandleChildRemoved(object sender, ElementEventArgs e)
         {
             var view = e.Element;
             DisposeModelAndChildrenRenderers((VisualElement)view);

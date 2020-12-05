@@ -15,8 +15,8 @@ namespace Rg.Plugins.Popup.IOS.Renderers
     public class PopupPageRenderer : PageRenderer
     {
         private readonly UIGestureRecognizer _tapGestureRecognizer;
-        private NSObject _willChangeFrameNotificationObserver;
-        private NSObject _willHideNotificationObserver;
+        private NSObject? _willChangeFrameNotificationObserver;
+        private NSObject? _willHideNotificationObserver;
         private bool _isDisposed;
 
         internal CGRect KeyboardBounds { get; private set; } = CGRect.Empty;
@@ -132,12 +132,12 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         private async void KeyBoardDownNotification(NSNotification notifi)
         {
-            NSObject duration;
-            var canAnimated = notifi.UserInfo.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out duration);
+            NSObject duration = null!;
+            var canAnimated = notifi.UserInfo?.TryGetValue(UIKeyboard.AnimationDurationUserInfoKey, out duration);
 
             KeyboardBounds = CGRect.Empty;
 
-            if (canAnimated)
+            if (canAnimated ?? false)
             {
                 //It is needed that buttons are working when keyboard is opened. See #11
                 await Task.Delay(70);

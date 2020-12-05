@@ -11,19 +11,19 @@ namespace Rg.Plugins.Popup.Services
 {
     internal class PopupNavigationImpl : IPopupNavigation
     {
-        readonly object _locker = new object();
+        private readonly object _locker = new object();
 
-        readonly List<PopupPage> _popupStack = new List<PopupPage>();
+        private readonly List<PopupPage> _popupStack = new List<PopupPage>();
 
-        public event EventHandler<PopupNavigationEventArgs> Pushing;
+        public event EventHandler<PopupNavigationEventArgs>? Pushing;
 
-        public event EventHandler<PopupNavigationEventArgs> Pushed;
+        public event EventHandler<PopupNavigationEventArgs>? Pushed;
 
-        public event EventHandler<PopupNavigationEventArgs> Popping;
+        public event EventHandler<PopupNavigationEventArgs>? Popping;
 
-        public event EventHandler<PopupNavigationEventArgs> Popped;
+        public event EventHandler<PopupNavigationEventArgs>? Popped;
 
-        private IPopupPlatform PopupPlatform
+        private static IPopupPlatform PopupPlatform
         {
             get
             {
@@ -170,14 +170,14 @@ namespace Rg.Plugins.Popup.Services
 
         // Private
 
-        async Task AddAsync(PopupPage page)
+        private static Task AddAsync(PopupPage page)
         {
-            await PopupPlatform.AddAsync(page);
+            return PopupPlatform.AddAsync(page);
         }
 
-        async Task RemoveAsync(PopupPage page)
+        private static Task RemoveAsync(PopupPage page)
         {
-            await PopupPlatform.RemoveAsync(page);
+            return PopupPlatform.RemoveAsync(page);
         }
 
         // Internal 
@@ -190,7 +190,7 @@ namespace Rg.Plugins.Popup.Services
 
         #region Animation
 
-        bool CanBeAnimated(bool animate)
+        private static bool CanBeAnimated(bool animate)
         {
             return animate && PopupPlatform.IsSystemAnimationEnabled;
         }
@@ -199,7 +199,7 @@ namespace Rg.Plugins.Popup.Services
 
         #region Helpers
 
-        Task InvokeThreadSafe(Func<Task> action)
+        private static Task InvokeThreadSafe(Func<Task> action)
         {
             var tcs = new TaskCompletionSource<bool>();
 
