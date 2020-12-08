@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              x:Class="Demo.Pages.SettingsPage">
+    <StackLayout VerticalOptions="Center"
+                 HorizontalOptions="Center">
+        <Frame BackgroundColor="Silver">
+            <StackLayout Spacing="20">
+                <Label HorizontalOptions="Center"
+                       Text="Settings Page"
+                       FontSize="16" />
+                <StackLayout Orientation="Horizontal">
+                    <Switch IsToggled="{Binding Path=CloseWhenBackgroundIsClicked, Source={RelativeSource  AncestorType={x:Type rg:PopupPage}, Mode=FindAncestor}, Mode=TwoWay}" />
+                    <Label Text="Close on Background Click" />
+                </StackLayout>
+                <Button Text="Close" Clicked="OnClose"></Button>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</rg:PopupPage>

@@ -63,7 +63,7 @@ namespace Rg.Plugins.Popup.Pages
             set { SetValue(HasSystemPaddingProperty, value); }
         }
 
-        public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
+        public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage), new ScaleAnimation());
 
         public IPopupAnimation Animation
         {
@@ -126,7 +126,6 @@ namespace Rg.Plugins.Popup.Pages
         public PopupPage()
         {
             BackgroundColor = Color.FromHex("#80000000");
-            Animation = new ScaleAnimation();
         }
 
         protected override void OnPropertyChanged(string propertyName = null)
