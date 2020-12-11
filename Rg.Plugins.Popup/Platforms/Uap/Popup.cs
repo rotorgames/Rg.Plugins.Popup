@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Rg.Plugins.Popup.Windows.Renderers;
+using Rg.Plugins.Popup.Windows.Impl;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -23,6 +24,7 @@ namespace Rg.Plugins.Popup
         {
             var assemblies = new List<Assembly>
             {
+                GetAssembly<PopupPlatformWindows>(),
                 GetAssembly<PopupPageRenderer>()
             };
 
@@ -47,6 +49,8 @@ namespace Rg.Plugins.Popup
 
         private static void LinkAssemblies()
         {
+            DependencyService.Register<PopupPlatformWindows>();
+
             if (false.Equals(true))
             {
                 var r = new PopupPageRenderer();
