@@ -77,7 +77,6 @@ namespace Rg.Plugins.Popup.IOS.Impl
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
                 var window = viewController.View?.Window;
-                DisposeModelAndChildrenRenderers(page);
                 page.Parent = null;
                 if (window != null)
                 {
@@ -85,6 +84,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
                     if (rvc != null)
                     {
                         await rvc.DismissViewControllerAsync(false);
+                        DisposeModelAndChildrenRenderers(page);
                         rvc.Dispose();
                     }
                     window.RootViewController = null;
