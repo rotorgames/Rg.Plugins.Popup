@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+
 using CoreGraphics;
+
 using Foundation;
+
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Platform;
 using Rg.Plugins.Popup.Pages;
+
 using UIKit;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+
 using XFPlatform = Xamarin.Forms.Platform.iOS.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformIos))]
@@ -94,7 +101,7 @@ namespace Rg.Plugins.Popup.IOS.Impl
                     window.Dispose();
                     window = null;
                 }
-                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
+                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1 && _windows.Count == 0)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
         }
