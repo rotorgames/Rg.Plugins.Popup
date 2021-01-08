@@ -1,8 +1,12 @@
 ﻿using System.Linq;
+
 using Rg.Plugins.Popup.IOS.Renderers;
+
 using UIKit;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+
 using XFPlatform = Xamarin.Forms.Platform.iOS.Platform;
 
 namespace Rg.Plugins.Popup.IOS.Extensions
@@ -52,22 +56,22 @@ namespace Rg.Plugins.Popup.IOS.Extensions
                 return;
 
             var superviewFrame = renderer.View.Superview.Frame;
-            var applactionFrame = UIScreen.MainScreen.ApplicationFrame;
+            var applicationFrame = UIScreen.MainScreen.ApplicationFrame;
 
             var systemPadding = new Thickness
             {
-                Left = applactionFrame.Left,
-                Top = applactionFrame.Top,
-                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
-                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top + renderer.KeyboardBounds.Height
+                Left = applicationFrame.Left,
+                Top = applicationFrame.Top,
+                Right = applicationFrame.Right - applicationFrame.Width - applicationFrame.Left,
+                Bottom = applicationFrame.Bottom - applicationFrame.Height - applicationFrame.Top + renderer.KeyboardBounds.Height
             };
-            if (renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
+
+            if ((renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
+                || currentElement.SystemPadding.Bottom != systemPadding.Bottom)
             {
                 currentElement.BatchBegin();
-
                 currentElement.SystemPadding = systemPadding;
                 renderer.SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-
                 currentElement.BatchCommit();
             }
         }

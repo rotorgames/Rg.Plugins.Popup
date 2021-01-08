@@ -1,9 +1,13 @@
 ﻿using System;
+
 using ElmSharp;
+
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Tizen.Renderers;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Tizen;
+
 using EColor = ElmSharp.Color;
 using EPopup = ElmSharp.Popup;
 
@@ -20,7 +24,7 @@ namespace Rg.Plugins.Popup.Tizen.Renderers
         }
 
         private PopupPage PopupPage => (Element as PopupPage)!;
-        private Rect? ContentBound => Platform.GetRenderer(PopupPage.Content)?.NativeView.Geometry;
+        private ElmSharp.Rect? ContentBound => Platform.GetRenderer(PopupPage.Content)?.NativeView.Geometry;
 
 
         public void ShowPopup()

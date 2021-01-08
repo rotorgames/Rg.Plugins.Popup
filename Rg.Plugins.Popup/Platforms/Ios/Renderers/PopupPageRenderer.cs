@@ -1,10 +1,15 @@
 ﻿using System.Threading.Tasks;
+
 using CoreGraphics;
+
 using Foundation;
+
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Renderers;
 using Rg.Plugins.Popup.Pages;
+
 using UIKit;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -21,6 +26,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         internal CGRect KeyboardBounds { get; private set; } = CGRect.Empty;
         internal PopupPage CurrentElement => (PopupPage)Element;
+
 
         #region Main Methods
 

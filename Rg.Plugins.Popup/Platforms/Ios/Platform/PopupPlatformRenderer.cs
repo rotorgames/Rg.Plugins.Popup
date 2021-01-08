@@ -1,6 +1,9 @@
 ﻿using System;
+
 using Foundation;
+
 using UIKit;
+
 using Xamarin.Forms.Platform.iOS;
 
 namespace Rg.Plugins.Popup.IOS.Platform
