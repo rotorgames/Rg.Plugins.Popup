@@ -78,20 +78,23 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             if (renderer != null && viewController != null && !viewController.IsBeingDismissed)
             {
-                var window = viewController.View.Window;
-                await window.RootViewController.DismissViewControllerAsync(false);
-                DisposeModelAndChildrenRenderers(page);
-                window.RootViewController.Dispose();
-                window.RootViewController = null;
-                page.Parent = null;
-                window.Hidden = true;
-
-                if (IsiOS13OrNewer && _windows.Contains(window))
+                var window = viewController.View?.Window;
+                if (window?.RootViewController != null)
+                {
+                    await window.RootViewController.DismissViewControllerAsync(false);
+                    DisposeModelAndChildrenRenderers(page);
+                    window.RootViewController.Dispose();
+                    window.RootViewController = null;
+                    page.Parent = null;
+                    window.Hidden = true;
+                    if (IsiOS13OrNewer && _windows.Contains(window))
                     _windows.Remove(window);
 
-                window.Dispose();
-                window = null;
-
+                    window.Dispose();
+                    window = null;
+                }
+                
+               
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
