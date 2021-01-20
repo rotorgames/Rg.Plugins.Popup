@@ -65,6 +65,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public async Task RemoveAsync(PopupPage page)
         {
+          
+           if (page == null)
+                return;
+                
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 
