@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using CoreGraphics;
+
 using Foundation;
+
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Platform;
 using Rg.Plugins.Popup.Pages;
+
 using UIKit;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+
 using XFPlatform = Xamarin.Forms.Platform.iOS.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformIos))]
@@ -65,10 +72,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public async Task RemoveAsync(PopupPage page)
         {
-          
-           if (page == null)
-                return;
-                
+            if (page == null)
+                throw new RGPageInvalidException("Popup page is null");
+
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 
@@ -88,13 +94,13 @@ namespace Rg.Plugins.Popup.IOS.Impl
                     page.Parent = null;
                     window.Hidden = true;
                     if (IsiOS13OrNewer && _windows.Contains(window))
-                    _windows.Remove(window);
+                        _windows.Remove(window);
 
                     window.Dispose();
                     window = null;
                 }
-                
-               
+
+
                 if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
