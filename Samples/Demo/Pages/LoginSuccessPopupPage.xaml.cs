@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Xamarin.Forms;
 
 namespace Demo.Pages
 {
@@ -27,7 +23,7 @@ namespace Demo.Pages
         {
             await Task.Delay(4000);
 
-            if(PopupNavigation.Instance.PopupStack.Contains(this))
+            if (PopupNavigation.Instance.PopupStack.Contains(this))
                 await PopupNavigation.Instance.RemovePageAsync(this);
         }
     }

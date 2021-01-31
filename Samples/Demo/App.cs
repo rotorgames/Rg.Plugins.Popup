@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Demo.Pages;
+﻿using Demo.Pages;
 using Xamarin.Forms;
 
 namespace Demo
 {
-    public class App : Application
+    public partial class App : Application
     {
         public App()
         {
+            InitializeComponent();
+
             // The root page of your application
             MainPage = new NavigationPage(new MainPage())
             {

@@ -1,7 +1,10 @@
-﻿using UIKit;
-using Xamarin.Forms.Platform.iOS;
+﻿using System;
+
 using Foundation;
-using System;
+
+using UIKit;
+
+using Xamarin.Forms.Platform.iOS;
 
 namespace Rg.Plugins.Popup.IOS.Platform
 {
@@ -9,9 +12,9 @@ namespace Rg.Plugins.Popup.IOS.Platform
     [Register("RgPopupPlatformRenderer")]
     internal class PopupPlatformRenderer : UIViewController
     {
-        private IVisualElementRenderer _renderer;
+        private IVisualElementRenderer? _renderer;
 
-        public IVisualElementRenderer Renderer => _renderer;
+        public IVisualElementRenderer? Renderer => _renderer;
 
         public PopupPlatformRenderer(IVisualElementRenderer renderer)
         {
@@ -53,7 +56,22 @@ namespace Rg.Plugins.Popup.IOS.Platform
 
         public override UIViewController ChildViewControllerForStatusBarHidden()
         {
-            return _renderer.ViewController;
+            return _renderer?.ViewController!;
+        }
+
+        public override bool PrefersStatusBarHidden()
+        {
+            return _renderer?.ViewController.PrefersStatusBarHidden() ?? false;
+        }
+
+        public override UIViewController ChildViewControllerForStatusBarStyle()
+        {
+            return _renderer?.ViewController!;
+        }
+
+        public override UIStatusBarStyle PreferredStatusBarStyle()
+        {
+            return (UIStatusBarStyle)(_renderer?.ViewController.PreferredStatusBarStyle())!;
         }
 
         public override bool ShouldAutorotate()
@@ -79,7 +97,7 @@ namespace Rg.Plugins.Popup.IOS.Platform
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            
+
             PresentedViewController?.ViewDidLayoutSubviews();
         }
     }

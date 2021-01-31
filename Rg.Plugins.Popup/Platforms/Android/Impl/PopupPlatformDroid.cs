@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 using Android.App;
@@ -24,9 +24,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
     [Preserve(AllMembers = true)]
     internal class PopupPlatformDroid : IPopupPlatform
     {
-        private IPopupNavigation PopupNavigationInstance => PopupNavigation.Instance;
-
-        private FrameLayout DecoreView => (FrameLayout)((Activity)Popup.Context).Window.DecorView;
+        private static FrameLayout? DecoreView => (FrameLayout?)((Activity?)Popup.Context)?.Window?.DecorView;
 
         public event EventHandler OnInitialized
         {
@@ -46,7 +44,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
             var renderer = page.GetOrCreateRenderer();
 
-            decoreView.AddView(renderer.View);
+            decoreView?.AddView(renderer.View);
 
             return PostAsync(renderer.View);
         }
@@ -61,13 +59,13 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 var element = renderer.Element;
 
-                DecoreView.RemoveView(renderer.View);
+                DecoreView?.RemoveView(renderer.View);
                 renderer.Dispose();
 
                 if (element != null)
                     element.Parent = null;
-
-                return PostAsync(DecoreView);
+                if (DecoreView != null)
+                    return PostAsync(DecoreView);
             }
 
             return Task.FromResult(true);
@@ -75,7 +73,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         #region System Animation
 
-        private bool GetIsSystemAnimationEnabled()
+        private static bool GetIsSystemAnimationEnabled()
         {
             float animationScale;
             var context = Popup.Context;
@@ -105,17 +103,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         #region Helpers
 
-        Task PostAsync(Android.Views.View nativeView)
+        private static Task PostAsync(Android.Views.View nativeView)
         {
             if (nativeView == null)
                 return Task.FromResult(true);
 
             var tcs = new TaskCompletionSource<bool>();
 
-            nativeView.Post(() =>
-            {
-                tcs.SetResult(true);
-            });
+            nativeView.Post(() => tcs.SetResult(true));
 
             return tcs.Task;
         }

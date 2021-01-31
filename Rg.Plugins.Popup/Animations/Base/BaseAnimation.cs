@@ -4,16 +4,18 @@ using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms;
 
+using EasingTypeConverter = Rg.Plugins.Popup.Converters.TypeConverters.EasingTypeConverter;
+
 namespace Rg.Plugins.Popup.Animations.Base
 {
     public abstract class BaseAnimation : IPopupAnimation
     {
         private const uint DefaultDuration = 200;
 
-        [TypeConverter(typeof (UintTypeConverter))]
+        [TypeConverter(typeof(UintTypeConverter))]
         public uint DurationIn { get; set; } = DefaultDuration;
 
-        [TypeConverter(typeof (UintTypeConverter))]
+        [TypeConverter(typeof(UintTypeConverter))]
         public uint DurationOut { get; set; } = DefaultDuration;
 
         [TypeConverter(typeof(EasingTypeConverter))]

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              x:Class="Demo.Pages.UserAnimationFromStylePage"
+              Style="{StaticResource PopupLeftRightAnimationPageStyle}">
+    <StackLayout VerticalOptions="Center"
+                 HorizontalOptions="Center">
+        <Frame BackgroundColor="Silver">
+            <StackLayout Spacing="20">
+                <Label HorizontalOptions="Center"
+                       Text="User Animation from Style"
+                       FontSize="16"></Label>
+                <Button Text="Close"
+                        Clicked="OnClose"></Button>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</rg:PopupPage>

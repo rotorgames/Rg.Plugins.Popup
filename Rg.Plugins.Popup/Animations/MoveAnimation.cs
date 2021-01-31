@@ -15,7 +15,7 @@ namespace Rg.Plugins.Popup.Animations
         public MoveAnimationOptions PositionIn { get; set; }
         public MoveAnimationOptions PositionOut { get; set; }
 
-        public MoveAnimation(): this(MoveAnimationOptions.Bottom, MoveAnimationOptions.Bottom) {}
+        public MoveAnimation() : this(MoveAnimationOptions.Bottom, MoveAnimationOptions.Bottom) { }
 
         public MoveAnimation(MoveAnimationOptions positionIn, MoveAnimationOptions positionOut)
         {
@@ -33,7 +33,7 @@ namespace Rg.Plugins.Popup.Animations
 
             HidePage(page);
 
-            if(content == null) return;
+            if (content == null) return;
 
             UpdateDefaultTranslations(content);
         }
@@ -50,11 +50,12 @@ namespace Rg.Plugins.Popup.Animations
             content.TranslationY = _defaultTranslationY;
         }
 
-        public async override Task Appearing(View content, PopupPage page)
+        public override Task Appearing(View content, PopupPage page)
         {
-            var taskList = new List<Task>();
-
-            taskList.Add(base.Appearing(content, page));
+            var taskList = new List<Task>
+            {
+                base.Appearing(content, page)
+            };
 
             if (content != null)
             {
@@ -83,14 +84,15 @@ namespace Rg.Plugins.Popup.Animations
 
             ShowPage(page);
 
-            await Task.WhenAll(taskList);
+            return Task.WhenAll(taskList);
         }
 
-        public async override Task Disappearing(View content, PopupPage page)
+        public override Task Disappearing(View content, PopupPage page)
         {
-            var taskList = new List<Task>();
-
-            taskList.Add(base.Disappearing(content, page));
+            var taskList = new List<Task>
+            {
+                base.Disappearing(content, page)
+            };
 
             if (content != null)
             {
@@ -117,7 +119,7 @@ namespace Rg.Plugins.Popup.Animations
                 }
             }
 
-            await Task.WhenAll(taskList);
+            return Task.WhenAll(taskList);
         }
 
         private void UpdateDefaultTranslations(View content)

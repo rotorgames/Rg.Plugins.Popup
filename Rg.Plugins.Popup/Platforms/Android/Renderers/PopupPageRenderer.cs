@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -12,7 +13,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Point = Xamarin.Forms.Point;
 using View = Android.Views.View;
-using Android.OS;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
@@ -26,11 +26,11 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         private Point _downPosition;
         private bool _disposed;
 
-        private PopupPage CurrentElement => (PopupPage) Element;
+        private PopupPage CurrentElement => (PopupPage)Element;
 
         #region Main Methods
 
-        public PopupPageRenderer(Context context):base(context)
+        public PopupPageRenderer(Context context) : base(context)
         {
             _gestureDetectorListener = new RgGestureDetectorListener();
 
@@ -59,22 +59,21 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            var activity = (Activity)Context;
+            var activity = (Activity?)Context;
 
             Thickness systemPadding;
             var keyboardOffset = 0d;
 
-            var decoreView = activity.Window.DecorView;
-            var decoreHeight = decoreView.Height;
-            var decoreWidht = decoreView.Width;
+            var decoreView = activity?.Window?.DecorView;
 
-            var visibleRect = new Rect();
-            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
+            var visibleRect = new Android.Graphics.Rect();
 
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            decoreView?.GetWindowVisibleDisplayFrame(visibleRect);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && RootWindowInsets != null)
             {
                 var screenRealSize = new Android.Graphics.Point();
-                activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
+                activity?.WindowManager?.DefaultDisplay?.GetRealSize(screenRealSize);
 
                 var windowInsets = RootWindowInsets;
                 var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
@@ -83,7 +82,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 {
                     keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
                 }
-                
+
                 systemPadding = new Thickness
                 {
                     Left = Context.FromPixels(windowInsets.SystemWindowInsetLeft),
@@ -92,12 +91,15 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                     Bottom = Context.FromPixels(bottomPadding)
                 };
             }
-            else
+            else if (Build.VERSION.SdkInt < BuildVersionCodes.M && decoreView != null)
             {
                 var screenSize = new Android.Graphics.Point();
-                activity.WindowManager.DefaultDisplay.GetSize(screenSize);
+                activity?.WindowManager?.DefaultDisplay?.GetSize(screenSize);
 
                 var keyboardHeight = 0d;
+
+                var decoreHeight = decoreView.Height;
+                var decoreWidht = decoreView.Width;
 
                 if (visibleRect.Bottom < screenSize.Y)
                 {
@@ -112,6 +114,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                     Right = Context.FromPixels(decoreWidht - visibleRect.Right),
                     Bottom = Context.FromPixels(decoreHeight - visibleRect.Bottom - keyboardHeight)
                 };
+            }
+            else
+            {
+                systemPadding = new Thickness();
             }
 
             CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
@@ -131,7 +137,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Context.HideKeyboard(((Activity) Context).Window.DecorView);
+            Context.HideKeyboard(((Activity?)Context)?.Window?.DecorView);
             base.OnAttachedToWindow();
         }
 
@@ -139,7 +145,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         {
             Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
-                Popup.Context.HideKeyboard(((Activity) Popup.Context).Window.DecorView);
+                Popup.Context.HideKeyboard(((Activity?)Popup.Context)?.Window?.DecorView);
                 return false;
             });
             base.OnDetachedFromWindow();
@@ -171,17 +177,17 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             if (_disposed)
                 return false;
 
-            View currentFocus1 = ((Activity)Context).CurrentFocus;
+            View? currentFocus1 = ((Activity?)Context)?.CurrentFocus;
 
             if (currentFocus1 is EditText)
             {
-                View currentFocus2 = ((Activity)Context).CurrentFocus;
+                View? currentFocus2 = ((Activity?)Context)?.CurrentFocus;
                 if (currentFocus1 == currentFocus2 && _downPosition.Distance(new Point(e.RawX, e.RawY)) <= Context.ToPixels(20.0) && !(DateTime.UtcNow - _downTime > TimeSpan.FromMilliseconds(200.0)))
                 {
-                    int[] location = new int[2];
+                    var location = new int[2];
                     currentFocus1.GetLocationOnScreen(location);
-                    float num1 = e.RawX + currentFocus1.Left - location[0];
-                    float num2 = e.RawY + currentFocus1.Top - location[1];
+                    var num1 = e.RawX + currentFocus1.Left - location[0];
+                    var num2 = e.RawY + currentFocus1.Top - location[1];
                     if (!new Rectangle(currentFocus1.Left, currentFocus1.Top, currentFocus1.Width, currentFocus1.Height).Contains(num1, num2))
                     {
                         Context.HideKeyboard(currentFocus1);
@@ -207,9 +213,9 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetector.OnTouchEvent(e);
 
-            if(CurrentElement != null && CurrentElement.BackgroundInputTransparent)
+            if (CurrentElement != null && CurrentElement.BackgroundInputTransparent)
             {
-                if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
+                if ((ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)!)) || ChildCount == 0)
                 {
                     CurrentElement.SendBackgroundClick();
                     return false;
@@ -224,14 +230,14 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             if (ChildCount == 0)
                 return;
 
-            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0));
+            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0)!);
 
             if (!isInRegion)
                 CurrentElement.SendBackgroundClick();
         }
 
         // Fix for "CloseWhenBackgroundIsClicked not works on Android with Xamarin.Forms 2.4.0.280" #173
-        private bool IsInRegion(float x, float y, View v)
+        private static bool IsInRegion(float x, float y, View v)
         {
             var mCoordBuffer = new int[2];
 

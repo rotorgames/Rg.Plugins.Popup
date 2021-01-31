@@ -11,12 +11,12 @@ namespace Rg.Plugins.Popup.Converters.TypeConverters
         {
             if (value != null)
             {
-                FieldInfo fieldInfo = typeof(Easing).GetRuntimeFields()?.FirstOrDefault((fi =>
+                var fieldInfo = typeof(Easing).GetRuntimeFields()?.FirstOrDefault(fi =>
                 {
                     if (fi.IsStatic)
                         return fi.Name == value;
                     return false;
-                }));
+                });
                 if (fieldInfo != null)
                     return (Easing)fieldInfo.GetValue(null);
             }

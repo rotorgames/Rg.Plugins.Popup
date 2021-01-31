@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Windows.Renderers;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using Size = Windows.Foundation.Size;
 using Xamarin.Forms.Platform.UWP;
+using Size = Windows.Foundation.Size;
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 
-[assembly:ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
+[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Windows.Renderers
 {
     [Preserve(AllMembers = true)]
@@ -22,14 +21,14 @@ namespace Rg.Plugins.Popup.Windows.Renderers
     {
         private Rect _keyboardBounds;
 
-        internal WinPopup Container { get; private set; }
+        internal WinPopup? Container { get; private set; }
 
         private PopupPage CurrentElement => (PopupPage)Element;
 
         [Preserve]
         public PopupPageRenderer()
         {
-            
+
         }
 
         private void OnKeyboardHiding(InputPane sender, InputPaneVisibilityEventArgs args)
@@ -58,7 +57,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             Window.Current.SizeChanged += OnSizeChanged;
             DisplayInformation.GetForCurrentView().OrientationChanged += OnOrientationChanged;
 
-            InputPane inputPane = InputPane.GetForCurrentView();
+            var inputPane = InputPane.GetForCurrentView();
             inputPane.Showing += OnKeyboardShowing;
             inputPane.Hiding += OnKeyboardHiding;
 
@@ -72,7 +71,7 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             Window.Current.SizeChanged -= OnSizeChanged;
             DisplayInformation.GetForCurrentView().OrientationChanged -= OnOrientationChanged;
 
-            InputPane inputPane = InputPane.GetForCurrentView();
+            var inputPane = InputPane.GetForCurrentView();
             inputPane.Showing -= OnKeyboardShowing;
             inputPane.Hiding -= OnKeyboardHiding;
 
@@ -97,30 +96,32 @@ namespace Rg.Plugins.Popup.Windows.Renderers
             }
         }
 
-        private async void UpdateElementSize()
+        private void UpdateElementSize()
         {
-            await Task.Delay(50);
+            if (CurrentElement != null)
+            {
+                var capturedElement = CurrentElement;
 
-            var windowBound = Window.Current.Bounds;
-            var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
+                var windowBound = Window.Current.Bounds;
+                var visibleBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+                var keyboardHeight = _keyboardBounds != Rect.Empty ? _keyboardBounds.Height : 0;
 
-            var top = visibleBounds.Top - windowBound.Top;
-            var bottom = windowBound.Bottom - visibleBounds.Bottom;
-            var left = visibleBounds.Left - windowBound.Left;
-            var right = windowBound.Right - visibleBounds.Right;
+                var top = Math.Max(0, visibleBounds.Top - windowBound.Top);
+                var bottom = Math.Max(0, windowBound.Bottom - visibleBounds.Bottom);
+                var left = Math.Max(0, visibleBounds.Left - windowBound.Left);
+                var right = Math.Max(0, windowBound.Right - visibleBounds.Right);
 
-            top = Math.Max(0, top);
-            bottom = Math.Max(0, bottom);
-            left = Math.Max(0, left);
-            right = Math.Max(0, right);
+                var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
 
-            var systemPadding = new Xamarin.Forms.Thickness(left, top, right, bottom);
-
-            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
-            CurrentElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
-            CurrentElement.ForceLayout();
+                capturedElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
+                capturedElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardHeight);
+                //if its not invoked on MainThread when the popup is showed it will be blank until the user manually resizes of owner window
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    capturedElement.Layout(new Rectangle(windowBound.X, windowBound.Y, windowBound.Width, windowBound.Height));
+                    capturedElement.ForceLayout();
+                });
+            }
         }
     }
 }

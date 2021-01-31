@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-             x:Class="Demo.Pages.FirstPopupPage">
-  <pages:PopupPage.Animation>
-    <animations:ScaleAnimation 
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              x:Class="Demo.Pages.FirstPopupPage">
+  <rg:PopupPage.Animation>
+    <rg:ScaleAnimation 
       PositionIn="Center"
       PositionOut="Center"
       ScaleIn="1.2"
@@ -15,7 +14,7 @@
       EasingIn="SinOut"
       EasingOut="SinIn"
       HasBackgroundAnimation="True"/>
-  </pages:PopupPage.Animation>
+  </rg:PopupPage.Animation>
   <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
     <StackLayout BackgroundColor="White" Padding="0, 10, 0, 0">
       <Label Text="First Popup Page" TextColor="Gray" FontSize="20" HorizontalOptions="Center"></Label>
@@ -39,4 +38,4 @@
       </ScrollView>
     </StackLayout>
   </StackLayout>
-</pages:PopupPage>
+</rg:PopupPage>
