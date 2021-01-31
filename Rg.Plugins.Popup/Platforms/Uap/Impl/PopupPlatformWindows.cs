@@ -48,70 +48,70 @@ namespace Rg.Plugins.Popup.Windows.Impl
                 {
                     e.Handled = true;
                     await PopupNavigationInstance.PopAsync();
-    }
-}
+                }
+            }
         }
 
         public async Task AddAsync(PopupPage page)
-{
-    page.Parent = Application.Current.MainPage;
-
-    var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
-    var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
-
-    renderer.Prepare(popup);
-    popup.Child = renderer.ContainerElement;
-    popup.IsOpen = true;
-    page.ForceLayout();
-
-    await Task.Delay(5);
-}
-
-public async Task RemoveAsync(PopupPage page)
-{
-    if (page == null)
-        throw new RGPageInvalidException("Popup page is null");
-
-    var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
-    var popup = renderer.Container;
-
-    if (popup != null)
-    {
-        renderer.Destroy();
-
-        Cleanup(page);
-        page.Parent = null;
-        popup.Child = null;
-        popup.IsOpen = false;
-    }
-
-    await Task.Delay(5);
-}
-
-internal static void Cleanup(VisualElement element)
-{
-    if (element == null)
-        throw new ArgumentNullException(nameof(element));
-
-    var elementRenderer = XPlatform.GetRenderer(element);
-    foreach (Element descendant in element.Descendants())
-    {
-        var child = descendant as VisualElement;
-        if (child != null)
         {
-            var childRenderer = XPlatform.GetRenderer(child);
-            if (childRenderer != null)
-            {
-                childRenderer.Dispose();
-                XPlatform.SetRenderer(child, null);
-            }
-        }
-    }
-    if (elementRenderer == null)
-        return;
+            page.Parent = Application.Current.MainPage;
 
-    elementRenderer.Dispose();
-    XPlatform.SetRenderer(element, null);
-}
+            var popup = new global::Windows.UI.Xaml.Controls.Primitives.Popup();
+            var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
+
+            renderer.Prepare(popup);
+            popup.Child = renderer.ContainerElement;
+            popup.IsOpen = true;
+            page.ForceLayout();
+
+            await Task.Delay(5);
+        }
+
+        public async Task RemoveAsync(PopupPage page)
+        {
+            if (page == null)
+                throw new RGPageInvalidException("Popup page is null");
+
+            var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
+            var popup = renderer.Container;
+
+            if (popup != null)
+            {
+                renderer.Destroy();
+
+                Cleanup(page);
+                page.Parent = null;
+                popup.Child = null;
+                popup.IsOpen = false;
+            }
+
+            await Task.Delay(5);
+        }
+
+        internal static void Cleanup(VisualElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var elementRenderer = XPlatform.GetRenderer(element);
+            foreach (Element descendant in element.Descendants())
+            {
+                var child = descendant as VisualElement;
+                if (child != null)
+                {
+                    var childRenderer = XPlatform.GetRenderer(child);
+                    if (childRenderer != null)
+                    {
+                        childRenderer.Dispose();
+                        XPlatform.SetRenderer(child, null);
+                    }
+                }
+            }
+            if (elementRenderer == null)
+                return;
+
+            elementRenderer.Dispose();
+            XPlatform.SetRenderer(element, null);
+        }
     }
 }
