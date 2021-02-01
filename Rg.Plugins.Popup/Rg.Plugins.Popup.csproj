@@ -31,15 +31,6 @@
     <Compile Remove="Resources\*.cs" />
     <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
     <None Include="readme.txt" pack="true" PackagePath="." />
-    <Compile Update="Exceptions\InvalidPageException.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Exceptions\RGPopupStackEmptyException.cs">
-      <SubType></SubType>
-    </Compile>
-    <Compile Update="Exceptions\RGInitialisationException.cs">
-      <SubType></SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
