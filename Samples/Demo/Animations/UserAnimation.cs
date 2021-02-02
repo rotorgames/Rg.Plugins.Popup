@@ -66,7 +66,7 @@ namespace Demo.Animations
 
             if (content != null)
             {
-                _defaultTranslationY = content.TranslationX;
+                _defaultTranslationY = content.TranslationY;
 
                 var topOffset = GetTopOffset(content, page);
 
