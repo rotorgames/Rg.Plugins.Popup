@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
@@ -117,6 +118,22 @@ namespace Rg.Plugins.Popup.Pages
         {
             get { return (double)GetValue(KeyboardOffsetProperty); }
             private set { SetValue(KeyboardOffsetProperty, value); }
+        }
+        
+        public static readonly BindableProperty BackgroundClickedCommandProperty = BindableProperty.Create(nameof(BackgroundClickedCommand), typeof(ICommand), typeof(PopupPage));
+
+        public ICommand BackgroundClickedCommand
+        {
+            get => (ICommand) GetValue(BackgroundClickedCommandProperty);
+            set => SetValue(BackgroundClickedCommandProperty, value);
+        }
+
+        public static readonly BindableProperty BackgroundClickedCommandParameterProperty = BindableProperty.Create(nameof(BackgroundClickedCommandParameter), typeof(object), typeof(PopupPage));
+
+        public object BackgroundClickedCommandParameter
+        {
+            get => GetValue(BackgroundClickedCommandParameterProperty);
+            set => SetValue(BackgroundClickedCommandParameterProperty, value);
         }
 
         #endregion
@@ -291,7 +308,10 @@ namespace Rg.Plugins.Popup.Pages
         internal async Task SendBackgroundClick()
         {
             BackgroundClicked?.Invoke(this, EventArgs.Empty);
-
+            if (BackgroundClickedCommand?.CanExecute(BackgroundClickedCommandParameter) == true)
+            {
+                BackgroundClickedCommand.Execute(BackgroundClickedCommandParameter);
+            }
             var isClose = OnBackgroundClicked();
             if (isClose)
             {

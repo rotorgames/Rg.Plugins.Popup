@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="http://rotorgames.com"
+                 xmlns:pages1="clr-namespace:Demo.Pages;assembly=Demo"
+                 x:Class="Demo.Pages.MvvmPage"
+                 x:DataType="pages1:MvvmPageViewModel"
+                 CloseWhenBackgroundIsClicked="False"
+                 BackgroundClickedCommand="{Binding BackgroundClickedCommand}"
+                 BackgroundClickedCommandParameter="{x:Reference ClickOnBackgroundLabel}">
+    <pages:PopupPage.Content>
+            <Frame HasShadow="False" CornerRadius="6"
+                   HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Aqua">
+                <StackLayout>
+                    <Label x:Name="ClickOnBackgroundLabel"
+                           Text="Click on background"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"/>
+                    <Button TextColor="Black" BackgroundColor="White" Text="Close" Clicked="OnClose"></Button>
+                </StackLayout>
+            </Frame>
+    </pages:PopupPage.Content>
+</pages:PopupPage>
