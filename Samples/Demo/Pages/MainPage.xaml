@@ -22,5 +22,6 @@
       <Button Text="Open User Animation Popup using Style"
               Clicked="OnOpenUserAnimationFromStyle"></Button>
       <Button Text="Open Settings" Clicked="OnOpenSettingsPage"></Button>
+      <Button Text="Open MvvmPage" Clicked="OnOpenMvvmPage"></Button>
     </StackLayout>
 </ContentPage>
