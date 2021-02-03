@@ -69,6 +69,9 @@ namespace Rg.Plugins.Popup.Windows.Impl
 
         public async Task RemoveAsync(PopupPage page)
         {
+            if (page == null)
+                throw new RGPageInvalidException("Popup page is null");
+
             var renderer = (PopupPageRenderer)page.GetOrCreateRenderer();
             var popup = renderer.Container;
 

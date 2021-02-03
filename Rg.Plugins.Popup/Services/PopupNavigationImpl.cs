@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.Pages;
+
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Services
@@ -30,10 +33,10 @@ namespace Rg.Plugins.Popup.Services
                 var popupPlatform = DependencyService.Get<IPopupPlatform>();
 
                 if (popupPlatform == null)
-                    throw new InvalidOperationException("You MUST install Rg.Plugins.Popup to each project and call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
+                    throw new RGInitialisationException("You MUST install Rg.Plugins.Popup to each project and call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
                 if (!popupPlatform.IsInitialized)
-                    throw new InvalidOperationException("You MUST call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
+                    throw new RGInitialisationException("You MUST call Rg.Plugins.Popup.Popup.Init(); prior to using it.\nSee more info: " + Config.InitializationDescriptionUrl);
 
                 return popupPlatform;
             }
@@ -48,7 +51,7 @@ namespace Rg.Plugins.Popup.Services
 
         private async void OnInitialized(object sender, EventArgs e)
         {
-            if (PopupStack.Any())
+            if (PopupStack.Count > 0)
                 await PopAllAsync(false);
         }
 
@@ -57,7 +60,7 @@ namespace Rg.Plugins.Popup.Services
             lock (_locker)
             {
                 if (_popupStack.Contains(page))
-                    throw new InvalidOperationException("The page has been pushed already. Pop or remove the page before to push it again");
+                    throw new RGPageInvalidException("The page has been pushed already. Pop or remove the page before to push it again");
 
                 Pushing?.Invoke(this, new PopupNavigationEventArgs(page, animate));
 
@@ -94,9 +97,8 @@ namespace Rg.Plugins.Popup.Services
             lock (_locker)
             {
                 animate = CanBeAnimated(animate);
-
-                if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("No Page in PopupStack");
+                if (PopupStack.Count == 0)
+                    throw new RGPopupStackInvalidException("No Page in PopupStack");
 
                 return RemovePageAsync(PopupStack.Last(), animate);
             }
@@ -108,8 +110,8 @@ namespace Rg.Plugins.Popup.Services
             {
                 animate = CanBeAnimated(animate);
 
-                if (!PopupStack.Any())
-                    throw new IndexOutOfRangeException("No Page in PopupStack");
+                if (PopupStack.Count == 0)
+                    throw new RGPopupStackInvalidException("No Page in PopupStack");
 
                 var popupTasks = PopupStack.ToList().Select(page => RemovePageAsync(page, animate));
 
@@ -122,10 +124,10 @@ namespace Rg.Plugins.Popup.Services
             lock (_locker)
             {
                 if (page == null)
-                    throw new NullReferenceException("Page can not be null");
+                    throw new RGPageInvalidException("Page cannot be null");
 
                 if (!_popupStack.Contains(page))
-                    throw new InvalidOperationException("The page has not been pushed yet or has been removed already");
+                    throw new RGPopupStackInvalidException("The page has not been pushed yet or has been removed already");
 
                 if (page.DisappearingTransactionTask != null)
                     return page.DisappearingTransactionTask;

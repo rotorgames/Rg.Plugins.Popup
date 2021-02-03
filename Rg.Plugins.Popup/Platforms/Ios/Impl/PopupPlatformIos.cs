@@ -8,6 +8,7 @@ using CoreGraphics;
 using Foundation;
 
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.IOS.Extensions;
 using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Platform;
@@ -74,6 +75,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
         public async Task RemoveAsync(PopupPage page)
         {
+            if (page == null)
+                throw new RGPageInvalidException("Popup page is null");
+
             var renderer = XFPlatform.GetRenderer(page);
             var viewController = renderer?.ViewController;
 

@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Widget;
+
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Droid.Extensions;
 using Rg.Plugins.Popup.Droid.Impl;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+
 using Xamarin.Forms;
+
 using XApplication = Xamarin.Forms.Application;
 
 [assembly: Dependency(typeof(PopupPlatformDroid))]
@@ -46,6 +51,9 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public Task RemoveAsync(PopupPage page)
         {
+            if (page == null)
+                throw new RGPageInvalidException("Popup page is null");
+
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
