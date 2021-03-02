@@ -72,8 +72,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && RootWindowInsets != null)
             {
-                var screenRealSize = new Android.Graphics.Point();
-                activity?.WindowManager?.DefaultDisplay?.GetRealSize(screenRealSize);
+                var screenRealSize = new Android.Graphics.Point(r-l, b-t);
 
                 var windowInsets = RootWindowInsets;
                 var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
