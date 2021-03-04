@@ -72,14 +72,14 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && RootWindowInsets != null)
             {
-                var screenRealSize = new Android.Graphics.Point(r-l, b-t);
+                var h = b-t;
 
                 var windowInsets = RootWindowInsets;
                 var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
 
-                if (screenRealSize.Y - visibleRect.Bottom > windowInsets.StableInsetBottom)
+                if (h - visibleRect.Bottom > windowInsets.StableInsetBottom)
                 {
-                    keyboardOffset = Context.FromPixels(screenRealSize.Y - visibleRect.Bottom);
+                    keyboardOffset = Context.FromPixels(h - visibleRect.Bottom);
                 }
 
                 systemPadding = new Thickness
