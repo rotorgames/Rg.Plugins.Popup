@@ -18,6 +18,7 @@
 - [x] Tizen
 - [x] WPF
 - [x] MacOS
+- [x] Net5-Windows
 
 ## Documentation
 You can find all descriptions of [Getting Started](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Getting-started), [How to use](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/PopupPage), [Troubleshooting](https://github.com/rotorgames/Rg.Plugins.Popup/wiki/Troubleshooting) and etc in the [Wiki](https://github.com/rotorgames/Rg.Plugins.Popup/wiki)
