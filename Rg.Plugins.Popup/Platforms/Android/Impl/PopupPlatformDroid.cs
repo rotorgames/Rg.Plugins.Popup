@@ -44,7 +44,10 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             var decoreView = DecoreView;
 
-            RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.No);
+            if (page.AndroidTalkbackAccessibilityWorkaround)
+            {
+                RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.No);
+            }
 
             page.Parent = XApplication.Current.MainPage;
 
@@ -62,7 +65,10 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
-                RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.Auto);
+                if (page.AndroidTalkbackAccessibilityWorkaround)
+                {
+                    RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.Auto);
+                }
 
                 page.Parent = XApplication.Current.MainPage;
                 var element = renderer.Element;

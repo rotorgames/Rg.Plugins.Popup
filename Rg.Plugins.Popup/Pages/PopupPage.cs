@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Services;
+
 using Xamarin.Forms;
 
 namespace Rg.Plugins.Popup.Pages
@@ -119,12 +121,12 @@ namespace Rg.Plugins.Popup.Pages
             get { return (double)GetValue(KeyboardOffsetProperty); }
             private set { SetValue(KeyboardOffsetProperty, value); }
         }
-        
+
         public static readonly BindableProperty BackgroundClickedCommandProperty = BindableProperty.Create(nameof(BackgroundClickedCommand), typeof(ICommand), typeof(PopupPage));
 
         public ICommand BackgroundClickedCommand
         {
-            get => (ICommand) GetValue(BackgroundClickedCommandProperty);
+            get => (ICommand)GetValue(BackgroundClickedCommandProperty);
             set => SetValue(BackgroundClickedCommandProperty, value);
         }
 
@@ -134,6 +136,14 @@ namespace Rg.Plugins.Popup.Pages
         {
             get => GetValue(BackgroundClickedCommandParameterProperty);
             set => SetValue(BackgroundClickedCommandParameterProperty, value);
+        }
+
+        public static readonly BindableProperty AndroidTalkbackAccessibilityWorkaroundProperty = BindableProperty.Create(nameof(AndroidTalkbackAccessibilityWorkaround), typeof(bool), typeof(PopupPage), false);
+
+        public bool AndroidTalkbackAccessibilityWorkaround
+        {
+            get => (bool)GetValue(AndroidTalkbackAccessibilityWorkaroundProperty);
+            set => SetValue(AndroidTalkbackAccessibilityWorkaroundProperty, value);
         }
 
         #endregion
@@ -155,14 +165,14 @@ namespace Rg.Plugins.Popup.Pages
                 case nameof(HasKeyboardOffset):
                 case nameof(SystemPaddingSides):
                 case nameof(SystemPadding):
-                    ForceLayout();
-                    break;
+                ForceLayout();
+                break;
                 case nameof(IsAnimating):
-                    IsAnimationEnabled = IsAnimating;
-                    break;
+                IsAnimationEnabled = IsAnimating;
+                break;
                 case nameof(IsAnimationEnabled):
-                    IsAnimating = IsAnimationEnabled;
-                    break;
+                IsAnimating = IsAnimationEnabled;
+                break;
             }
         }
 
