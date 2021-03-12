@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
+using Android.Views;
+using Android.Views.Accessibility;
 using Android.Widget;
 
 using Rg.Plugins.Popup.Contracts;
@@ -40,10 +44,11 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             var decoreView = DecoreView;
 
+            RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.No);
+
             page.Parent = XApplication.Current.MainPage;
 
             var renderer = page.GetOrCreateRenderer();
-
             decoreView?.AddView(renderer.View);
 
             return PostAsync(renderer.View);
@@ -57,6 +62,9 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
+                RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.Auto);
+
+                page.Parent = XApplication.Current.MainPage;
                 var element = renderer.Element;
 
                 DecoreView?.RemoveView(renderer.View);
@@ -115,6 +123,19 @@ namespace Rg.Plugins.Popup.Droid.Impl
             return tcs.Task;
         }
 
+        private void RecursivelyChangeAccessibilityOfViewChildren(Android.Views.View view, ImportantForAccessibility important)
+        {
+            if (view is ViewGroup vGroup)
+            {
+                for (int i = 0; i < vGroup.ChildCount; i++)
+                {
+                    Android.Views.View vChild = vGroup.GetChildAt(i);
+                    vChild.ImportantForAccessibility = important;
+                    vChild.ClearFocus();
+                    RecursivelyChangeAccessibilityOfViewChildren(vChild, important);
+                }
+            }
+        }
         #endregion
     }
 }
