@@ -1,27 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Demo.Pages.MainPage"
              Title="Popup Demo"
              BackgroundColor="White">
-  <ContentPage.Resources>
-    <ResourceDictionary>
-      <Style TargetType="Button">
-        <Setter Property="BackgroundColor" Value="#7dbbe6"/>
-        <Setter Property="TextColor" Value="White"/>
-      </Style>
-    </ResourceDictionary>
-  </ContentPage.Resources>
-  <StackLayout Spacing="20" Margin="10, 15">
-    <Button Text="Open Popup" Clicked="OnOpenPupup"></Button>
-    <Button Text="Open User Animation Popup" Clicked="OnUserAnimationPupup"></Button>
-    <Button Text="Open System Offset Page" Clicked="OnOpenSystemOffsetPage"></Button>
-    <Button Text="ListView Page" Clicked="OnOpenListViewPage"></Button>
-      <Button Text="Open User Animation Popup using Resources"
-              Clicked="OnOpenUserAnimationFromResource"></Button>
-      <Button Text="Open User Animation Popup using Style"
-              Clicked="OnOpenUserAnimationFromStyle"></Button>
-      <Button Text="Open Settings" Clicked="OnOpenSettingsPage"></Button>
-      <Button Text="Open MvvmPage" Clicked="OnOpenMvvmPage"></Button>
-    </StackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#7dbbe6" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView VerticalOptions="Fill">
+        <StackLayout Spacing="20" Margin="10, 15">
+            <Button Text="Open Popup" Clicked="OnOpenPupup" />
+            <Button Text="Open User Animation Popup" Clicked="OnUserAnimationPupup" />
+            <Button Text="Open System Offset Page" Clicked="OnOpenSystemOffsetPage" />
+            <Button Text="ListView Page" Clicked="OnOpenListViewPage" />
+            <Button Text="Open User Animation Popup using Resources"
+                    Clicked="OnOpenUserAnimationFromResource" />
+            <Button Text="Open User Animation Popup using Style"
+                    Clicked="OnOpenUserAnimationFromStyle" />
+            <Button Text="Open Settings" Clicked="OnOpenSettingsPage" />
+            <Button Text="Open MvvmPage" Clicked="OnOpenMvvmPage" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
