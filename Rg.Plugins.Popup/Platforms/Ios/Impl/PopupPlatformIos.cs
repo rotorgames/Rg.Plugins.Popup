@@ -105,7 +105,10 @@ namespace Rg.Plugins.Popup.IOS.Impl
                     window.Dispose();
                     window = null;
                 }
-                if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1 && _windows.Count == 0)
+
+                if(_windows.Count > 0)
+                    _windows.Last().WindowLevel = UIWindowLevel.Normal;
+                else if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
                     UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
             }
         }

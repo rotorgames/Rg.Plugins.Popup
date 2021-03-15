@@ -23,5 +23,6 @@
               Clicked="OnOpenUserAnimationFromStyle"></Button>
       <Button Text="Open Settings" Clicked="OnOpenSettingsPage"></Button>
       <Button Text="Open MvvmPage" Clicked="OnOpenMvvmPage"></Button>
+      <Button Text="Open TestCurrentViewController" Clicked="OnTestCurrentViewController"></Button>
     </StackLayout>
 </ContentPage>

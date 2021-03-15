@@ -74,5 +74,12 @@ namespace Demo.Pages
             
             await PopupNavigation.Instance.PushAsync(page);
         }
+
+        private async void OnTestCurrentViewController(object sender, EventArgs e)
+        {
+            var page = new TestCurrentViewController(0);
+
+            await PopupNavigation.Instance.PushAsync(page);
+        }
     }
 }
