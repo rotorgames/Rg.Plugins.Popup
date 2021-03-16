@@ -20,6 +20,11 @@ namespace Rg.Plugins.Popup.IOS.Platform
 
         }
 
+        public PopupWindow(UIWindowScene uiWindowScene) : base(uiWindowScene)
+        {
+
+        }
+
         public override UIView HitTest(CGPoint point, UIEvent? uievent)
         {
             var platformRenderer = (PopupPlatformRenderer?)RootViewController;
