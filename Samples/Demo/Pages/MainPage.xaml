@@ -25,6 +25,7 @@
                     Clicked="OnOpenUserAnimationFromStyle" />
             <Button Text="Open Settings" Clicked="OnOpenSettingsPage" />
             <Button Text="Open MvvmPage" Clicked="OnOpenMvvmPage" />
+            <Button Text="Open TestCurrentViewController" Clicked="OnTestCurrentViewController"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

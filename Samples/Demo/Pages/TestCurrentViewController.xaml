@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="http://rotorgames.com"
+              xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
+              x:Class="Demo.Pages.TestCurrentViewController">
+
+  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <Frame BackgroundColor="Silver">
+      <StackLayout Spacing="20">
+        <Label HorizontalOptions="Center" Text="index" FontSize="16"></Label>
+        <Label HorizontalOptions="Center" FontSize="16" x:Name="indexLable"></Label>
+        <Button Text="Open TestCurrentViewController" Clicked="OnTestCurrentViewController"></Button>
+        <Button Text="Open file picker" Clicked="OnFilePicker"></Button>
+      </StackLayout>
+    </Frame>
+  </StackLayout>
+</rg:PopupPage>
