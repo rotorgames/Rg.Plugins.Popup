@@ -18,7 +18,7 @@
     <RepositoryUrl>https://github.com/rotorgames/Rg.Plugins.Popup</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <Version>2.0.0.10</Version>
+    <Version>2.0.0.11</Version>
 
     <Nullable>enable</Nullable>
     <LangVersion>8.0</LangVersion>

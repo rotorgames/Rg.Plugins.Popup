@@ -11,6 +11,7 @@ using Xamarin.Forms.Internals;
 using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 using Xamarin.Forms.Platform.UWP;
 using Windows.UI.Core;
+using Rg.Plugins.Popup.Exceptions;
 
 [assembly: Dependency(typeof(PopupPlatformWindows))]
 namespace Rg.Plugins.Popup.Windows.Impl
