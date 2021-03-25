@@ -1,8 +1,12 @@
 ﻿using System.Linq;
+
 using AppKit;
+
 using Rg.Plugins.Popup.MacOS.Renderers;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
+
 using XFPlatform = Xamarin.Forms.Platform.MacOS.Platform;
 
 namespace Rg.Plugins.Popup.MacOS.Extensions
@@ -53,6 +57,8 @@ namespace Rg.Plugins.Popup.MacOS.Extensions
 
             var superviewFrame = renderer.View.Superview.Frame;
             var applactionFrame = NSScreen.MainScreen.Frame;
+
+
 
             var systemPadding = new Thickness
             {
