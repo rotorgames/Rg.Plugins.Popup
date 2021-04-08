@@ -44,17 +44,23 @@ namespace Rg.Plugins.Popup.Droid.Impl
         {
             var decoreView = DecoreView;
 
-            if (page.AndroidTalkbackAccessibilityWorkaround)
-            {
-                RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.No);
-            }
+            HandleAccessibilityWorkaround(page);
 
             page.Parent = XApplication.Current.MainPage;
-
             var renderer = page.GetOrCreateRenderer();
-            decoreView?.AddView(renderer.View);
 
+            decoreView?.AddView(renderer.View);
             return PostAsync(renderer.View);
+
+            static void HandleAccessibilityWorkaround(PopupPage page)
+            {
+                if (page.AndroidTalkbackAccessibilityWorkaround)
+                {
+                    var NavCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
+                    Page currentPage = XApplication.Current.MainPage.Navigation.NavigationStack[NavCount - 1];
+                    currentPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+                }
+            }
         }
 
         public Task RemoveAsync(PopupPage page)
@@ -65,10 +71,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
-                if (page.AndroidTalkbackAccessibilityWorkaround)
-                {
-                    RecursivelyChangeAccessibilityOfViewChildren(XApplication.Current.MainPage.GetOrCreateRenderer().View, ImportantForAccessibility.Auto);
-                }
+                HandleAccessibilityWorkaround(page);
 
                 page.Parent = XApplication.Current.MainPage;
                 var element = renderer.Element;
@@ -83,6 +86,16 @@ namespace Rg.Plugins.Popup.Droid.Impl
             }
 
             return Task.FromResult(true);
+
+            static void HandleAccessibilityWorkaround(PopupPage page)
+            {
+                if (page.AndroidTalkbackAccessibilityWorkaround)
+                {
+                    var NavCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
+                    Page currentPage = XApplication.Current.MainPage.Navigation.NavigationStack[NavCount - 1];
+                    currentPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                }
+            }
         }
 
         #region System Animation
@@ -127,20 +140,6 @@ namespace Rg.Plugins.Popup.Droid.Impl
             nativeView.Post(() => tcs.SetResult(true));
 
             return tcs.Task;
-        }
-
-        private void RecursivelyChangeAccessibilityOfViewChildren(Android.Views.View view, ImportantForAccessibility important)
-        {
-            if (view is ViewGroup vGroup)
-            {
-                for (int i = 0; i < vGroup.ChildCount; i++)
-                {
-                    Android.Views.View vChild = vGroup.GetChildAt(i);
-                    vChild.ImportantForAccessibility = important;
-                    vChild.ClearFocus();
-                    RecursivelyChangeAccessibilityOfViewChildren(vChild, important);
-                }
-            }
         }
         #endregion
     }
