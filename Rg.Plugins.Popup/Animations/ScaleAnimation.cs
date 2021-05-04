@@ -156,6 +156,8 @@ namespace Rg.Plugins.Popup.Animations
         {
             _defaultScale = content.Scale;
             _defaultOpacity = content.Opacity;
+            if (double.IsNaN(_defaultOpacity))
+                _defaultOpacity = 1;
             _defaultTranslationX = content.TranslationX;
             _defaultTranslationY = content.TranslationY;
         }
