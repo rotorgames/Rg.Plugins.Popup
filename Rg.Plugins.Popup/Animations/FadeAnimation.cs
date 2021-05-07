@@ -54,6 +54,8 @@ namespace Rg.Plugins.Popup.Animations
         public override Task Disappearing(View content, PopupPage page)
         {
             _defaultOpacity = page.Opacity;
+            if (double.IsNaN(_defaultOpacity))
+                _defaultOpacity = 1;
 
             if (HasBackgroundAnimation)
             {
