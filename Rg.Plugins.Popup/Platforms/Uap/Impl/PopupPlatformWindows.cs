@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Rg.Plugins.Popup.Windows.Renderers;
