@@ -103,7 +103,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
                 {
                     var navCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
                     var modalCount = XApplication.Current.MainPage.Navigation.ModalStack.Count;
-                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
 
                     if (navCount > 0)
                     {
