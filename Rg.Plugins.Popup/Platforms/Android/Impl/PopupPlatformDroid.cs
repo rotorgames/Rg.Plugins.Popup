@@ -56,9 +56,19 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 if (page.AndroidTalkbackAccessibilityWorkaround)
                 {
-                    var NavCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
-                    Page currentPage = XApplication.Current.MainPage.Navigation.NavigationStack[NavCount - 1];
-                    currentPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+                    var navCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
+                    var modalCount = XApplication.Current.MainPage.Navigation.ModalStack.Count;
+                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+
+                    if (navCount > 0)
+                    {
+                        XApplication.Current.MainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+                    }
+                    if (modalCount > 0)
+                    {
+                        XApplication.Current.MainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
+                    }
+
                 }
             }
         }
@@ -91,9 +101,18 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 if (page.AndroidTalkbackAccessibilityWorkaround)
                 {
-                    var NavCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
-                    Page currentPage = XApplication.Current.MainPage.Navigation.NavigationStack[NavCount - 1];
-                    currentPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                    var navCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
+                    var modalCount = XApplication.Current.MainPage.Navigation.ModalStack.Count;
+                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+
+                    if (navCount > 0)
+                    {
+                        XApplication.Current.MainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                    }
+                    if (modalCount > 0)
+                    {
+                        XApplication.Current.MainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                    }
                 }
             }
         }
