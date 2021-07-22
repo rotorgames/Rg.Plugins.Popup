@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+<rg:PopupPage x:Class="Demo.Pages.UserAnimationPage"
+              xmlns="http://xamarin.com/schemas/2014/forms"
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:rg="http://rotorgames.com"
               xmlns:animations="clr-namespace:Demo.Animations;assembly=Demo"
-              x:Class="Demo.Pages.UserAnimationPage">
-  <rg:PopupPage.Animation>
-    <animations:UserAnimation/>
-  </rg:PopupPage.Animation>
-  <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-    <Frame BackgroundColor="Silver">
-      <StackLayout Spacing="20">
-        <Label HorizontalOptions="Center" Text="User Animation" FontSize="16"></Label>
-        <Button Text="Close" Clicked="OnClose"></Button>
-      </StackLayout>
-    </Frame>
-  </StackLayout>
+              xmlns:rg="http://rotorgames.com"
+              AndroidTalkbackAccessibilityWorkaround="True">
+    <rg:PopupPage.Animation>
+        <animations:UserAnimation />
+    </rg:PopupPage.Animation>
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Frame BackgroundColor="Silver">
+            <StackLayout Spacing="20">
+                <Label FontSize="16"
+                       HorizontalOptions="Center"
+                       Text="User Animation" />
+                <Button Clicked="OnClose" Text="Close" />
+            </StackLayout>
+        </Frame>
+    </StackLayout>
 </rg:PopupPage>

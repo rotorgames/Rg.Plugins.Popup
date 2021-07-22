@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,6 +70,25 @@ namespace Rg.Plugins.Popup.Droid.Impl
                         XApplication.Current.MainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
                     }
 
+                    DisableFocusableInTouchMode(XApplication.Current.MainPage.GetOrCreateRenderer().View.Parent);
+                }
+            }
+
+            static void DisableFocusableInTouchMode(IViewParent? parent)
+            {
+                var view = parent;
+                string className = $"{view?.GetType().Name}";
+
+                while (!className.Contains("PlatformRenderer") && view != null)
+                {
+                    view = view.Parent;
+                    className = $"{view?.GetType().Name}";
+                }
+
+                if (view is Android.Views.View androidView)
+                {
+                    androidView.Focusable = false;
+                    androidView.FocusableInTouchMode = false;
                 }
             }
         }
