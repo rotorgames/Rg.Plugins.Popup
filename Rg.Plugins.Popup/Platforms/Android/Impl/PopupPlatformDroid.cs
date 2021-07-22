@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Views;
-using Android.Views.Accessibility;
 using Android.Widget;
 
 using Rg.Plugins.Popup.Contracts;
@@ -17,7 +13,6 @@ using Rg.Plugins.Popup.Droid.Extensions;
 using Rg.Plugins.Popup.Droid.Impl;
 using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 
 using Xamarin.Forms;
 
