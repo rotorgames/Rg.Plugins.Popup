@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+              x:Class="Demo.Pages.LoadingPopupPage"
+              CloseWhenBackgroundIsClicked="False">
+    <rg:PopupPage.Content>
+  <ActivityIndicator
+    Color="White"
+    IsRunning="True"
+    IsEnabled="True"
+    VerticalOptions="Center"
+    HorizontalOptions="Center"
+    HeightRequest="70"
+    WidthRequest="70"/>
+    </rg:PopupPage.Content>
+</rg:PopupPage>

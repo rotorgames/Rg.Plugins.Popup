@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             x:Class="Demo.Pages.ListViewPage">
+    <rg:PopupPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
+    <StackLayout BackgroundColor="White">
+      <ListView x:Name="listView">
+        <!--<ListView.ItemTemplate>
+          <DataTemplate>
+                            <DataTemplate.Values>
+                                <TextCell TextColor="Black" Text="{Binding .}"></TextCell>
+                            </DataTemplate.Values>
+                        </DataTemplate>
+                    </ListView.ItemTemplate> -->
+                </ListView>
+    </StackLayout>
+    <Button Text="Close" TextColor="#A9D1DE" Clicked="OnClose"></Button>
+  </StackLayout>
+    </rg:PopupPage.Content>
+</rg:PopupPage>

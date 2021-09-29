@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+              xmlns:useranimations="clr-namespace:Demo.Animations;assembly=SampleMaui"
+              x:Class="Demo.Pages.UserAnimationPage">
+    <rg:PopupPage.Animation>
+        <useranimations:UserAnimation/>
+    </rg:PopupPage.Animation>
+    <rg:PopupPage.Content>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <Frame BackgroundColor="Silver">
+                <Frame.Content>
+                    <StackLayout Spacing="20">
+        <Label HorizontalOptions="Center" Text="User Animation" FontSize="16"></Label>
+        <Button Text="Close" Clicked="OnClose"></Button>
+      </StackLayout>
+                </Frame.Content>
+            </Frame>
+  </StackLayout>
+    </rg:PopupPage.Content>
+</rg:PopupPage>
