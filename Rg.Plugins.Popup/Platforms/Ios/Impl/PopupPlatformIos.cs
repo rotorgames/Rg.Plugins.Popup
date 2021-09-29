@@ -58,9 +58,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
             PopupWindow window;
             if (IsiOS13OrNewer)
             {
-                var connectedScene = UIApplication.SharedApplication.ConnectedScenes.ToArray().FirstOrDefault(x => x.ActivationState == UISceneActivationState.ForegroundActive);
-                if (connectedScene != null && connectedScene is UIWindowScene windowScene)
-                    window = new PopupWindow(windowScene);
+                if (UIApplication.SharedApplication.ConnectedScenes.ToArray()
+                    .FirstOrDefault(x => x.ActivationState == UISceneActivationState.ForegroundActive && x is UIWindowScene) is UIWindowScene connectedScene)
+                    window = new PopupWindow(connectedScene);
                 else
                     window = new PopupWindow();
 
