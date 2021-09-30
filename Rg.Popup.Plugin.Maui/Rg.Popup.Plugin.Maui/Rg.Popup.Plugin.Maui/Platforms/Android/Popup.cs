@@ -1,12 +1,9 @@
 ﻿
 using Android.Content;
-using Android.OS;
-using Rg.Plugins.Popup.Droid.Impl;
-using Rg.Plugins.Popup.Droid.Renderers;
+using Microsoft.Maui.Essentials;
 using Rg.Plugins.Popup.Services;
 
 using System;
-using System.Linq;
 
 namespace Rg.Plugins.Popup
 {

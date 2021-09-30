@@ -1,22 +1,16 @@
-
-using Android.App;
-using Android.OS;
-using Android.Provider;
-using Android.Runtime;
+﻿using Android.Provider;
 using Android.Widget;
+
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Droid.Extensions;
-using Rg.Plugins.Popup.Droid.Impl;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 
 using System;
 using System.Threading.Tasks;
 
 namespace Rg.Plugins.Popup.Droid.Impl
 {
-
-     public class PopupPlatformDroid : IPopupPlatform
+    public class PopupPlatformDroid : IPopupPlatform
     {
         public event EventHandler OnInitialized
         {
@@ -73,11 +67,10 @@ namespace Rg.Plugins.Popup.Droid.Impl
             if (context == null)
                 return false;
 
-                animationScale = Settings.System.GetFloat(
-                    context.ContentResolver,
-                    Settings.System.AnimatorDurationScale,
-                    1);
-            
+            animationScale = Settings.System.GetFloat(
+                context.ContentResolver,
+                Settings.System.AnimatorDurationScale,
+                1);
 
             return animationScale > 0;
         }

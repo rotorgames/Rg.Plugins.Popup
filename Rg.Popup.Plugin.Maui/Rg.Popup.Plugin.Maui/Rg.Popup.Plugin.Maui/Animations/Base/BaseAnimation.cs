@@ -67,6 +67,5 @@ namespace Rg.Plugins.Popup.Animations.Base
         {
             Microsoft.Maui.Essentials.MainThread.BeginInvokeOnMainThread(() => page.IsVisible = true);
         }
-
     }
 }

@@ -33,7 +33,7 @@ namespace Rg.Plugins.Popup.Animations.Base
 
         public override Task Appearing(View content, PopupPage page)
         {
-            if(AnimatedAndCompatible(page))
+            if (AnimatedAndCompatible(page))
             {
                 TaskCompletionSource<bool> task = new();
                 page.Animate("backgroundFade", d =>

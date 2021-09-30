@@ -1,10 +1,8 @@
-using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using Android.Graphics;
 using Android.Widget;
 
 using Microsoft.Maui.Controls.Compatibility;
@@ -14,6 +12,9 @@ using Microsoft.Maui.Graphics;
 using Rg.Plugins.Popup.Droid.Gestures;
 using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Pages;
+
+using System;
+
 using View = Android.Views.View;
 
 [assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
@@ -61,7 +62,6 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
-            
             var activity = Microsoft.Maui.Essentials.Platform.CurrentActivity;
 
             Microsoft.Maui.Thickness systemPadding;

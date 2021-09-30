@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.Maui.Controls;
 
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
