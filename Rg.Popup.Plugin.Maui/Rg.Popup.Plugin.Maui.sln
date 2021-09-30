@@ -12,7 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99961434-C545-4C22-928F-EA9BBDBC32ED}"
 	ProjectSection(SolutionItems) = preProject
 		..\Directory.Build.props = ..\Directory.Build.props
-		..\Directory.Build.targets = ..\Directory.Build.targets
 	EndProjectSection
 EndProject
 Global

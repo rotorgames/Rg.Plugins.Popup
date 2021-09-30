@@ -6,7 +6,7 @@ namespace Rg.Plugins.Popup.Droid.Gestures
 {
     internal class RgGestureDetectorListener : GestureDetector.SimpleOnGestureListener
     {
-        public event EventHandler<MotionEvent> Clicked;
+        public event EventHandler<MotionEvent>? Clicked;
 
         public override bool OnSingleTapUp(MotionEvent e)
         {
