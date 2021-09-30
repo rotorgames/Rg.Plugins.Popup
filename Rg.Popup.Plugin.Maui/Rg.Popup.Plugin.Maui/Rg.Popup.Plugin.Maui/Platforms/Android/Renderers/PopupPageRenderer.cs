@@ -71,13 +71,13 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             var decoreHeight = decoreView.Height;
             var decoreWidht = decoreView.Width;
 
-            var visibleRect = new Android.Graphics.Rect();
+            using var visibleRect = new Android.Graphics.Rect();
 
             decoreView.GetWindowVisibleDisplayFrame(visibleRect);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
-                var screenRealSize = new Android.Graphics.Point();
+                using var screenRealSize = new Android.Graphics.Point();
                 activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
 
                 var windowInsets = RootWindowInsets;
@@ -98,7 +98,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             }
             else
             {
-                var screenSize = new Android.Graphics.Point();
+                using var screenSize = new Android.Graphics.Point();
                 activity.WindowManager.DefaultDisplay.GetSize(screenSize);
 
                 var keyboardHeight = 0d;
@@ -175,11 +175,11 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             if (_disposed)
                 return false;
 
-            View currentFocus1 = Microsoft.Maui.Essentials.Platform.CurrentActivity.CurrentFocus;
+            View? currentFocus1 = Microsoft.Maui.Essentials.Platform.CurrentActivity.CurrentFocus;
 
             if (currentFocus1 is EditText)
             {
-                View currentFocus2 = Microsoft.Maui.Essentials.Platform.CurrentActivity.CurrentFocus;
+                View? currentFocus2 = Microsoft.Maui.Essentials.Platform.CurrentActivity.CurrentFocus;
                 if (currentFocus1 == currentFocus2 && _downPosition.Distance(new Microsoft.Maui.Graphics.Point(e.RawX, e.RawY)) <= Context.ToPixels(20.0) && !(DateTime.UtcNow - _downTime > TimeSpan.FromMilliseconds(200.0)))
                 {
                     int[] location = new int[2];
@@ -211,9 +211,9 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetector.OnTouchEvent(e);
 
-            if (CurrentElement != null && CurrentElement.BackgroundInputTransparent)
+            if (CurrentElement?.BackgroundInputTransparent == true)
             {
-                if (ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)) || ChildCount == 0)
+                if ((ChildCount > 0 && !IsInRegion(e.RawX, e.RawY, GetChildAt(0)!)) || ChildCount == 0)
                 {
                     CurrentElement.SendBackgroundClick();
                     return false;
@@ -223,12 +223,12 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             return baseValue;
         }
 
-        private void OnBackgroundClick(object sender, MotionEvent e)
+        private void OnBackgroundClick(object? sender, MotionEvent e)
         {
             if (ChildCount == 0)
                 return;
 
-            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0));
+            var isInRegion = IsInRegion(e.RawX, e.RawY, GetChildAt(0)!);
 
             if (!isInRegion)
                 CurrentElement.SendBackgroundClick();

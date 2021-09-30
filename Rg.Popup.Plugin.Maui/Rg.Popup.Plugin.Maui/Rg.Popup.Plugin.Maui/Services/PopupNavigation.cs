@@ -49,8 +49,8 @@ namespace Rg.Plugins.Popup.Services
 
     public static class PopupNavigation
     {
-        static IPopupNavigation _customNavigation;
-        static Lazy<IPopupNavigation> implementation = new(() => CreatePopupNavigation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+        static IPopupNavigation? _customNavigation;
+        static readonly Lazy<IPopupNavigation> implementation = new(() => CreatePopupNavigation(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Gets if the plugin is supported on the current platform.
@@ -92,7 +92,6 @@ namespace Rg.Plugins.Popup.Services
 
         internal static Exception NotImplementedInReferenceAssembly() =>
             new NotImplementedException("This functionality is not implemented in the portable version of this assembly.  You should reference the NuGet package from your main application project in order to reference the platform-specific implementation.");
-
     }
 }
 

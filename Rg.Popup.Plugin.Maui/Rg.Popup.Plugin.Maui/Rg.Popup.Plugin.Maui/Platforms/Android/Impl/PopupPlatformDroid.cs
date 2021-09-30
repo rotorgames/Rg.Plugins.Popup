@@ -79,17 +79,14 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         #region Helpers
 
-        Task PostAsync(Android.Views.View nativeView)
+        Task<bool> PostAsync(Android.Views.View nativeView)
         {
             if (nativeView == null)
                 return Task.FromResult(true);
 
             var tcs = new TaskCompletionSource<bool>();
 
-            nativeView.Post(() =>
-            {
-                tcs.SetResult(true);
-            });
+            nativeView.Post(() => tcs.SetResult(true));
 
             return tcs.Task;
         }

@@ -4,17 +4,19 @@ using Microsoft.Maui.Essentials;
 using Rg.Plugins.Popup.Services;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Rg.Plugins.Popup
 {
     public static class Popup
     {
-        internal static event EventHandler OnInitialized;
+        internal static event EventHandler? OnInitialized;
 
         internal static bool IsInitialized { get; private set; }
 
-        internal static Context Context { get; private set; }
+        internal static Context? Context { get; private set; }
 
+        [MemberNotNull(nameof(Context))]
         public static void Init(Context context)
         {
             //LinkAssemblies();
@@ -25,7 +27,7 @@ namespace Rg.Plugins.Popup
             OnInitialized?.Invoke(null, EventArgs.Empty);
         }
 
-        public static bool SendBackPressed(Action backPressedHandler = null)
+        public static bool SendBackPressed(Action? backPressedHandler = null)
         {
             var popupNavigationInstance = PopupNavigation.Instance;
 
@@ -37,10 +39,7 @@ namespace Rg.Plugins.Popup
 
                 if (!isPreventClose)
                 {
-                    Microsoft.Maui.Essentials.MainThread.BeginInvokeOnMainThread(async () =>
-                    {
-                        await popupNavigationInstance.RemovePageAsync(lastPage);
-                    });
+                    MainThread.BeginInvokeOnMainThread(async () => await popupNavigationInstance.RemovePageAsync(lastPage));
                 }
 
                 return true;
