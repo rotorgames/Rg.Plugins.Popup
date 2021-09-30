@@ -64,9 +64,10 @@ namespace Rg.Plugins.Popup.Animations
 
         public async override Task Appearing(View content, PopupPage page)
         {
-            var taskList = new List<Task>();
-
-            taskList.Add(base.Appearing(content, page));
+            var taskList = new List<Task>
+            {
+                base.Appearing(content, page)
+            };
 
             if (content != null)
             {
@@ -104,9 +105,10 @@ namespace Rg.Plugins.Popup.Animations
 
         public async override Task Disappearing(View content, PopupPage page)
         {
-            var taskList = new List<Task>();
-
-            taskList.Add(base.Disappearing(content, page));
+            var taskList = new List<Task>
+            {
+                base.Disappearing(content, page)
+            };
 
             if (content != null)
             {
@@ -140,18 +142,14 @@ namespace Rg.Plugins.Popup.Animations
 
         private Task Scale(View content, Easing easing, double start, double end, bool isAppearing)
         {
-            TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+            TaskCompletionSource<bool> task = new();
 
-            content.Animate("popIn", d =>
-            {
-                content.Scale = d;
-            }, start, end,
-            easing: easing,
-            length: isAppearing ? DurationIn : DurationOut,
-            finished: (d, b) =>
-            {
-                task.SetResult(true);
-            });
+            content.Animate(
+                "popIn",
+                d => content.Scale = d, start, end,
+                easing: easing,
+                length: isAppearing ? DurationIn : DurationOut,
+                finished: (_, _) => task.SetResult(true));
             return task.Task;
         }
 
