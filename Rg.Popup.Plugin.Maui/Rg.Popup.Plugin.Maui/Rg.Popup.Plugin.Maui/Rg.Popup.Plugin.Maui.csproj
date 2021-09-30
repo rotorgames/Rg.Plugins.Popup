@@ -40,9 +40,5 @@
 	    <Pack>true</Pack>
 	  </None>
 	</ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Remove="Microsoft.CodeAnalysis.FxCopAnalyzers" />
-  </ItemGroup>
   
 </Project>
