@@ -33,16 +33,14 @@ namespace Rg.Plugins.Popup.Animations.Base
 
         public override Task Appearing(View content, PopupPage page)
         {
-            if(AnimatedAndCompatible(page))
+            if (AnimatedAndCompatible(page))
             {
                 TaskCompletionSource<bool> task = new();
-                page.Animate("backgroundFade", d =>
-                {
-                    page.BackgroundColor = GetColor(d);
-                }, 0, _backgroundColor.Alpha, length: DurationIn, finished: (d, b) =>
-                {
-                    task.SetResult(true);
-                });
+                page.Animate(
+                    "backgroundFade",
+                    d => page.BackgroundColor = GetColor(d), 0, _backgroundColor.Alpha,
+                    length: DurationIn,
+                    finished: (_, _) => task.SetResult(true));
 
                 return task.Task;
             }
@@ -54,17 +52,17 @@ namespace Rg.Plugins.Popup.Animations.Base
         {
             if (AnimatedAndCompatible(page))
             {
-                TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+                TaskCompletionSource<bool> task = new();
 
                 _backgroundColor = page.BackgroundColor;
 
-                page.Animate("backgroundFade", d =>
-                {
-                    page.BackgroundColor = GetColor(d);
-                }, _backgroundColor.Alpha, 0, length: DurationOut, finished: (d, b) =>
-                {
-                    task.SetResult(true);
-                });
+                page.Animate(
+                    "backgroundFade",
+                    d => page.BackgroundColor = GetColor(d),
+                    _backgroundColor.Alpha,
+                    0,
+                    length: DurationOut,
+                    finished: (_, _) => task.SetResult(true));
 
                 return task.Task;
             }
@@ -72,7 +70,7 @@ namespace Rg.Plugins.Popup.Animations.Base
             return Task.CompletedTask;
         }
 
-        private Color GetColor(double transparent) => new Color(_backgroundColor.Red, _backgroundColor.Green, _backgroundColor.Blue, (float)transparent);
+        private Color GetColor(double transparent) => new(_backgroundColor.Red, _backgroundColor.Green, _backgroundColor.Blue, (float)transparent);
         private bool AnimatedAndCompatible(PopupPage page) => HasBackgroundAnimation && page.BackgroundImageSource == null;
     }
 }

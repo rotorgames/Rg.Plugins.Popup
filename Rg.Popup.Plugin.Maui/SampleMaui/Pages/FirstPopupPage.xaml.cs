@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Microsoft.Maui.Controls;
 
 namespace Demo.Pages
 {

@@ -6,7 +6,6 @@ using Microsoft.Maui;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 
-
 namespace Demo.Pages
 {
     public partial class SystemOffsetPage : PopupPage
@@ -48,7 +47,7 @@ namespace Demo.Pages
             });
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 

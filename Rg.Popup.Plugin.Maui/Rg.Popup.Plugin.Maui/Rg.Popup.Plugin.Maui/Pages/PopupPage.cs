@@ -15,18 +15,17 @@ namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
     {
-
         #region Internal Properties
 
-        internal Task AppearingTransactionTask { get; set; }
+        internal Task? AppearingTransactionTask { get; set; }
 
-        internal Task DisappearingTransactionTask { get; set; }
+        internal Task? DisappearingTransactionTask { get; set; }
 
         #endregion
 
         #region Events
 
-        public event EventHandler BackgroundClicked;
+        public event EventHandler? BackgroundClicked;
 
         #endregion
 
@@ -50,7 +49,7 @@ namespace Rg.Plugins.Popup.Pages
 
         public static readonly BindableProperty AnimationProperty = BindableProperty.Create(nameof(Animation), typeof(IPopupAnimation), typeof(PopupPage));
 
-        public IPopupAnimation Animation
+        public IPopupAnimation? Animation
         {
             get { return (IPopupAnimation)GetValue(AnimationProperty); }
             set { SetValue(AnimationProperty, value); }
@@ -114,7 +113,7 @@ namespace Rg.Plugins.Popup.Pages
             Animation = new ScaleAnimation();
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
@@ -126,7 +125,6 @@ namespace Rg.Plugins.Popup.Pages
                 case nameof(SystemPadding):
                     ForceLayout();
                     break;
-
             }
         }
 
@@ -238,22 +236,22 @@ namespace Rg.Plugins.Popup.Pages
 
         protected virtual Task OnAppearingAnimationBeginAsync()
         {
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         protected virtual Task OnAppearingAnimationEndAsync()
         {
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         protected virtual Task OnDisappearingAnimationBeginAsync()
         {
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         protected virtual Task OnDisappearingAnimationEndAsync()
         {
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         #endregion

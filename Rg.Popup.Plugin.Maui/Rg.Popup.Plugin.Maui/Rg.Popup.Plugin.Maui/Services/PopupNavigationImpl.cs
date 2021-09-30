@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.Maui.Controls;
 
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
@@ -16,20 +13,20 @@ namespace Rg.Plugins.Popup.Services
         private readonly object _locker = new();
 
         public IReadOnlyList<PopupPage> PopupStack => _popupStack;
-        private List<PopupPage> _popupStack = new();
+        private readonly List<PopupPage> _popupStack = new();
 
-        public event EventHandler<PopupNavigationEventArgs> Pushing;
+        public event EventHandler<PopupNavigationEventArgs>? Pushing;
 
-        public event EventHandler<PopupNavigationEventArgs> Pushed;
+        public event EventHandler<PopupNavigationEventArgs>? Pushed;
 
-        public event EventHandler<PopupNavigationEventArgs> Popping;
+        public event EventHandler<PopupNavigationEventArgs>? Popping;
 
-        public event EventHandler<PopupNavigationEventArgs> Popped;
+        public event EventHandler<PopupNavigationEventArgs>? Popped;
 
 
         private static readonly Lazy<IPopupPlatform> lazyImplementation = new(() => GeneratePopupPlatform(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
-        private IPopupPlatform PopupPlatform = lazyImplementation.Value;
+        private readonly IPopupPlatform PopupPlatform = lazyImplementation.Value;
         private static IPopupPlatform GeneratePopupPlatform()
         {
             try
@@ -39,16 +36,16 @@ namespace Rg.Plugins.Popup.Services
             }
             catch (Exception)
             {
-
                 throw new InvalidOperationException("You MUST install Rg.Plugins.Popup to each project and call " + Config.InitializationDescriptionUrl);
             }
-
 
             static IPopupPlatform PullPlatformImplementation()
             {
 #if ANDROID
                 return new Rg.Plugins.Popup.Droid.Impl.PopupPlatformDroid();
 #endif
+
+                throw new PlatformNotSupportedException();
             }
         }
 
@@ -65,7 +62,7 @@ namespace Rg.Plugins.Popup.Services
             }
         }
 
-        private async void OnInitialized(object sender, EventArgs e)
+        private async void OnInitialized(object? sender, EventArgs e)
         {
             if (_popupStack.Count > 0)
             {

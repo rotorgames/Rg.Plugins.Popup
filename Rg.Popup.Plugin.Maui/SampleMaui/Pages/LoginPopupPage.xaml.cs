@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Microsoft.Maui.Controls;
+
 namespace Demo.Pages
 {
     public partial class LoginPopupPage : PopupPage

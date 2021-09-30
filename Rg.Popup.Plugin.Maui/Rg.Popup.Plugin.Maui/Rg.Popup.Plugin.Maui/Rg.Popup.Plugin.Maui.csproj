@@ -3,19 +3,16 @@
 	<PropertyGroup>
 		<!-- iOS, Android, MacCatalyst -->
     
-    <TargetFrameworks>net6.0-android<!--net6.0-ios;net6.0-maccatalyst--></TargetFrameworks>
+    <TargetFrameworks>net6.0;net6.0-android<!--net6.0-ios;net6.0-maccatalyst--></TargetFrameworks>
 		<UseMaui>true</UseMaui>
     <UseMauiEssentials>true</UseMauiEssentials> 
     <SingleProject>true</SingleProject>
 
-
-
     <AssemblyName>Rg.Plugins.Popup</AssemblyName>
     <RootNamespace>Rg.Plugins.Popup</RootNamespace>
     <PackageId>Rg.Plugins.Popup</PackageId>
-    <Description>Plugin for Xamarin forms. Allows you to open any page as a popup.</Description>
+    <Description>Plugin for MAUI. Allows you to open any page as a popup.</Description>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-
 	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
@@ -34,14 +31,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\..\Rg.Plugins.Popup\icon.png" Link="icon.png">
+	  <None Include="..\..\..\icon.png" Link="icon.png">
 	    <PackagePath>\</PackagePath>
 	    <Pack>true</Pack>
 	  </None>
-	  <None Include="..\..\..\Rg.Plugins.Popup\LICENSE.md" Link="LICENSE.md">
+	  <None Include="..\..\..\LICENSE.md" Link="LICENSE.md">
 	    <PackagePath>\</PackagePath>
 	    <Pack>true</Pack>
 	  </None>
 	</ItemGroup>
-
+  
 </Project>
