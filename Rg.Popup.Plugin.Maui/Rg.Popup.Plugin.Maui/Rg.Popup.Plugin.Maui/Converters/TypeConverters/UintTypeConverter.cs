@@ -1,12 +1,13 @@
 ﻿
 using System;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace Rg.Plugins.Popup.Converters.TypeConverters
 {
     public class UintTypeConverter : TypeConverter
     {
-        public new object ConvertFromInvariantString(string value)
+        public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
         {
             try
             {
