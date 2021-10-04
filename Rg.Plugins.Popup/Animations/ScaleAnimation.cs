@@ -102,10 +102,13 @@ namespace Rg.Plugins.Popup.Animations
         public async override Task Disappearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
+
+            taskList.Add(base.Disappearing(content, page));
+
             if (content != null)
             {
                 UpdateDefaultProperties(content);
-                taskList.Add(base.Disappearing(content, page));
+
                 var topOffset = GetTopOffset(content, page) * ScaleOut;
                 var leftOffset = GetLeftOffset(content, page) * ScaleOut;
 
