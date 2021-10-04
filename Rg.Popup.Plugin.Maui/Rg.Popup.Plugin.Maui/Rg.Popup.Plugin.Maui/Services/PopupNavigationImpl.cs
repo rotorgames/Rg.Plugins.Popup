@@ -31,8 +31,7 @@ namespace Rg.Plugins.Popup.Services
         {
             try
             {
-                IPopupPlatform popupPlatform = PullPlatformImplementation();
-                return popupPlatform;
+                return PullPlatformImplementation();
             }
             catch (Exception)
             {
@@ -121,23 +120,11 @@ namespace Rg.Plugins.Popup.Services
             }
         }
 
-        public Task PopAllAsync(bool animate = true)
+        public async Task PopAllAsync(bool animate = true)
         {
-            lock (_locker)
+            while (PopupNavigation.Instance.PopupStack.Count > 0)
             {
-                animate = CanBeAnimated(animate);
-
-                if (_popupStack.Count <= 0)
-                {
-                    throw new InvalidOperationException("PopupStack is empty");
-                }
-
-                List<Task> popupTasks = new();
-                while (PopupNavigation.Instance.PopupStack.Count > 0)
-                {
-                    popupTasks.Add(PopAsync(false));
-                }
-                return Task.WhenAll(popupTasks);
+                await PopAsync(CanBeAnimated(animate));
             }
         }
 

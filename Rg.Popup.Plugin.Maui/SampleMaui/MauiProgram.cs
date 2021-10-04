@@ -22,6 +22,7 @@ namespace SampleMaui
                 });
 #if __ANDROID__
             Microsoft.Maui.Essentials.Platform.Init(MauiApplication.Current);
+
 #endif
             return builder.Build();
         }

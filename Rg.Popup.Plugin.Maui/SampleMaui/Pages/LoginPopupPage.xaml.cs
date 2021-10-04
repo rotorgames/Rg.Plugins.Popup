@@ -11,10 +11,10 @@ namespace Demo.Pages
         {
             InitializeComponent();
         }
-        /*
-        protected override void OnAppearingAnimationBegin()
+        
+        protected override async Task OnAppearingAnimationBeginAsync()
         {
-            base.OnAppearingAnimationBegin();
+            await base.OnAppearingAnimationBeginAsync();
 
             FrameContainer.HeightRequest = -1;
 
@@ -50,7 +50,7 @@ namespace Demo.Pages
                 return;
 
             var translateLength = 400u;
-
+            /*
             await Task.WhenAll(
                 UsernameEntry.TranslateTo(0, 0, easing: Easing.SpringOut, length: translateLength),
                 UsernameEntry.FadeTo(1),
@@ -69,9 +69,10 @@ namespace Demo.Pages
                 CloseImage.RotateTo(0),
                 LoginButton.ScaleTo(1),
                 LoginButton.FadeTo(1));
+            */
         }
 
-        */
+        
         protected override async Task OnDisappearingAnimationBeginAsync()
         {
             if (!IsAnimationEnabled)

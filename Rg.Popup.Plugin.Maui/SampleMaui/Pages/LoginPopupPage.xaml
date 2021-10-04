@@ -23,6 +23,8 @@
   </rg:PopupPage.Animation>
     <rg:PopupPage.Content>
   <ScrollView
+      HeightRequest="300"
+      WidthRequest="300"
     HorizontalOptions="Center"
     VerticalOptions="Center">
             <ScrollView.Content>

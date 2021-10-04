@@ -146,7 +146,7 @@ namespace Rg.Plugins.Popup.Animations
 
             content.Animate(
                 "popIn",
-                d => content.Scale = d, start, end,
+                d =>  content.Scale = double.IsNaN(d) ? 1 : d, start, end,
                 easing: easing,
                 length: isAppearing ? DurationIn : DurationOut,
                 finished: (_, _) => task.SetResult(true));
