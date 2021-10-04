@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.Compatibility;
+﻿using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
-
-using Rg.Plugins.Popup.Contracts;
+using Microsoft.Maui.LifecycleEvents;
+using Rg.Plugins.Popup;
 
 namespace SampleMaui
 {
@@ -12,18 +10,20 @@ namespace SampleMaui
     {
         public static MauiApp CreateMauiApp()
         {
-
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
-#if __ANDROID__
-            Microsoft.Maui.Essentials.Platform.Init(MauiApplication.Current);
-
+                })
+                .ConfigureLifecycleEvents(lifecycle =>
+                {
+#if ANDROID
+                    lifecycle.AddAndroid(d => d.OnBackPressed(activity => Popup.SendBackPressed(activity.OnBackPressed)));
 #endif
+                });
+
             return builder.Build();
         }
     }
