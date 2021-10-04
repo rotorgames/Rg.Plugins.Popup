@@ -102,13 +102,10 @@ namespace Rg.Plugins.Popup.Animations
         public async override Task Disappearing(View content, PopupPage page)
         {
             var taskList = new List<Task>();
-
-            taskList.Add(base.Disappearing(content, page));
-
             if (content != null)
             {
                 UpdateDefaultProperties(content);
-
+                taskList.Add(base.Disappearing(content, page));
                 var topOffset = GetTopOffset(content, page) * ScaleOut;
                 var leftOffset = GetLeftOffset(content, page) * ScaleOut;
 
@@ -131,7 +128,6 @@ namespace Rg.Plugins.Popup.Animations
                     taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingOut));
                 }
             }
-
             await Task.WhenAll(taskList);
         }
 
@@ -141,7 +137,7 @@ namespace Rg.Plugins.Popup.Animations
 
             content.Animate("popIn", d =>
             {
-                content.Scale = d;
+                content.Scale = double.IsNaN(d) ? 1 : d;
             }, start, end,
             easing: easing,
             length: isAppearing ? DurationIn : DurationOut,
