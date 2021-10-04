@@ -13,6 +13,7 @@ namespace SampleMaui
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)
             : base(handle, ownership)
         {
+            Microsoft.Maui.Essentials.Platform.Init(Current);
         }
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
