@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
 using Rg.Plugins.Popup.Pages;
+using AsyncAwaitBestPractices;
+using System.Diagnostics;
 
 namespace Rg.Plugins.Popup.Services
 {
@@ -27,6 +29,7 @@ namespace Rg.Plugins.Popup.Services
         private static readonly Lazy<IPopupPlatform> lazyImplementation = new(() => GeneratePopupPlatform(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         private readonly IPopupPlatform PopupPlatform = lazyImplementation.Value;
+
         private static IPopupPlatform GeneratePopupPlatform()
         {
             try
@@ -61,11 +64,11 @@ namespace Rg.Plugins.Popup.Services
             }
         }
 
-        private async void OnInitialized(object? sender, EventArgs e)
+        private void OnInitialized(object? sender, EventArgs e)
         {
             if (_popupStack.Count > 0)
             {
-                await PopAllAsync(false);
+                PopAllAsync(false).SafeFireAndForget();
             }
         }
 
@@ -82,9 +85,17 @@ namespace Rg.Plugins.Popup.Services
 
                 _popupStack.Add(page);
 
-                var task = Microsoft.Maui.Essentials.MainThread.InvokeOnMainThreadAsync(async () =>
-                //var task = InvokeThreadSafe(async () =>
-                {
+                var pushPageTask = Microsoft.Maui.Essentials.MainThread.IsMainThread
+                    ? PushPage()
+                    : Microsoft.Maui.Essentials.MainThread.InvokeOnMainThreadAsync(PushPage);
+
+
+                page.AppearingTransactionTask = pushPageTask;
+
+                return pushPageTask;
+
+                async Task PushPage()
+                { 
                     animate = CanBeAnimated(animate);
 
                     if (animate)
@@ -101,11 +112,15 @@ namespace Rg.Plugins.Popup.Services
                     page.AppearingTransactionTask = null;
 
                     Pushed?.Invoke(this, new PopupNavigationEventArgs(page, animate));
-                });
+                };
+            }
+        }
 
-                page.AppearingTransactionTask = task;
-
-                return task;
+        public async Task PopAllAsync(bool animate = true)
+        {
+            while (PopupNavigation.Instance.PopupStack.Count > 0)
+            {
+                await PopAsync(CanBeAnimated(animate));
             }
         }
 
@@ -117,14 +132,6 @@ namespace Rg.Plugins.Popup.Services
                 return _popupStack.Count <= 0
                     ? throw new InvalidOperationException("PopupStack is empty")
                     : RemovePageAsync(PopupStack[PopupStack.Count - 1], animate);
-            }
-        }
-
-        public async Task PopAllAsync(bool animate = true)
-        {
-            while (PopupNavigation.Instance.PopupStack.Count > 0)
-            {
-                await PopAsync(CanBeAnimated(animate));
             }
         }
 
@@ -140,8 +147,17 @@ namespace Rg.Plugins.Popup.Services
 
                 if (page.DisappearingTransactionTask != null)
                     return page.DisappearingTransactionTask;
-                var task = Microsoft.Maui.Essentials.MainThread.InvokeOnMainThreadAsync(async () =>
-                //var task = InvokeThreadSafe(async () =>
+
+                var RemovePageTask = Microsoft.Maui.Essentials.MainThread.IsMainThread
+                    ? RemovePage()
+                    : Microsoft.Maui.Essentials.MainThread.InvokeOnMainThreadAsync(RemovePage);
+
+                //RemovePageTask.ContinueWith(_ => Debug.WriteLine("BINGBINGBING"));
+                page.DisappearingTransactionTask = RemovePageTask;
+                return RemovePageTask;
+
+
+                async Task RemovePage()
                 {
                     if (page.AppearingTransactionTask != null)
                     {
@@ -179,17 +195,15 @@ namespace Rg.Plugins.Popup.Services
 
                         Popped?.Invoke(this, new PopupNavigationEventArgs(page, animate));
                     }
-                });
-                page.DisappearingTransactionTask = task;
-                return task;
+                }
             }
         }
 
         // Private
 
         // Internal 
-
-        internal void RemovePopupFromStack(PopupPage page)
+        
+        internal void RemovePopupFromStack(PopupPage page) // unused?
         {
             if (_popupStack.Contains(page))
                 _popupStack.Remove(page);

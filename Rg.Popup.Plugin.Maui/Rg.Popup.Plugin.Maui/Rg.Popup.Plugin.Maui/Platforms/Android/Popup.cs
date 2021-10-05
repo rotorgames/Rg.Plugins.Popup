@@ -5,6 +5,8 @@ using Rg.Plugins.Popup.Services;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using AsyncAwaitBestPractices;
+
 
 namespace Rg.Plugins.Popup
 {
@@ -39,7 +41,7 @@ namespace Rg.Plugins.Popup
 
                 if (!isPreventClose)
                 {
-                    MainThread.BeginInvokeOnMainThread(async () => await popupNavigationInstance.RemovePageAsync(lastPage));
+                    popupNavigationInstance.PopAsync(false).SafeFireAndForget();
                 }
 
                 return true;

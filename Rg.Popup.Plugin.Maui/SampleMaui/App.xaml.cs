@@ -1,4 +1,6 @@
-﻿using Demo.Pages;
+﻿using System;
+
+using Demo.Pages;
 
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -15,7 +17,6 @@ namespace SampleMaui
         public App() 
         {
             InitializeComponent();
-
             MainPage = new MainPage();
         }
     }

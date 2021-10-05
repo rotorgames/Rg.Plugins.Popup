@@ -15,7 +15,7 @@ namespace Demo.Pages
         protected override async Task OnAppearingAnimationBeginAsync()
         {
             await base.OnAppearingAnimationBeginAsync();
-
+            /*
             FrameContainer.HeightRequest = -1;
 
             if (!IsAnimationEnabled)
@@ -42,6 +42,7 @@ namespace Demo.Pages
 
             UsernameEntry.TranslationX = PasswordEntry.TranslationX = -10;
             UsernameEntry.Opacity = PasswordEntry.Opacity = 0;
+            */
         }
 
         protected override async Task OnAppearingAnimationEndAsync()

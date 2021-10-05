@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Threading.Tasks;
 
+using AsyncAwaitBestPractices;
 namespace Rg.Plugins.Popup.Pages
 {
     public class PopupPage : ContentPage
@@ -268,12 +269,12 @@ namespace Rg.Plugins.Popup.Pages
 
         #region Internal Methods
 
-        internal async void SendBackgroundClick()
+        internal void SendBackgroundClick()
         {
             BackgroundClicked?.Invoke(this, EventArgs.Empty);
             if (OnBackgroundClicked())
             {
-                await PopupNavigation.Instance.RemovePageAsync(this);
+                PopupNavigation.Instance.RemovePageAsync(this).SafeFireAndForget();
             }
         }
 

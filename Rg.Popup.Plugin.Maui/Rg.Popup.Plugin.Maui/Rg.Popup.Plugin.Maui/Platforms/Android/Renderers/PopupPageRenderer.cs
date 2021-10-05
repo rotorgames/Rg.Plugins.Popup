@@ -17,7 +17,6 @@ using System;
 
 using View = Android.Views.View;
 
-[assembly: ExportRenderer(typeof(PopupPage), typeof(PopupPageRenderer))]
 namespace Rg.Plugins.Popup.Droid.Renderers
 {
     [Preserve(AllMembers = true)]
@@ -77,6 +76,8 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
+
+                //var screenRealEstate = Microsoft.Maui.Essentials.DeviceDisplay.MainDisplayInfo
                 using var screenRealSize = new Android.Graphics.Point();
                 activity.WindowManager.DefaultDisplay.GetRealSize(screenRealSize);
 
@@ -99,6 +100,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             else
             {
                 using var screenSize = new Android.Graphics.Point();
+
                 activity.WindowManager.DefaultDisplay.GetSize(screenSize);
 
                 var keyboardHeight = 0d;

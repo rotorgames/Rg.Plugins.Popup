@@ -18,7 +18,7 @@ namespace Rg.Plugins.Popup.Droid.Impl
             remove => Popup.OnInitialized -= value;
         }
 
-        private FrameLayout DecoreView => (FrameLayout)Microsoft.Maui.Essentials.Platform.CurrentActivity.Window.DecorView;
+        private FrameLayout? DecoreView => Microsoft.Maui.Essentials.Platform.CurrentActivity.Window.DecorView as FrameLayout;
 
         public bool IsInitialized => Popup.IsInitialized;
 
@@ -26,25 +26,25 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public Task AddAsync(PopupPage page)
         {
-            FrameLayout decoreView = DecoreView;
+            var decoreView = DecoreView;
 
-            page.Parent = (Microsoft.Maui.Controls.Element)Microsoft.Maui.MauiApplication.Current.Application.Windows[0].Content;
+            page.Parent = Microsoft.Maui.MauiApplication.Current.Application.Windows[0].Content as Microsoft.Maui.Controls.Element;
 
-            Microsoft.Maui.Controls.Compatibility.Platform.Android.IVisualElementRenderer renderer = page.GetOrCreateRenderer();
+            var renderer = page.GetOrCreateRenderer();
 
-            decoreView.AddView(renderer.View);
+            decoreView?.AddView(renderer.View);
 
             return PostAsync(renderer.View);
         }
 
         public Task RemoveAsync(PopupPage page)
         {
-            Microsoft.Maui.Controls.Compatibility.Platform.Android.IVisualElementRenderer renderer = page.GetOrCreateRenderer();
+            var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
                 Microsoft.Maui.Controls.VisualElement element = renderer.Element;
 
-                DecoreView.RemoveView(renderer.View);
+                DecoreView?.RemoveView(renderer.View);
                 renderer.Dispose();
 
                 if (element != null)

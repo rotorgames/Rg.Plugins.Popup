@@ -40,5 +40,9 @@
 	    <Pack>true</Pack>
 	  </None>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.1" />
+	</ItemGroup>
   
 </Project>
