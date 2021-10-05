@@ -19,7 +19,9 @@
       ScaleIn="1"
       ScaleOut="0.7"
       DurationIn="700"
-      EasingIn="BounceOut"/>
+            DurationOut="700"
+      EasingIn="BounceOut"
+            EasingOut="BounceIn"/>
     </rg:PopupPage.Animation>
     <rg:PopupPage.Content>
   <ScrollView

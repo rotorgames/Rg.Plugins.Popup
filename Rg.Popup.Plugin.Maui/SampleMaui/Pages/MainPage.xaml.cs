@@ -9,7 +9,6 @@ namespace Demo.Pages
 {
     public partial class MainPage : ContentPage
     {
-        private LoginPopupPage _loginPopup;
 
         public MainPage()
         {
@@ -19,13 +18,11 @@ namespace Demo.Pages
             PopupNavigation.Instance.Pushed += (sender, e) => Debug.WriteLine($"[Popup] Pushed: {e.Page.GetType().Name}");
             PopupNavigation.Instance.Popping += (sender, e) => Debug.WriteLine($"[Popup] Popping: {e.Page.GetType().Name}");
             PopupNavigation.Instance.Popped += (sender, e) => Debug.WriteLine($"[Popup] Popped: {e.Page.GetType().Name}");
-
-            _loginPopup = new LoginPopupPage();
         }
 
         private async void OnOpenPupup(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PushAsync(_loginPopup);
+            await PopupNavigation.Instance.PushAsync(new LoginPopupPage());
         }
 
         private async void OnUserAnimationPupup(object sender, EventArgs e)
