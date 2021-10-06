@@ -109,6 +109,7 @@ namespace Rg.Plugins.Popup.IOS.Renderers
 
         public override void ViewDidLayoutSubviews()
         {
+            if (_isDisposed) return;
             base.ViewDidLayoutSubviews();
             this.UpdateSize();
         }
