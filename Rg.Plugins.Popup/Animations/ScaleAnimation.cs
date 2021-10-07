@@ -131,7 +131,6 @@ namespace Rg.Plugins.Popup.Animations
                     taskList.Add(content.TranslateTo(leftOffset, _defaultTranslationY, DurationOut, EasingOut));
                 }
             }
-
             await Task.WhenAll(taskList);
         }
 
@@ -141,7 +140,7 @@ namespace Rg.Plugins.Popup.Animations
 
             content.Animate("popIn", d =>
             {
-                content.Scale = d;
+                content.Scale = double.IsNaN(d) ? 1 : d;
             }, start, end,
             easing: easing,
             length: isAppearing ? DurationIn : DurationOut,
