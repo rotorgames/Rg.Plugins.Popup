@@ -24,7 +24,7 @@ You can find all descriptions of [Getting Started](https://github.com/rotorgames
 
 ## Created By: Kirill Lyubimov
 * LinkedIn: [Kirill Lyubimov](https://www.linkedin.com/in/kirill-lyubimov-06a68712b/)
-* Twitter: [@rotorgames_LK](https://twitter.com/rotorgames_LK)
+* Twitter: [@kirillrg](https://twitter.com/kirillrg)
 
 ## License
 
