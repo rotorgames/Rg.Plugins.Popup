@@ -6,7 +6,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using AsyncAwaitBestPractices;
-
+using Microsoft.Maui;
 
 namespace Rg.Plugins.Popup
 {

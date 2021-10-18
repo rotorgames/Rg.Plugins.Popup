@@ -2,24 +2,192 @@
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
-using Android.Widget;
 
-using Microsoft.Maui.Controls.Compatibility;
-using Microsoft.Maui.Controls.Compatibility.Platform.Android;
-using Microsoft.Maui.Graphics;
-
-using Rg.Plugins.Popup.Droid.Gestures;
-using Rg.Plugins.Popup.Droid.Renderers;
-using Rg.Plugins.Popup.Pages;
-
+using Microsoft.Maui.Controls;
 using System;
+using Microsoft.Maui;
+using Microsoft.Maui.Graphics;
+using Rg.Plugins.Popup.Pages;
+using Microsoft.Maui.Handlers;
+using System.Threading.Tasks;
 
-using View = Android.Views.View;
-
-namespace Rg.Plugins.Popup.Droid.Renderers
+namespace Rg.Plugins.Popup.Pages
 {
-    [Preserve(AllMembers = true)]
+
+    public class PopupPageHandler : ContentViewHandler
+    {
+        public PopupPageHandler()
+        {
+            try
+            { //This needs to be changed around to be proper
+                this.SetMauiContext(new MauiContext(Microsoft.Maui.MauiApplication.Current.Services, Microsoft.Maui.MauiApplication.Current.ApplicationContext));
+                Task.Run(async () =>
+                {
+                    while (this.VirtualView == null)
+                    {
+                        await Task.Delay(100);
+                    }
+
+                    this.NativeView.LayoutChange += PopupPage_LayoutChange;
+                });
+               // this.NativeView.LayoutChange += PopupPage_LayoutChange;
+
+            }
+            catch (Exception ex )
+            {
+
+                throw;
+            }
+                
+        }
+
+        private void PopupPage_LayoutChange(object? sender, Android.Views.View.LayoutChangeEventArgs e)
+        {
+
+            var activity = Microsoft.Maui.Essentials.Platform.CurrentActivity;
+
+            Microsoft.Maui.Thickness systemPadding;
+            var keyboardOffset = 0d;
+
+            var decoreView = activity.Window.DecorView;
+            var decoreHeight = decoreView.Height;
+            var decoreWidth = decoreView.Width;
+
+            using var visibleRect = new Android.Graphics.Rect();
+
+            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
+            //Proving that i'm influencing the position using changes here. 
+            this.VirtualView.CrossPlatformArrange(new Rectangle(Context.FromPixels(e.Top/2), Context.FromPixels(e.Left/2), Context.FromPixels(e.Right/2), Context.FromPixels(e.Bottom/2)));
+
+            //this.SystemPadding = systemPadding;
+            //this.KeyboardOffset = keyboardOffset;
+
+            //this.Layout(new Rectangle(, Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            //else
+            //   CurrentElement.ForceLayout();
+
+            //base.OnLayout(changed, l, t, r, b);
+        }
+
+        public PopupPageHandler(IPropertyMapper? mapper = null) : base(mapper)
+        {
+        }
+
+        protected PopupPageHandler(IPropertyMapper mapper, CommandMapper? commandMapper = null) : base(mapper, commandMapper)
+        {
+        }
+
+        public override bool NeedsContainer => base.NeedsContainer;
+
+        public override Microsoft.Maui.Graphics.Size GetDesiredSize(double widthConstraint, double heightConstraint)
+        {
+            return base.GetDesiredSize(widthConstraint, heightConstraint);
+        }
+
+        public override void Invoke(string command, object? args)
+        {
+            base.Invoke(command, args);
+        }
+
+        public override void NativeArrange(Rectangle frame)
+        {
+            base.NativeArrange(frame);
+        }
+
+        public override void SetVirtualView(IView view)
+        {
+            base.SetVirtualView(view);
+        }
+
+        public override void UpdateValue(string property)
+        {
+            base.UpdateValue(property);
+        }
+
+        protected override void ConnectHandler(ContentViewGroup nativeView)
+        {
+            base.ConnectHandler(nativeView);
+        }
+
+        protected override ContentViewGroup CreateNativeView()
+        {
+            return base.CreateNativeView();
+        }
+
+        protected override void DisconnectHandler(ContentViewGroup nativeView)
+        {
+            base.DisconnectHandler(nativeView);
+        }
+
+        protected override void RemoveContainer()
+        {
+            base.RemoveContainer();
+        }
+
+        protected override void SetupContainer()
+        {
+            base.SetupContainer();
+        }
+    }
+
+    public partial class PopupPage : ContentPage
+    {
+        partial void ChangedHandler(object sender, EventArgs e)
+        {
+            ((sender as ContentPage).Handler.NativeView as Android.Views.View).LayoutChange += PopupPage_LayoutChange;
+        }
+
+        private void PopupPage_LayoutChange(object? sender, Android.Views.View.LayoutChangeEventArgs e)
+        {
+
+            var activity = Microsoft.Maui.Essentials.Platform.CurrentActivity;
+
+            Microsoft.Maui.Thickness systemPadding;
+            var keyboardOffset = 0d;
+
+            var decoreView = activity.Window.DecorView;
+            var decoreHeight = decoreView.Height;
+            var decoreWidth = decoreView.Width;
+
+            using var visibleRect = new Android.Graphics.Rect();
+
+            decoreView.GetWindowVisibleDisplayFrame(visibleRect);
+
+            //this.SystemPadding = systemPadding;
+            this.KeyboardOffset = keyboardOffset;
+
+            //this.Layout(new Rectangle(, Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            //else
+             //   CurrentElement.ForceLayout();
+
+            //base.OnLayout(changed, l, t, r, b);
+        }
+
+        partial void ChangingHandler(object sender, HandlerChangingEventArgs e)
+        {
+            if (e.OldHandler != null)
+            {
+                //(e.OldHandler.NativeView as Android.Views.View).FocusChange -= OnFocusChange;
+            }
+        }
+
+        /*
+        void OnFocusChange(object sender, EventArgs e)
+        {
+            var nativeView = sender as AppCompatEditText;
+
+            if (nativeView.IsFocused)
+                nativeView.SetBackgroundColor(Colors.LightPink.ToNative());
+            else
+                nativeView.SetBackgroundColor(Colors.White.ToNative());
+        }
+        */
+
+
+    }
+    /*
     public class PopupPageRenderer : PageRenderer
     {
         private readonly RgGestureDetectorListener _gestureDetectorListener;
@@ -34,15 +202,16 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         public PopupPageRenderer(Context context) : base(context)
         {
-            _gestureDetectorListener = new RgGestureDetectorListener();
+            //_gestureDetectorListener = new RgGestureDetectorListener();
 
-            _gestureDetectorListener.Clicked += OnBackgroundClick;
+            //_gestureDetectorListener.Clicked += OnBackgroundClick;
 
-            _gestureDetector = new GestureDetector(Context, _gestureDetectorListener);
+            //_gestureDetector = new GestureDetector(Context, _gestureDetectorListener);
         }
 
         protected override void Dispose(bool disposing)
         {
+            
             if (disposing)
             {
                 _disposed = true;
@@ -51,8 +220,9 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 _gestureDetectorListener.Dispose();
                 _gestureDetector.Dispose();
             }
-
+            
             base.Dispose(disposing);
+            
         }
 
         #endregion
@@ -61,6 +231,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
+            
             var activity = Microsoft.Maui.Essentials.Platform.CurrentActivity;
 
             Microsoft.Maui.Thickness systemPadding;
@@ -127,7 +298,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
             else
                 CurrentElement.ForceLayout();
-
+            
             base.OnLayout(changed, l, t, r, b);
         }
 
@@ -137,17 +308,19 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         protected override void OnAttachedToWindow()
         {
-            Context.HideKeyboard(Microsoft.Maui.Essentials.Platform.CurrentActivity.Window.DecorView);
+            //Context.HideKeyboard(Microsoft.Maui.Essentials.Platform.CurrentActivity.Window.DecorView);
             base.OnAttachedToWindow();
         }
 
         protected override void OnDetachedFromWindow()
         {
+            
             Microsoft.Maui.Controls.Device.StartTimer(TimeSpan.FromMilliseconds(0), () =>
             {
                 Popup.Context.HideKeyboard(((Activity)Popup.Context).Window.DecorView);
                 return false;
             });
+            
             base.OnDetachedFromWindow();
         }
 
@@ -156,8 +329,8 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             base.OnWindowVisibilityChanged(visibility);
 
             // It is needed because a size of popup has not updated on Android 7+. See #209
-            if (visibility == ViewStates.Visible)
-                RequestLayout();
+            //if (visibility == ViewStates.Visible)
+                //RequestLayout();
         }
 
         #endregion
@@ -166,6 +339,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
         public override bool DispatchTouchEvent(MotionEvent e)
         {
+            
             if (e.Action == MotionEventActions.Down)
             {
                 _downTime = DateTime.UtcNow;
@@ -223,8 +397,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
             }
 
             return baseValue;
+            
+            return base.OnTouchEvent(e);
         }
-
+        
         private void OnBackgroundClick(object? sender, MotionEvent e)
         {
             if (ChildCount == 0)
@@ -247,7 +423,9 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                    mCoordBuffer[0] < x &&              // left edge
                    mCoordBuffer[1] < y;                // top edge
         }
+        
 
         #endregion
     }
+*/
 }

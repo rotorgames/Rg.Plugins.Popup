@@ -56,7 +56,7 @@ namespace Rg.Plugins.Popup.Services
             PlatformSpecificInititalisation();
             PopupPlatform.OnInitialized += OnInitialized;
 
-            static void PlatformSpecificInititalisation()
+            void PlatformSpecificInititalisation()
             {
 #if ANDROID
                 Rg.Plugins.Popup.Popup.Init(Microsoft.Maui.Essentials.Platform.AppContext);

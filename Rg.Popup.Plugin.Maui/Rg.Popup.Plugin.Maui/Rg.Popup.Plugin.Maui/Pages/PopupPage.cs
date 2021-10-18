@@ -14,8 +14,26 @@ using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 namespace Rg.Plugins.Popup.Pages
 {
-    public class PopupPage : ContentPage
+    public partial class PopupPage : ContentPage
     {
+
+
+        #region new
+
+        partial void ChangedHandler(object sender, EventArgs e);
+        partial void ChangingHandler(object sender, HandlerChangingEventArgs e);
+
+        void OnHandlerChanged(object sender, EventArgs e)
+        {
+            ChangedHandler(sender, e);
+        }
+
+        void OnHandlerChanging(object sender, HandlerChangingEventArgs e)
+        {
+            ChangingHandler(sender, e);
+        }
+
+        #endregion
         #region Internal Properties
 
         internal Task? AppearingTransactionTask { get; set; }
@@ -218,7 +236,7 @@ namespace Rg.Plugins.Popup.Pages
         #endregion
 
         #region Override Animation Methods
-        /*
+        
         protected virtual void OnAppearingAnimationBegin()
         {
         }
@@ -234,7 +252,7 @@ namespace Rg.Plugins.Popup.Pages
         protected virtual void OnDisappearingAnimationEnd()
         {
         }
-        */
+        
 
         protected virtual Task OnAppearingAnimationBeginAsync()
         {

@@ -4,8 +4,8 @@ using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using Rg.Plugins.Popup;
-using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 
 namespace SampleMaui
 {
@@ -24,13 +24,16 @@ namespace SampleMaui
                 {
 #if ANDROID
                     lifecycle.AddAndroid(d => d.OnBackPressed(activity => Popup.SendBackPressed(activity.OnBackPressed)));
+                
 #endif
                 })
                 .ConfigureMauiHandlers(handlers =>
                 {
-                    //handlers.AddCompatibilityRenderer(typeof(PopupPage), typeof(PopupPageRenderer));
-                });
 
+                    //handlers.AddMauiControlsHandlers();
+                    handlers.AddHandler(typeof(PopupPage), typeof(PopupPageHandler));
+                    //handlers.AddCompatibilityRenderer(typeof(PopupPage), typeof(PopupPageHandler));
+                });
             return builder.Build();
         }
     }
