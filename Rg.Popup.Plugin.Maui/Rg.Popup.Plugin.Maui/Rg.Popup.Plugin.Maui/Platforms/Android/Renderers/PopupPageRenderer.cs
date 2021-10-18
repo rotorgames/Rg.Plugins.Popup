@@ -32,7 +32,6 @@ namespace Rg.Plugins.Popup.Pages
 
                     this.NativeView.LayoutChange += PopupPage_LayoutChange;
                 });
-               // this.NativeView.LayoutChange += PopupPage_LayoutChange;
 
             }
             catch (Exception ex )
