@@ -79,7 +79,7 @@ namespace Rg.Plugins.Popup.Pages
         public Thickness SystemPadding
         {
             get { return (Thickness)GetValue(SystemPaddingProperty); }
-            internal set { SetValue(SystemPaddingProperty, value); }
+            private set { SetValue(SystemPaddingProperty, value); }
         }
 
         public static readonly BindableProperty SystemPaddingSidesProperty = BindableProperty.Create(nameof(SystemPaddingSides), typeof(PaddingSide), typeof(PopupPage), PaddingSide.All);
@@ -164,15 +164,14 @@ namespace Rg.Plugins.Popup.Pages
                 case nameof(HasSystemPadding):
                 case nameof(HasKeyboardOffset):
                 case nameof(SystemPaddingSides):
-                case nameof(SystemPadding):
-                ForceLayout();
-                break;
+                    ForceLayout();
+                    break;
                 case nameof(IsAnimating):
-                IsAnimationEnabled = IsAnimating;
-                break;
+                    IsAnimationEnabled = IsAnimating;
+                    break;
                 case nameof(IsAnimationEnabled):
-                IsAnimating = IsAnimationEnabled;
-                break;
+                    IsAnimating = IsAnimationEnabled;
+                    break;
             }
         }
 

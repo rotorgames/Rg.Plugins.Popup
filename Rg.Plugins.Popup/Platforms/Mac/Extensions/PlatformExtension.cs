@@ -56,24 +56,8 @@ namespace Rg.Plugins.Popup.MacOS.Extensions
                 return;
 
             var superviewFrame = renderer.View.Superview.Frame;
-            var applactionFrame = NSScreen.MainScreen.Frame;
 
-
-
-            var systemPadding = new Thickness
-            {
-                Left = applactionFrame.Left,
-                Top = applactionFrame.Top,
-                Right = applactionFrame.Right - applactionFrame.Width - applactionFrame.Left,
-                Bottom = applactionFrame.Bottom - applactionFrame.Height - applactionFrame.Top
-            };
-
-            currentElement.BatchBegin();
-
-            currentElement.SystemPadding = systemPadding;
             renderer.SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-
-            currentElement.BatchCommit();
         }
     }
 }

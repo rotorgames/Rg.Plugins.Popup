@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 using Rg.Plugins.Popup.IOS.Renderers;
-
+using Rg.Plugins.Popup.Pages;
 using UIKit;
 
 using Xamarin.Forms;
@@ -57,23 +57,44 @@ namespace Rg.Plugins.Popup.IOS.Extensions
 
             var superviewFrame = renderer.View.Superview.Frame;
             var applicationFrame = UIScreen.MainScreen.ApplicationFrame;
+            var keyboardOffset = renderer.KeyboardBounds.Height;
 
-            var systemPadding = new Thickness
-            {
-                Left = applicationFrame.Left,
-                Top = applicationFrame.Top,
-                Right = applicationFrame.Right - applicationFrame.Width - applicationFrame.Left,
-                Bottom = applicationFrame.Bottom - applicationFrame.Height - applicationFrame.Top + renderer.KeyboardBounds.Height
-            };
+            Thickness systemPadding;
 
-            if ((renderer.Element.Width != superviewFrame.Width && renderer.Element.Height != superviewFrame.Height)
-                || currentElement.SystemPadding.Bottom != systemPadding.Bottom)
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
             {
-                currentElement.BatchBegin();
-                currentElement.SystemPadding = systemPadding;
-                renderer.SetElementSize(new Size(superviewFrame.Width, superviewFrame.Height));
-                currentElement.BatchCommit();
+                var safeAreaInsets = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets;
+
+                systemPadding = new Thickness(
+                    safeAreaInsets.Left,
+                    safeAreaInsets.Top,
+                    safeAreaInsets.Right,
+                    safeAreaInsets.Bottom);
             }
+            else
+            {
+                systemPadding = new Thickness
+                {
+                    Left = applicationFrame.Left,
+                    Top = applicationFrame.Top,
+                    Right = applicationFrame.Right - applicationFrame.Width - applicationFrame.Left,
+                    Bottom = applicationFrame.Bottom - applicationFrame.Height - applicationFrame.Top
+                };
+            }
+
+            var needForceLayout =
+                (currentElement.HasSystemPadding && currentElement.SystemPadding != systemPadding)
+                || (currentElement.HasKeyboardOffset && currentElement.KeyboardOffset != keyboardOffset);
+
+            currentElement.SetValueFromRenderer(PopupPage.SystemPaddingProperty, systemPadding);
+            currentElement.SetValueFromRenderer(PopupPage.KeyboardOffsetProperty, keyboardOffset);
+
+            var elementSize = new Size(superviewFrame.Width, superviewFrame.Height);
+
+            if (currentElement.Bounds.Size != elementSize)
+                renderer.SetElementSize(elementSize);
+            else if (needForceLayout)
+                currentElement.ForceLayout();
         }
     }
 }

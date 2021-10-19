@@ -60,19 +60,23 @@ namespace Rg.Plugins.Popup.Droid.Renderers
         protected override void OnLayout(bool changed, int l, int t, int r, int b)
         {
             var activity = (Activity?)Context;
+            var element = CurrentElement;
+
+            if (element == null)
+                return;
 
             Thickness systemPadding;
             var keyboardOffset = 0d;
 
             var decoreView = activity?.Window?.DecorView;
 
-            var visibleRect = new Android.Graphics.Rect();
+            var visibleRect = new Rect();
 
             decoreView?.GetWindowVisibleDisplayFrame(visibleRect);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && RootWindowInsets != null)
             {
-                var h = b-t;
+                var h = b - t;
 
                 var windowInsets = RootWindowInsets;
                 var bottomPadding = Math.Min(windowInsets.StableInsetBottom, windowInsets.SystemWindowInsetBottom);
@@ -119,13 +123,17 @@ namespace Rg.Plugins.Popup.Droid.Renderers
                 systemPadding = new Thickness();
             }
 
-            CurrentElement.SetValue(PopupPage.SystemPaddingProperty, systemPadding);
-            CurrentElement.SetValue(PopupPage.KeyboardOffsetProperty, keyboardOffset);
+            var needForceLayout =
+                (element.HasSystemPadding && element.SystemPadding != systemPadding)
+                || (element.HasKeyboardOffset && element.KeyboardOffset != keyboardOffset);
+
+            element.SetValueFromRenderer(PopupPage.SystemPaddingProperty, systemPadding);
+            element.SetValueFromRenderer(PopupPage.KeyboardOffsetProperty, keyboardOffset);
 
             if (changed)
-                CurrentElement.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
-            else
-                CurrentElement.ForceLayout();
+                element.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
+            else if(needForceLayout)
+                element.ForceLayout();
 
             base.OnLayout(changed, l, t, r, b);
         }
