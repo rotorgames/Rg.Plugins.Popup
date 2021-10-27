@@ -61,7 +61,8 @@ namespace Rg.Plugins.Popup.IOS.Extensions
 
             Thickness systemPadding;
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0)
+                && UIApplication.SharedApplication.KeyWindow != null)
             {
                 var safeAreaInsets = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets;
 
