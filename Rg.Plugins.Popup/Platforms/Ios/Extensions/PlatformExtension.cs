@@ -97,5 +97,20 @@ namespace Rg.Plugins.Popup.IOS.Extensions
             else if (needForceLayout)
                 currentElement.ForceLayout();
         }
+
+        public static UIWindow GetKeyWindow(this UIApplication application)
+        {
+            if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+                return UIApplication.SharedApplication.KeyWindow;
+
+            var window = application
+                .ConnectedScenes
+                .ToArray()
+                .OfType<UIWindowScene>()
+                .SelectMany(scene => scene.Windows)
+                .FirstOrDefault(window => window.IsKeyWindow);
+
+            return window;
+        }
     }
 }
