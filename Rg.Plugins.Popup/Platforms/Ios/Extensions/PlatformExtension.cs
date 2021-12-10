@@ -13,6 +13,8 @@ namespace Rg.Plugins.Popup.IOS.Extensions
 {
     internal static class PlatformExtension
     {
+        private static bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
+
         public static IVisualElementRenderer GetOrCreateRenderer(this VisualElement bindable)
         {
             var renderer = XFPlatform.GetRenderer(bindable);
@@ -100,7 +102,7 @@ namespace Rg.Plugins.Popup.IOS.Extensions
 
         public static UIWindow GetKeyWindow(this UIApplication application)
         {
-            if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+            if (!IsiOS13OrNewer)
                 return UIApplication.SharedApplication.KeyWindow;
 
             var window = application
