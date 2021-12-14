@@ -13,6 +13,8 @@ namespace Rg.Plugins.Popup.IOS.Extensions
 {
     internal static class PlatformExtension
     {
+        private static bool IsiOS13OrNewer => UIDevice.CurrentDevice.CheckSystemVersion(13, 0);
+
         public static IVisualElementRenderer GetOrCreateRenderer(this VisualElement bindable)
         {
             var renderer = XFPlatform.GetRenderer(bindable);
@@ -96,6 +98,21 @@ namespace Rg.Plugins.Popup.IOS.Extensions
                 renderer.SetElementSize(elementSize);
             else if (needForceLayout)
                 currentElement.ForceLayout();
+        }
+
+        public static UIWindow GetKeyWindow(this UIApplication application)
+        {
+            if (!IsiOS13OrNewer)
+                return UIApplication.SharedApplication.KeyWindow;
+
+            var window = application
+                .ConnectedScenes
+                .ToArray()
+                .OfType<UIWindowScene>()
+                .SelectMany(scene => scene.Windows)
+                .FirstOrDefault(window => window.IsKeyWindow);
+
+            return window;
         }
     }
 }

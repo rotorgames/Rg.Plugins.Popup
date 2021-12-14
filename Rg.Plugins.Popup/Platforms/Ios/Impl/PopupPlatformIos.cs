@@ -50,8 +50,9 @@ namespace Rg.Plugins.Popup.IOS.Impl
 
             page.DescendantRemoved += HandleChildRemoved;
 
-            if (UIApplication.SharedApplication.KeyWindow.WindowLevel == UIWindowLevel.Normal)
-                UIApplication.SharedApplication.KeyWindow.WindowLevel = -1;
+            var keyWindow = UIApplication.SharedApplication.GetKeyWindow();
+            if (keyWindow?.WindowLevel == UIWindowLevel.Normal)
+                keyWindow.WindowLevel = -1;
 
             var renderer = page.GetOrCreateRenderer();
 
@@ -115,10 +116,11 @@ namespace Rg.Plugins.Popup.IOS.Impl
                     window = null;
                 }
 
-                if(_windows.Count > 0)
+                var keyWindow = UIApplication.SharedApplication.GetKeyWindow();
+                if (_windows.Count > 0)
                     _windows.Last().WindowLevel = UIWindowLevel.Normal;
-                else if (UIApplication.SharedApplication.KeyWindow.WindowLevel == -1)
-                    UIApplication.SharedApplication.KeyWindow.WindowLevel = UIWindowLevel.Normal;
+                else if (keyWindow?.WindowLevel == -1)
+                    keyWindow.WindowLevel = UIWindowLevel.Normal;
             }
         }
 
