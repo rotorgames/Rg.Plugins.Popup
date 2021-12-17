@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup Condition=" '$(TargetsToBuild)' == 'All' ">
-    <TargetFrameworks>netstandard2.0;xamarin.ios10;xamarin.mac20;xamarin.tvos10;xamarin.watchos10;monoandroid9.0;monoandroid10.0;tizen80;netcoreapp3.1;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarin.ios10;xamarin.mac20;xamarin.tvos10;xamarin.watchos10;monoandroid9.0;monoandroid10.0;tizen80;netcoreapp3.1;net472;net5.0-windows</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">uap10.0.17763;$(TargetFrameworks)</TargetFrameworks>
   </PropertyGroup>
 
@@ -38,13 +38,22 @@
     <Compile Include="Platforms\Netstandard\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net4')) And '$(OS)' == 'Windows_NT' ">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) Or $(TargetFramework.EndsWith('windows')) And '$(OS)' == 'Windows_NT' ">
     <None Remove="Platforms\Net\**\*.cs" />
     <None Remove="Platforms\Wpf\**\*.cs" />
     <Compile Include="Platforms\Net\**\*.cs" />
     <Compile Include="Platforms\Wpf\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) And '$(OS)' == 'Windows_NT'">
     <PackageReference Include="Xamarin.Forms.Platform.WPF" Version="4.5.0.657" />
   </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.EndsWith('windows')) And '$(OS)' == 'Windows_NT'">
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
+    <PackageReference Include="Xamarin.Forms.Platform.WPF" Version="5.0.0.1874" />
+  </ItemGroup>
+  
 
   <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
     <None Remove="Platforms\Shared\**\*.cs" />
@@ -111,7 +120,7 @@
     <Compile Include="Platforms\Xamarin\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'!='net5.0-windows'">
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.657" />
   </ItemGroup>
 
