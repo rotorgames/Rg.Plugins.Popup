@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<!-- iOS, Android, MacCatalyst -->
-    
+  <PropertyGroup>
+    <!-- iOS, Android, MacCatalyst -->
     <TargetFrameworks>net6.0;net6.0-android<!--net6.0-ios;net6.0-maccatalyst--></TargetFrameworks>
-		<UseMaui>true</UseMaui>
-    <UseMauiEssentials>true</UseMauiEssentials> 
+    <UseMaui>true</UseMaui>
+    <UseMauiEssentials>true</UseMauiEssentials>
     <SingleProject>true</SingleProject>
 
     <AssemblyName>Rg.Plugins.Popup</AssemblyName>
@@ -13,36 +12,40 @@
     <PackageId>Rg.Plugins.Popup</PackageId>
     <Description>Plugin for MAUI. Allows you to open any page as a popup.</Description>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-	</PropertyGroup>
+
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<InvariantGlobalization Condition="$(TargetFramework.Contains('-maccatalyst'))">true</InvariantGlobalization>
-		<RuntimeIdentifier Condition="$(TargetFramework.Contains('-ios'))">iossimulator-x64</RuntimeIdentifier>
-		<RuntimeIdentifier Condition="$(TargetFramework.Contains('-maccatalyst'))">maccatalyst-x64</RuntimeIdentifier>
-		<UseInterpreter Condition="$(TargetFramework.Contains('-android'))">False</UseInterpreter>
-	</PropertyGroup>
+  <PropertyGroup>
+    <InvariantGlobalization Condition="$(TargetFramework.Contains('-maccatalyst'))">true</InvariantGlobalization>
+    <RuntimeIdentifier Condition="$(TargetFramework.Contains('-ios'))">iossimulator-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$(TargetFramework.Contains('-maccatalyst'))">maccatalyst-x64</RuntimeIdentifier>
+    <UseInterpreter Condition="$(TargetFramework.Contains('-android'))">False</UseInterpreter>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
 
-	<ItemGroup>
-	  <None Include="..\..\..\icon.png" Link="icon.png">
-	    <PackagePath>\</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	  <None Include="..\..\..\LICENSE.md" Link="LICENSE.md">
-	    <PackagePath>\</PackagePath>
-	    <Pack>true</Pack>
-	  </None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\icon.png" Link="icon.png">
+      <PackagePath>\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Include="..\..\..\LICENSE.md" Link="LICENSE.md">
+      <PackagePath>\</PackagePath>
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.1" />
-	</ItemGroup>
-  
+  <ItemGroup>
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.1" />
+  </ItemGroup>
+
 </Project>
