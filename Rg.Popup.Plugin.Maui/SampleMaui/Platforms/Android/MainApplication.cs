@@ -2,6 +2,9 @@
 using Android.Runtime;
 
 using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
+
+using Rg.Plugins.Popup.Services;
 
 using System;
 
@@ -16,6 +19,9 @@ namespace SampleMaui
             Microsoft.Maui.Essentials.Platform.Init(Current);
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+        protected override MauiApp CreateMauiApp()
+        {
+            return MauiProgram.CreateMauiApp();
+        }
     }
 }

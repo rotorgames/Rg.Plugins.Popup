@@ -1,6 +1,8 @@
 ﻿using Android.Provider;
 using Android.Widget;
 
+using Microsoft.Maui.Controls;
+
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Droid.Extensions;
 using Rg.Plugins.Popup.Pages;
@@ -26,29 +28,35 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public Task AddAsync(PopupPage page)
         {
-            var decoreView = DecoreView;
+            try
+            {
+                var decoreView = DecoreView;
 
-            page.Parent = Microsoft.Maui.MauiApplication.Current.Application.Windows[0].Content as Microsoft.Maui.Controls.Element;
+                page.Parent = Microsoft.Maui.MauiApplication.Current.Application.Windows[0].Content as Microsoft.Maui.Controls.Element;
+                var renderer = page.GetOrCreateHandler();
+       
+                decoreView?.AddView(renderer.NativeView as Android.Views.View);
 
-            var renderer = page.GetOrCreateRenderer();
-
-            decoreView?.AddView(renderer.View);
-
-            return PostAsync(renderer.View);
+                return PostAsync(renderer.NativeView as Android.Views.View);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task RemoveAsync(PopupPage page)
         {
-            var renderer = page.GetOrCreateRenderer();
+            var renderer = page.GetOrCreateHandler();
             if (renderer != null)
             {
-                Microsoft.Maui.Controls.VisualElement element = renderer.Element;
+                //Microsoft.Maui.Controls.VisualElement element = renderer.Element;
 
-                DecoreView?.RemoveView(renderer.View);
-                renderer.Dispose();
+                DecoreView?.RemoveView(renderer.NativeView as Android.Views.View);
+                renderer.DisconnectHandler(); //?? no clue if works
 
-                if (element != null)
-                    element.Parent = null;
+                if (page.Parent != null)
+                    page.Parent = null;
 
                 return PostAsync(DecoreView);
             }
@@ -82,7 +90,9 @@ namespace Rg.Plugins.Popup.Droid.Impl
         Task<bool> PostAsync(Android.Views.View nativeView)
         {
             if (nativeView == null)
+            {
                 return Task.FromResult(true);
+            }
 
             var tcs = new TaskCompletionSource<bool>();
 
