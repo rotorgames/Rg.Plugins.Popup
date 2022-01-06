@@ -1,67 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net6.0-android</TargetFrameworks>
-		<!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks> -->
-		<OutputType>Exe</OutputType>
-		<RootNamespace>SampleMaui</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-android</TargetFrameworks>
+    <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks> -->
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SampleMaui</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 
-		<!-- Display name -->
-		<ApplicationTitle>SampleMaui</ApplicationTitle>
+    <!-- Display name -->
+    <ApplicationTitle>SampleMaui</ApplicationTitle>
 
-		<!-- App Identifier -->
-		<ApplicationId>com.companyname.SampleMaui</ApplicationId>
+    <!-- App Identifier -->
+    <ApplicationId>com.companyname.SampleMaui</ApplicationId>
 
-		<!-- Versions -->
+    <!-- Versions -->
 		<ApplicationVersion>1</ApplicationVersion>
-		<AndroidVersionCode>2</AndroidVersionCode>
+    <AndroidVersionCode>2</AndroidVersionCode>
 
-		<!-- Required for C# Hot Reload -->
-		<UseInterpreter Condition="'$(Configuration)' == 'Debug'">True</UseInterpreter>
-		<TargetFramework>net6.0-android</TargetFramework>
-		<AnalysisLevel>preview</AnalysisLevel>
-		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <!-- Required for C# Hot Reload -->
+    <UseInterpreter Condition="'$(Configuration)' == 'Debug'">True</UseInterpreter>
+    <TargetFramework>net6.0-android</TargetFramework>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<!-- App Icon -->
-		<MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4" />
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiImage Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" IsAppIcon="true" Color="#512BD4" />
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
 
-		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*" />
 
-		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
-	</ItemGroup>
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+  </ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.0.0-experimental1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1" />
-		<PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.0.0-experimental1" NoWarn="NU1701" />
-	</ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
+    <!-- Required - WinUI does not yet have buildTransitive for everything -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0-experimental1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.0.0-experimental1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.0.0-experimental1" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="1.0.0-experimental1" NoWarn="NU1701" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Rg.Popup.Plugin.Maui\Rg.Popup.Plugin.Maui\Rg.Popup.Plugin.Maui.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rg.Popup.Plugin.Maui\Rg.Popup.Plugin.Maui\Rg.Popup.Plugin.Maui.csproj" />
+  </ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.1" />
 	  <PackageReference Include="Xamarin.CommunityToolkit.Markup.MauiCompat" Version="1.3.0-alpha2" />
 	</ItemGroup>
 
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<OutputType>WinExe</OutputType>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	</PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+    <OutputType>WinExe</OutputType>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
 	  <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
