@@ -1,5 +1,4 @@
-﻿using System;
-using Rg.Plugins.Popup.Pages;
+﻿using Rg.Plugins.Popup.Pages;
 
 namespace Rg.Plugins.Popup.Events
 {

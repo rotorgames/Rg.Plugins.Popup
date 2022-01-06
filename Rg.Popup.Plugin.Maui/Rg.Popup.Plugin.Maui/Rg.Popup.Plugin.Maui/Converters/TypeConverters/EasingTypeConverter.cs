@@ -1,10 +1,5 @@
-﻿
-using Microsoft.Maui;
-
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 
 namespace Rg.Plugins.Popup.Converters.TypeConverters

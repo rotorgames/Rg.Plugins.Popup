@@ -1,17 +1,8 @@
-﻿
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics;
-
+﻿using AsyncAwaitBestPractices;
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Services;
-
-using System;
-using System.Threading.Tasks;
-
-using AsyncAwaitBestPractices;
 namespace Rg.Plugins.Popup.Pages
 {
     public partial class PopupPage : ContentPage
@@ -236,7 +227,7 @@ namespace Rg.Plugins.Popup.Pages
         #endregion
 
         #region Override Animation Methods
-        
+
         protected virtual void OnAppearingAnimationBegin()
         {
         }
@@ -252,7 +243,7 @@ namespace Rg.Plugins.Popup.Pages
         protected virtual void OnDisappearingAnimationEnd()
         {
         }
-        
+
 
         protected virtual Task OnAppearingAnimationBeginAsync()
         {

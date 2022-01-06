@@ -12,6 +12,7 @@ using Microsoft.Maui.Graphics;
 using Rg.Plugins.Popup.Pages;
 using Microsoft.Maui.Handlers;
 using System.Threading.Tasks;
+using Microsoft.Maui.Platform;
 
 namespace Rg.Plugins.Popup.Pages
 {
@@ -32,11 +33,9 @@ namespace Rg.Plugins.Popup.Pages
 
                     this.NativeView.LayoutChange += PopupPage_LayoutChange;
                 });
-
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
-
                 throw;
             }
                 
