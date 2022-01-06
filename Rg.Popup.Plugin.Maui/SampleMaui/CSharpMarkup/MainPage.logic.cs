@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Maui.Controls;
+﻿using System.Diagnostics;
 
 using Rg.Plugins.Popup.Services;
 
@@ -24,8 +17,8 @@ namespace SampleMaui.CSharpMarkup
         }
 
         protected override void OnAppearing()
-        { 
-        
+        {
+
         }
     }
 }

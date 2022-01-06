@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-
+﻿
 using Rg.Plugins.Popup.Animations.Base;
 using Rg.Plugins.Popup.Pages;
 

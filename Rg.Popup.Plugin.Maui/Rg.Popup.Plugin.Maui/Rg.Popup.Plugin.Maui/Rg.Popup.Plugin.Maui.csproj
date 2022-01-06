@@ -6,6 +6,7 @@
     <UseMaui>true</UseMaui>
     <UseMauiEssentials>true</UseMauiEssentials>
     <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <AssemblyName>Rg.Plugins.Popup</AssemblyName>
     <RootNamespace>Rg.Plugins.Popup</RootNamespace>

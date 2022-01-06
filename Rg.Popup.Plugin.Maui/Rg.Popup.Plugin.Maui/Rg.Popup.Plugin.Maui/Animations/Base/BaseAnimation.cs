@@ -1,14 +1,8 @@
 ﻿
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-
+using System.ComponentModel;
 using Rg.Plugins.Popup.Converters.TypeConverters;
 using Rg.Plugins.Popup.Interfaces.Animations;
 using Rg.Plugins.Popup.Pages;
-
-using System.ComponentModel;
-using System.Threading.Tasks;
-
 using EasingTypeConverter = Rg.Plugins.Popup.Converters.TypeConverters.EasingTypeConverter;
 using TypeConverterAttribute = System.ComponentModel.TypeConverterAttribute;
 

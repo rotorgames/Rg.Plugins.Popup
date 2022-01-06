@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
+﻿using AsyncAwaitBestPractices;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
 using Rg.Plugins.Popup.Pages;
-using AsyncAwaitBestPractices;
-using System.Diagnostics;
 
 namespace Rg.Plugins.Popup.Services
 {
@@ -95,7 +90,7 @@ namespace Rg.Plugins.Popup.Services
                 return pushPageTask;
 
                 async Task PushPage()
-                { 
+                {
                     animate = CanBeAnimated(animate);
 
                     if (animate)
@@ -202,7 +197,7 @@ namespace Rg.Plugins.Popup.Services
         // Private
 
         // Internal 
-        
+
         internal void RemovePopupFromStack(PopupPage page) // unused?
         {
             if (_popupStack.Contains(page))

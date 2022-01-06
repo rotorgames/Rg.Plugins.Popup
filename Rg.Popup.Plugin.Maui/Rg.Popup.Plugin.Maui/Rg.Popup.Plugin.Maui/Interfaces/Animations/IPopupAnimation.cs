@@ -1,9 +1,4 @@
-﻿
-using Microsoft.Maui.Controls;
-
-using Rg.Plugins.Popup.Pages;
-
-using System.Threading.Tasks;
+﻿using Rg.Plugins.Popup.Pages;
 
 namespace Rg.Plugins.Popup.Interfaces.Animations
 {

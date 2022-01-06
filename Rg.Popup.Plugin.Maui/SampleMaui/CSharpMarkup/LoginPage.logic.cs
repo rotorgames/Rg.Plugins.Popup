@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-
+﻿
 using Rg.Plugins.Popup.Pages;
 
 namespace SampleMaui.CSharpMarkup
@@ -16,7 +8,7 @@ namespace SampleMaui.CSharpMarkup
         public LoginPage()
         {
             BuildContent();
-           
+
         }
 
         protected override void OnAppearingAnimationBegin()
@@ -42,7 +34,7 @@ namespace SampleMaui.CSharpMarkup
 
             //CloseImage.Rotation = 30;
             //CloseImage.Scale = 0.3;
-           // CloseImage.Opacity = 0;
+            // CloseImage.Opacity = 0;
 
             //LoginButton.Scale = 0.3;
             //LoginButton.Opacity = 0;
@@ -58,26 +50,26 @@ namespace SampleMaui.CSharpMarkup
                 return;
             }
 
-           // var translateLength = 400u;
-           /*
-            await Task.WhenAll(
-                UsernameEntry.TranslateTo(0, 0, easing: Easing.SpringOut, length: translateLength),
-                UsernameEntry.FadeTo(1),
-                (new Func<Task>(async () =>
-                {
-                    await Task.Delay(200);
-                    await Task.WhenAll(
-                        PasswordEntry.TranslateTo(0, 0, easing: Easing.SpringOut, length: translateLength),
-                        PasswordEntry.FadeTo(1));
+            // var translateLength = 400u;
+            /*
+             await Task.WhenAll(
+                 UsernameEntry.TranslateTo(0, 0, easing: Easing.SpringOut, length: translateLength),
+                 UsernameEntry.FadeTo(1),
+                 (new Func<Task>(async () =>
+                 {
+                     await Task.Delay(200);
+                     await Task.WhenAll(
+                         PasswordEntry.TranslateTo(0, 0, easing: Easing.SpringOut, length: translateLength),
+                         PasswordEntry.FadeTo(1));
 
-                }))());
-           */
+                 }))());
+            */
             //await Task.WhenAll(
-                //CloseImage.FadeTo(1),
-                //CloseImage.ScaleTo(1, easing: Easing.SpringOut),
-                //CloseImage.RotateTo(0),
-                //LoginButton.ScaleTo(1),
-                //LoginButton.FadeTo(1));
+            //CloseImage.FadeTo(1),
+            //CloseImage.ScaleTo(1, easing: Easing.SpringOut),
+            //CloseImage.RotateTo(0),
+            //LoginButton.ScaleTo(1),
+            //LoginButton.FadeTo(1));
         }
 
         /*

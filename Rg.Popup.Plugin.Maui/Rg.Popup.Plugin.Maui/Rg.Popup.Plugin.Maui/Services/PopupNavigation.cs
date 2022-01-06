@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Rg.Plugins.Popup.Contracts;
 
 namespace Rg.Plugins.Popup.Services
