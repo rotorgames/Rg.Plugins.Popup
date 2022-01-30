@@ -116,17 +116,26 @@ namespace Rg.Plugins.Popup.Droid.Impl
             {
                 if (page.AndroidTalkbackAccessibilityWorkaround)
                 {
-                    var navCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
-                    var modalCount = XApplication.Current.MainPage.Navigation.ModalStack.Count;
-                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                    var mainPage = XApplication.Current.MainPage;
+
+                    var navCount = mainPage.Navigation.NavigationStack.Count;
+                    var modalCount = mainPage.Navigation.ModalStack.Count;
+
+                    var mainPageRenderer = mainPage.GetOrCreateRenderer();
+
+                    // Workaround for https://github.com/rotorgames/Rg.Plugins.Popup/issues/721
+                    if (!(mainPage is MultiPage<Page>))
+                    {
+                        mainPageRenderer.View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                    }
 
                     if (navCount > 0)
                     {
-                        XApplication.Current.MainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                        mainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
                     }
                     if (modalCount > 0)
                     {
-                        XApplication.Current.MainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
+                        mainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
                     }
                 }
             }
