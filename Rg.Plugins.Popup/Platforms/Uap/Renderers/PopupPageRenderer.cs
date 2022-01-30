@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.Platform.UWP;
+using Rect = Windows.Foundation.Rect;
 using Size = Windows.Foundation.Size;
 using WinPopup = global::Windows.UI.Xaml.Controls.Primitives.Popup;
 

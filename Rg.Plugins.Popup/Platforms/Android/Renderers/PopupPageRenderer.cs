@@ -70,7 +70,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             var decoreView = activity?.Window?.DecorView;
 
-            var visibleRect = new Rect();
+            var visibleRect = new Android.Graphics.Rect();
 
             decoreView?.GetWindowVisibleDisplayFrame(visibleRect);
 
