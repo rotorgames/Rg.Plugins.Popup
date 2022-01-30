@@ -1,7 +1,4 @@
-﻿using System.Linq;
-
-using AppKit;
-
+﻿
 using Rg.Plugins.Popup.MacOS.Renderers;
 
 using Xamarin.Forms;

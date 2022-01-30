@@ -9,7 +9,7 @@ namespace Demo.Pages
 
         private void BackgroundClickedCommandExecute(object parameter)
         {
-            var label = (Label) parameter;
+            var label = (Label)parameter;
             label.Text = "Great, it works!";
         }
     }

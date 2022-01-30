@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Views;
+﻿using Android.Views;
 
 namespace Rg.Plugins.Popup.Droid.Gestures
 {

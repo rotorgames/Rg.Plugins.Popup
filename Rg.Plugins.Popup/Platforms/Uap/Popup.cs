@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Rg.Plugins.Popup.Windows.Renderers;
+﻿using System.Reflection;
 using Rg.Plugins.Popup.Windows.Impl;
+using Rg.Plugins.Popup.Windows.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 

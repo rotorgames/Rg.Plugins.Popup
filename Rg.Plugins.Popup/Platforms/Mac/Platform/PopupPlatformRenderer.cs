@@ -1,5 +1,4 @@
-﻿using System;
-using AppKit;
+﻿using AppKit;
 using Foundation;
 using Xamarin.Forms.Platform.MacOS;
 

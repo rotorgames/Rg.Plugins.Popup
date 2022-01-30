@@ -1,5 +1,4 @@
-﻿using System;
-using Rg.Plugins.Popup.Tizen.Impl;
+﻿using Rg.Plugins.Popup.Tizen.Impl;
 using Rg.Plugins.Popup.Tizen.Renderers;
 
 namespace Rg.Plugins.Popup.Tizen

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
@@ -114,7 +113,7 @@ namespace Rg.Plugins.Popup.WPF.Renderers
         private static IntPtr GetHwnd(Visual visual)
         {
             var hwndSource = ((HwndSource)PresentationSource.FromVisual(visual));
-            if(hwndSource==null)
+            if (hwndSource == null)
             {
                 return IntPtr.Zero;
             }

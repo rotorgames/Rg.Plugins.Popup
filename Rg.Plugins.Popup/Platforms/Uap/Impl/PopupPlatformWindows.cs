@@ -1,17 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Rg.Plugins.Popup.Contracts;
+﻿using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Exceptions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Rg.Plugins.Popup.Windows.Renderers;
 using Rg.Plugins.Popup.Windows.Impl;
+using Rg.Plugins.Popup.Windows.Renderers;
+using Windows.UI.Core;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
-using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 using Xamarin.Forms.Platform.UWP;
-using Windows.UI.Core;
-using Rg.Plugins.Popup.Exceptions;
+using XPlatform = Xamarin.Forms.Platform.UWP.Platform;
 
 [assembly: Dependency(typeof(PopupPlatformWindows))]
 namespace Rg.Plugins.Popup.Windows.Impl

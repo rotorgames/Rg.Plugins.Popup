@@ -1,5 +1,4 @@
-﻿using System;
-using Rg.Plugins.Popup.WPF.Impl;
+﻿using Rg.Plugins.Popup.WPF.Impl;
 using Rg.Plugins.Popup.WPF.Renderers;
 
 namespace Rg.Plugins.Popup

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Rg.Plugins.Popup.Contracts;
+﻿using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Tizen.Impl;
 using Rg.Plugins.Popup.Tizen.Renderers;

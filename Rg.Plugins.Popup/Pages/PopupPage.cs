@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 using Rg.Plugins.Popup.Animations;
 using Rg.Plugins.Popup.Enums;

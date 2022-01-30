@@ -67,11 +67,11 @@ namespace Demo.Pages
 
             await PopupNavigation.Instance.PushAsync(page);
         }
-        
+
         private async void OnOpenMvvmPage(object sender, EventArgs e)
         {
             var page = new MvvmPage();
-            
+
             await PopupNavigation.Instance.PushAsync(page);
         }
 

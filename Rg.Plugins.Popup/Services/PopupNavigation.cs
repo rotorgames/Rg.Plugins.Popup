@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 

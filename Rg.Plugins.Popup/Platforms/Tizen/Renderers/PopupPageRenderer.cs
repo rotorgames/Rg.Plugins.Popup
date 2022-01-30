@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using ElmSharp;
 
 using Rg.Plugins.Popup.Pages;

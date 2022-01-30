@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using AppKit;
+﻿using AppKit;
 using Foundation;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.MacOS.Extensions;

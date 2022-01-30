@@ -1,7 +1,5 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -132,7 +130,7 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             if (changed)
                 element.Layout(new Rectangle(Context.FromPixels(l), Context.FromPixels(t), Context.FromPixels(r), Context.FromPixels(b)));
-            else if(needForceLayout)
+            else if (needForceLayout)
                 element.ForceLayout();
 
             base.OnLayout(changed, l, t, r, b);

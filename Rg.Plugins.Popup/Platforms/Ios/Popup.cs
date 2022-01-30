@@ -1,6 +1,4 @@
-﻿
-using System;
-using Rg.Plugins.Popup.IOS.Impl;
+﻿using Rg.Plugins.Popup.IOS.Impl;
 using Rg.Plugins.Popup.IOS.Renderers;
 
 namespace Rg.Plugins.Popup

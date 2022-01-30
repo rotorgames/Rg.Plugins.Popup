@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Events;
 using Rg.Plugins.Popup.Exceptions;

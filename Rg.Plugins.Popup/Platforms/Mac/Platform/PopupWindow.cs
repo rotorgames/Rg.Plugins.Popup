@@ -1,5 +1,4 @@
-﻿using System;
-using AppKit;
+﻿using AppKit;
 using Foundation;
 
 namespace Rg.Plugins.Popup.MacOS.Platform

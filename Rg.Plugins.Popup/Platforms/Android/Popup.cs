@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Android.Content;
-using Android.OS;
+﻿using Android.Content;
 using Rg.Plugins.Popup.Droid.Impl;
 using Rg.Plugins.Popup.Droid.Renderers;
 using Rg.Plugins.Popup.Services;
