@@ -12,9 +12,9 @@
 
 ## Support platforms
 
-- [x] Android
+- [x] Android (monoandroid10.0)
 - [x] iOS
-- [x] UWP (Min Target: 10.0.17763)
+- [x] UWP (Min Target: 10.0.18362)
 - [x] Tizen
 - [x] WPF
 - [x] MacOS
