@@ -36,36 +36,17 @@ namespace Rg.Plugins.Popup.Droid.Impl
 
         public Task AddAsync(PopupPage page)
         {
-            var decoreView = DecoreView;
-
-            HandleAccessibilityWorkaround(page);
-
+            if (page.AndroidTalkbackAccessibilityWorkaround)
+            {
+                HandleAccessibility(true);
+                DisableFocusableInTouchMode(XApplication.Current.MainPage?.GetOrCreateRenderer().View.Parent);
+            }
+            
             page.Parent = XApplication.Current.MainPage;
             var renderer = page.GetOrCreateRenderer();
 
-            decoreView?.AddView(renderer.View);
+            DecoreView?.AddView(renderer.View);
             return PostAsync(renderer.View);
-
-            static void HandleAccessibilityWorkaround(PopupPage page)
-            {
-                if (page.AndroidTalkbackAccessibilityWorkaround)
-                {
-                    var navCount = XApplication.Current.MainPage.Navigation.NavigationStack.Count;
-                    var modalCount = XApplication.Current.MainPage.Navigation.ModalStack.Count;
-                    XApplication.Current.MainPage.GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
-
-                    if (navCount > 0)
-                    {
-                        XApplication.Current.MainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
-                    }
-                    if (modalCount > 0)
-                    {
-                        XApplication.Current.MainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.NoHideDescendants;
-                    }
-
-                    DisableFocusableInTouchMode(XApplication.Current.MainPage.GetOrCreateRenderer().View.Parent);
-                }
-            }
 
             static void DisableFocusableInTouchMode(IViewParent? parent)
             {
@@ -94,7 +75,10 @@ namespace Rg.Plugins.Popup.Droid.Impl
             var renderer = page.GetOrCreateRenderer();
             if (renderer != null)
             {
-                HandleAccessibilityWorkaround(page);
+                if (page.AndroidTalkbackAccessibilityWorkaround)
+                {
+                    HandleAccessibility(false);
+                }
 
                 page.Parent = XApplication.Current.MainPage;
                 var element = renderer.Element;
@@ -109,34 +93,6 @@ namespace Rg.Plugins.Popup.Droid.Impl
             }
 
             return Task.FromResult(true);
-
-            static void HandleAccessibilityWorkaround(PopupPage page)
-            {
-                if (page.AndroidTalkbackAccessibilityWorkaround)
-                {
-                    var mainPage = XApplication.Current.MainPage;
-
-                    var navCount = mainPage.Navigation.NavigationStack.Count;
-                    var modalCount = mainPage.Navigation.ModalStack.Count;
-
-                    var mainPageRenderer = mainPage.GetOrCreateRenderer();
-
-                    // Workaround for https://github.com/rotorgames/Rg.Plugins.Popup/issues/721
-                    if (!(mainPage is MultiPage<Page>))
-                    {
-                        mainPageRenderer.View.ImportantForAccessibility = ImportantForAccessibility.Auto;
-                    }
-
-                    if (navCount > 0)
-                    {
-                        mainPage.Navigation.NavigationStack[navCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
-                    }
-                    if (modalCount > 0)
-                    {
-                        mainPage.Navigation.ModalStack[modalCount - 1].GetOrCreateRenderer().View.ImportantForAccessibility = ImportantForAccessibility.Auto;
-                    }
-                }
-            }
         }
 
         #region System Animation
@@ -183,5 +139,45 @@ namespace Rg.Plugins.Popup.Droid.Impl
             return tcs.Task;
         }
         #endregion
+
+        static void HandleAccessibility(bool showPopup)
+        {            
+            Page? mainPage = XApplication.Current?.MainPage;
+
+            if (mainPage is null)
+            {
+                return;
+            }
+
+            int navCount = mainPage.Navigation.NavigationStack.Count;
+            int modalCount = mainPage.Navigation.ModalStack.Count;
+
+            ProcessView(showPopup, mainPage.GetOrCreateRenderer().View);
+
+            if (navCount > 0)
+            {
+                ProcessView(showPopup, mainPage.Navigation?.NavigationStack[navCount - 1]?.GetOrCreateRenderer().View);
+            }
+
+            if (modalCount > 0)
+            {
+                ProcessView(showPopup, mainPage.Navigation?.ModalStack[modalCount - 1]?.GetOrCreateRenderer()?.View);
+            }
+
+            static void ProcessView(bool showPopup, Android.Views.View? view)
+            {
+                if (view is null)
+                {
+                    return;
+                }
+
+                // Screen reader
+                view.ImportantForAccessibility = showPopup ? ImportantForAccessibility.NoHideDescendants : ImportantForAccessibility.Auto;
+
+                // Keyboard navigation
+                ((ViewGroup)view).DescendantFocusability = showPopup ? DescendantFocusability.BlockDescendants : DescendantFocusability.AfterDescendants;
+                view.ClearFocus();
+            }
+        }
     }
 }
