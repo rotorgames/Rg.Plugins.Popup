@@ -36,6 +36,10 @@ namespace Rg.Plugins.Popup.Droid.Renderers
 
             _gestureDetector = new GestureDetector(Context, _gestureDetectorListener);
         }
+        
+        public PopupPageRenderer(System.IntPtr intPtr, Android.Runtime.JniHandleOwnership jniHandleOwnership) : this(Rg.Plugins.Popup.Popup.Context)
+        {
+        }
 
         protected override void Dispose(bool disposing)
         {
