@@ -57,6 +57,8 @@ namespace Rg.Plugins.Popup.Animations
 
             if (content != null)
             {
+                page.Opacity = 0;
+            
                 var topOffset = GetTopOffset(content, page);
                 var leftOffset = GetLeftOffset(content, page);
 
@@ -77,6 +79,7 @@ namespace Rg.Plugins.Popup.Animations
                     content.TranslationX = leftOffset;
                 }
 
+                taskList.Add(page.FadeTo(100, 1));
                 taskList.Add(content.TranslateTo(_defaultTranslationX, _defaultTranslationY, DurationIn, EasingIn));
             }
 
