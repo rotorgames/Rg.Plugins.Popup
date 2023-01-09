@@ -55,9 +55,24 @@ namespace Rg.Plugins.Popup.IOS.Impl
             PopupWindow window;
             if (IsiOS13OrNewer)
             {
-                if (UIApplication.SharedApplication.ConnectedScenes.ToArray()
-                    .FirstOrDefault(x => x.ActivationState == UISceneActivationState.ForegroundActive && x is UIWindowScene) is UIWindowScene connectedScene)
-                    window = new PopupWindow(connectedScene);
+                var connectedWindowScene = UIApplication.SharedApplication
+                                                        .ConnectedScenes
+                                                        .ToArray()
+                                                        .FirstOrDefault(scene =>
+                                                        {
+                                                            // The popup should only be displayed on a scene that displays interactive windows
+                                                            // on the device’s built-in display or an externally connected display.
+                                                            if (scene.Session?.Role != UIWindowSceneSessionRole.Application)
+                                                            {
+                                                                return false;
+                                                            }
+
+                                                            return scene.ActivationState == UISceneActivationState.ForegroundActive
+                                                                    && scene is UIWindowScene;
+                                                        }) as UIWindowScene;
+
+                if (connectedWindowScene != null)
+                    window = new PopupWindow(connectedWindowScene);
                 else
                     window = new PopupWindow();
 
