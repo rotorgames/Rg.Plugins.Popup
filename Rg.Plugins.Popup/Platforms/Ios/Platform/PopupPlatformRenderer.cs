@@ -1,6 +1,7 @@
-﻿
-using Foundation;
+﻿#nullable enable
 
+using System;
+using Foundation;
 using UIKit;
 
 using Xamarin.Forms.Platform.iOS;
@@ -11,13 +12,11 @@ namespace Rg.Plugins.Popup.IOS.Platform
     [Register("RgPopupPlatformRenderer")]
     internal class PopupPlatformRenderer : UIViewController
     {
-        private IVisualElementRenderer? _renderer;
-
-        public IVisualElementRenderer? Renderer => _renderer;
+        public IVisualElementRenderer? Renderer { get; private set; }
 
         public PopupPlatformRenderer(IVisualElementRenderer renderer)
         {
-            _renderer = renderer;
+            Renderer = renderer;
         }
 
         public PopupPlatformRenderer(IntPtr handle) : base(handle)
@@ -29,67 +28,43 @@ namespace Rg.Plugins.Popup.IOS.Platform
         {
             if (disposing)
             {
-                _renderer = null;
+                Renderer = null;
             }
 
             base.Dispose(disposing);
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
-        {
-            if ((ChildViewControllers != null) && (ChildViewControllers.Length > 0))
-            {
-                return ChildViewControllers[0].GetSupportedInterfaceOrientations();
-            }
-            return base.GetSupportedInterfaceOrientations();
-        }
+            => Renderer?.ViewController?.GetSupportedInterfaceOrientations() ??
+               base.GetSupportedInterfaceOrientations();
 
         public override UIInterfaceOrientation PreferredInterfaceOrientationForPresentation()
-        {
-            if ((ChildViewControllers != null) && (ChildViewControllers.Length > 0))
-            {
-                return ChildViewControllers[0].PreferredInterfaceOrientationForPresentation();
-            }
-            return base.PreferredInterfaceOrientationForPresentation();
-        }
+            => Renderer?.ViewController?.PreferredInterfaceOrientationForPresentation() ??
+               base.PreferredInterfaceOrientationForPresentation();
 
-        public override UIViewController ChildViewControllerForStatusBarHidden()
-        {
-            return _renderer?.ViewController!;
-        }
+        public override UIViewController? ChildViewControllerForStatusBarHidden()
+            => Renderer?.ViewController?.ChildViewControllerForStatusBarHidden() ??
+               base.ChildViewControllerForStatusBarHidden();
 
         public override bool PrefersStatusBarHidden()
-        {
-            return _renderer?.ViewController.PrefersStatusBarHidden() ?? false;
-        }
+            => Renderer?.ViewController?.PrefersStatusBarHidden() ??
+               base.PrefersStatusBarHidden();
 
-        public override UIViewController ChildViewControllerForStatusBarStyle()
-        {
-            return _renderer?.ViewController!;
-        }
+        public override UIViewController? ChildViewControllerForStatusBarStyle()
+            => Renderer?.ViewController ??
+               base.ChildViewControllerForStatusBarStyle();
 
         public override UIStatusBarStyle PreferredStatusBarStyle()
-        {
-            return (UIStatusBarStyle)(_renderer?.ViewController.PreferredStatusBarStyle())!;
-        }
+            => Renderer?.ViewController?.PreferredStatusBarStyle() ??
+               base.PreferredStatusBarStyle();
 
         public override bool ShouldAutorotate()
-        {
-            if ((ChildViewControllers != null) && (ChildViewControllers.Length > 0))
-            {
-                return ChildViewControllers[0].ShouldAutorotate();
-            }
-            return base.ShouldAutorotate();
-        }
+            => Renderer?.ViewController?.ShouldAutorotate() ??
+               base.ShouldAutorotate();
 
         public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-        {
-            if ((ChildViewControllers != null) && (ChildViewControllers.Length > 0))
-            {
-                return ChildViewControllers[0].ShouldAutorotateToInterfaceOrientation(toInterfaceOrientation);
-            }
-            return base.ShouldAutorotateToInterfaceOrientation(toInterfaceOrientation);
-        }
+            => Renderer?.ViewController?.ShouldAutorotateToInterfaceOrientation(toInterfaceOrientation) ??
+               base.ShouldAutorotateToInterfaceOrientation(toInterfaceOrientation);
 
         public override bool ShouldAutomaticallyForwardRotationMethods => true;
 
