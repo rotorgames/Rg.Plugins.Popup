@@ -146,7 +146,13 @@ namespace Rg.Plugins.Popup.Services
                     if (animate)
                         await page.DisappearingAnimation();
 
-                    await RemoveAsync(page);
+					//await causes a deadlock when the function you are awaiting is not async
+					//and this was caused by the android page being swiped away from recents 
+					//with the popup page open, and you attempt to remove the page.
+					//This causes the remove task to never finish, and the _popupStack never removes its
+					//reference to the page thus leaking the memory
+                    //await RemoveAsync(page);
+					Task? removeTask = RemoveAsync(page);
 
                     if (animate)
                         page.DisposingAnimation();
